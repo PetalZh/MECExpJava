@@ -5,11 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Hashtable;
 
+import objs.BaseStation;
 import objs.TimePoint;
 import objs.UserRequest;
 
-public class utils {
+public class Utils {
 	public static Date timeFormater(String time_string) 
 	{
 		try {
@@ -67,7 +69,26 @@ public class utils {
 		return max;
 	}
 	
+	// calculate distance between two points with lat and lng
+	// cite from https://www.jianshu.com/p/18efaabab98e
+	private static final  double EARTH_RADIUS = 6378137;
+	private static double rad(double d){
+	    return d * Math.PI / 180.0;
+	}
 	
+	public static double getDistance(double lon1,double lat1,double lon2, double lat2) {
+	    double radLat1 = rad(lat1);
+	    double radLat2 = rad(lat2);
+	    double a = radLat1 - radLat2;
+	    double b = rad(lon1) - rad(lon2);
+	    double s = 2 *Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2)+Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2))); 
+	    s = s * EARTH_RADIUS;    
+	   return s; // in meter
+	}
 	
+	public static float getCapacityRequired() 
+	{
+		return 0;
+	}
 
 }
