@@ -2,7 +2,7 @@ package objs;
 
 import java.util.ArrayList;
 
-public class BaseStation {
+public class BaseStation implements Comparable {
 	private int serverNo;
 	private int CTMax;
 	private float workload;
@@ -65,5 +65,12 @@ public class BaseStation {
 	public boolean removeBS(BaseStation bs) 
 	{
 		return this.assignedBS.remove(bs);
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		float compWorkload = ((BaseStation) o).getWorkload();
+		
+		return (int)Math.ceil(compWorkload - this.workload);
 	}
 }

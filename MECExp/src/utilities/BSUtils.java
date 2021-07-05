@@ -18,7 +18,7 @@ public class BSUtils {
 			bs.setCTMax(Utils.getCTMax(requestList));
 			bsList.add(bs);
 			
-			System.out.println(key + ": " + bs.getCTMax());
+//			System.out.println(key + ": " + bs.getCTMax());
 		}
 		
 		System.out.println("BS #"+ ": " + bsList.size());
@@ -51,7 +51,7 @@ public class BSUtils {
 //			}
 //			System.out.println();
 			
-			float totalWorkload = 0;
+			float totalWorkload = bs1.getCTMax();
 			for(BaseStation bs: bs1.getAssignedBS()) {
 				// calculate workload requirement for base station
 				totalWorkload += bs.getCTMax();
