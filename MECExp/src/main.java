@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import algorithms.Greedy;
+import algorithms.HieraCluster;
 import objs.BaseStation;
+import objs.Cluster;
 import objs.UserRequest;
 import utilities.BSUtils;
 import utilities.Constants;
@@ -18,8 +20,25 @@ public class main {
 	public static void main(String args[]) {
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
-		BSUtils.getBSConnection(bsList);
 		
+		//greedy(bsList);
+		
+		HieraCluster hieraCluster = new HieraCluster();
+		ArrayList<Cluster> clusterList = hieraCluster.callHieraCluster(bsList);
+		
+		System.out.println("result: " + clusterList.size() +" items");
+		for(Cluster c : clusterList) 
+		{
+			
+			System.out.println(c.getCenter().getLocation());
+		}
+		
+	}
+	
+	private static void greedy(ArrayList<BaseStation> bsList) 
+	{
+		// Greedy methods
+		BSUtils.getBSConnection(bsList);
 		Greedy greedy = new Greedy();
 		ArrayList<BaseStation> greedyResult = greedy.getSolution(bsList);
 		
@@ -29,10 +48,8 @@ public class main {
 			System.out.println(bs.getLocation() + " " + bs.getWorkload());
 			
 		}
-		
-		
-		
 	}
+	
 	
 	private static Hashtable<String, ArrayList<UserRequest>> readDoc() 
 	{
@@ -67,11 +84,11 @@ public class main {
 			    
 			    
 			    // item loaded
-//			    count ++;
-//			    if(count == 1000) 
-//			    {
-//			    	break;
-//			    }
+			    count ++;
+			    if(count == 15000) 
+			    {
+			    	break;
+			    }
 			  }
 			
 		} catch (UnsupportedEncodingException e) {

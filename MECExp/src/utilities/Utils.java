@@ -86,6 +86,26 @@ public class Utils {
 	   return s; // in meter
 	}
 	
+	public static double getDistance(String loc1, String loc2) {
+		String[] latlng1 = loc1.split("/");
+		String[] latlng2 = loc2.split("/");
+		
+		double lat1 = Double.parseDouble(latlng1[0]);
+		double lon1 = Double.parseDouble(latlng1[1]);
+		
+		double lat2 = Double.parseDouble(latlng2[0]);
+		double lon2 = Double.parseDouble(latlng2[1]);
+		
+	    double radLat1 = rad(lat1);
+	    double radLat2 = rad(lat2);
+	    double a = radLat1 - radLat2;
+	    double b = rad(lon1) - rad(lon2);
+	    double s = 2 *Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2)+Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2))); 
+	    s = s * EARTH_RADIUS;    
+	   return s; // in meter
+	}
+	
+	
 	public static float getCapacityRequired() 
 	{
 		return 0;
