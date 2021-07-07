@@ -33,6 +33,7 @@ public class BSUtils {
 			String[] latlng1 = bs1.getLocation().split("/");
 			double lat1 = Double.parseDouble(latlng1[0]); 
 			double lng1 = Double.parseDouble(latlng1[1]); 
+			bs1.clearBS();
 			
 			for(BaseStation bs2 : bsList) 
 			{
@@ -41,7 +42,7 @@ public class BSUtils {
 				double lng2 = Double.parseDouble(latlng2[1]); 
 				
 				double distance = Utils.getDistance(lng1, lat1, lng2, lat2);
-				if( distance != 0 && distance <= Constants.theta) {
+				if( distance != 0 && distance <= Constants.DISTANCE_THRESH) {
 					bs1.addBS(bs2);
 				}
 			}

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 
 import algorithms.Greedy;
@@ -21,33 +22,35 @@ public class main {
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
-		//greedy(bsList);
+		greedy((ArrayList<BaseStation>) bsList.clone());
+		
+		hieraCluster((ArrayList<BaseStation>) bsList.clone());
+		
+	}
+	
+	private static void hieraCluster(ArrayList<BaseStation> bsList) 
+	{
+		Date start = new Date();
 		
 		HieraCluster hieraCluster = new HieraCluster();
-		ArrayList<Cluster> clusterList = hieraCluster.callHieraCluster(bsList);
+		ArrayList<Cluster> clusterList = hieraCluster.getResult(bsList);
 		
-		System.out.println("result: " + clusterList.size() +" items");
-		for(Cluster c : clusterList) 
-		{
-			
-			System.out.println(c.getCenter().getLocation());
-		}
-		
+		Date end = new Date();
+		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
 	}
 	
 	private static void greedy(ArrayList<BaseStation> bsList) 
 	{
 		// Greedy methods
+		Date start = new Date();
+		
 		BSUtils.getBSConnection(bsList);
 		Greedy greedy = new Greedy();
-		ArrayList<BaseStation> greedyResult = greedy.getSolution(bsList);
+		ArrayList<BaseStation> greedyResult = greedy.getResult(bsList);
 		
-		System.out.println("result: " + greedyResult.size() + " items");
-		for(BaseStation bs : greedyResult) 
-		{
-			System.out.println(bs.getLocation() + " " + bs.getWorkload());
-			
-		}
+		Date end = new Date();
+		
+		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
 	}
 	
 	
@@ -85,7 +88,7 @@ public class main {
 			    
 			    // item loaded
 			    count ++;
-			    if(count == 15000) 
+			    if(count == 10000) 
 			    {
 			    	break;
 			    }

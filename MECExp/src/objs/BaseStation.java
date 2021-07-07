@@ -56,6 +56,10 @@ public class BaseStation implements Comparable {
 		this.location = location;
 	}
 	
+	public void clearBS() 
+	{
+		this.assignedBS.clear();
+	}
 	
 	public void addBS(BaseStation bs) 
 	{

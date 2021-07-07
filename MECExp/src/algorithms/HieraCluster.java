@@ -5,11 +5,12 @@ import java.util.HashSet;
 
 import objs.BaseStation;
 import objs.Cluster;
+import utilities.Constants;
 import utilities.Utils;
 
 public class HieraCluster {
 	
-	public ArrayList<Cluster> callHieraCluster(ArrayList<BaseStation> bsList) 
+	public ArrayList<Cluster> getResult(ArrayList<BaseStation> bsList) 
 	{
 		ArrayList<Cluster> clusterList = init(bsList);
 		HashSet<String> skipSet = new HashSet<>();
@@ -21,7 +22,33 @@ public class HieraCluster {
 			}
 		}
 		
+		printResult(clusterList);
 		return clusterList;
+	}
+	
+	private void printResult(ArrayList<Cluster> clusterList) 
+	{
+		System.out.println("Hierarchical clustering result: " + clusterList.size() +" items");
+		
+		int totalCost = 0;
+		
+		for(Cluster c : clusterList) 
+		{
+			int totalTaskNum = c.getCenter().getCTMax();
+			ArrayList<BaseStation> stations = c.getStations();
+			
+			for(BaseStation s : stations) 
+			{
+				totalTaskNum += s.getCTMax();
+			}
+			
+			totalCost += Constants.COST_EN;
+			int serverNum = (int)Math.ceil((totalTaskNum * Constants.SINGLE_TASK_SIZE) / Constants.SINGLE_SERVER_CAPACITY);
+			totalCost += serverNum * Constants.SINGLE_SERVER_CAPACITY;
+			System.out.println(c.getCenter().getLocation() + " " + totalTaskNum);
+		}
+		
+		System.out.println("Total Cost: " + totalCost);
 	}
 	
 	private boolean aggregate(ArrayList<Cluster> clusterList, HashSet<String> skipSet) 

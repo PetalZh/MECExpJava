@@ -105,10 +105,22 @@ public class Utils {
 	   return s; // in meter
 	}
 	
-	
-	public static float getCapacityRequired() 
+	private static double getTransDelay(double distance, double taskSize) 
 	{
-		return 0;
+		double logNum = 1 + (Constants.CANNEL_SIGNAL_POWER/(Constants.ALPHA * distance));
+		double logValue = customLog(2,logNum);
+		
+		return taskSize/logValue;
+	}
+	
+	private static double customLog(double base, double logNum) 
+	{
+		return Math.log(logNum)/Math.log(base);
+	}
+	
+	public static double getCapacityRequired(double distance, double taskSize) 
+	{
+		return taskSize/(Constants.DELAY_THRESH - getTransDelay(distance, taskSize));
 	}
 
 }
