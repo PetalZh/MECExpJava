@@ -94,7 +94,6 @@ public class HieraCluster {
 		if(cluster1.merge(cluster2)) 
 		{
 			clusterList.remove(cluster2);
-			// System.out.println("aaaaaaa");
 			
 		}else {
 			skipSet.add(cluster1.getCenter().getLocation() + " " + cluster2.getCenter().getLocation());
@@ -102,10 +101,6 @@ public class HieraCluster {
 		}
 		
 		return true;
-//		if(cluster1 != null && cluster2 != null) 
-//		{
-//			
-//		}
 	}
 	
 	private ArrayList<Cluster> init(ArrayList<BaseStation> bsList)
@@ -116,7 +111,6 @@ public class HieraCluster {
 			Cluster cluster = new Cluster(bs);
 			clusterList.add(cluster);
 		}
-		
 		
 		return clusterList;
 	}

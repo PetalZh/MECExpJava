@@ -105,8 +105,13 @@ public class Utils {
 	   return s; // in meter
 	}
 	
-	private static double getTransDelay(double distance, double taskSize) 
+	public static double getTransDelay(double distance, double taskSize) 
 	{
+		if(distance == 0) 
+		{
+			return 0;
+		}
+		
 		double logNum = 1 + (Constants.CANNEL_SIGNAL_POWER/(Constants.ALPHA * distance));
 		double logValue = customLog(2,logNum);
 		

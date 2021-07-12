@@ -10,6 +10,7 @@ import java.util.Hashtable;
 
 import algorithms.Greedy;
 import algorithms.HieraCluster;
+import algorithms.MIPAlgo;
 import objs.BaseStation;
 import objs.Cluster;
 import objs.UserRequest;
@@ -22,9 +23,13 @@ public class main {
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
-		greedy((ArrayList<BaseStation>) bsList.clone());
+//		greedy((ArrayList<BaseStation>) bsList.clone());
+//		
+//		hieraCluster((ArrayList<BaseStation>) bsList.clone());
 		
-		hieraCluster((ArrayList<BaseStation>) bsList.clone());
+		MIPAlgo mip = new MIPAlgo();
+		mip.getMIP(bsList);
+		
 		
 	}
 	
@@ -88,7 +93,7 @@ public class main {
 			    
 			    // item loaded
 			    count ++;
-			    if(count == 10000) 
+			    if(count == 1000) 
 			    {
 			    	break;
 			    }
