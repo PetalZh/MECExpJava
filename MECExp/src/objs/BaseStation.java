@@ -2,13 +2,19 @@ package objs;
 
 import java.util.ArrayList;
 
+import utilities.Constants;
+import utilities.Utils;
+
+
 public class BaseStation implements Comparable {
 	private int serverNo;
 	private int CTMax;
 	private float workload;
 	private String location;
 	private ArrayList<UserRequest> requestList;
-	private ArrayList<BaseStation> assignedBS;
+	private ArrayList<BSDistancePair> assignedBS;
+	private BaseStation connectedEN;
+	private ArrayList<BaseStation> overlapped;
 	
 	public BaseStation(String location) {
 		super();
@@ -30,17 +36,23 @@ public class BaseStation implements Comparable {
 
 	public void setCTMax(int cTMax) {
 		CTMax = cTMax;
+		this.workload += cTMax * Constants.SINGLE_TASK_SIZE;
 	}
 
 	public float getWorkload() {
 		return workload;
 	}
-
-	public void setWorkload(float workload) {
-		this.workload = workload;
+	
+	public void initWorkload() 
+	{
+		this.workload = this.CTMax * Constants.SINGLE_TASK_SIZE;
 	}
 
-	public ArrayList<BaseStation> getAssignedBS() {
+//	public void setWorkload(float workload) {
+//		this.workload = workload;
+//	}
+
+	public ArrayList<BSDistancePair> getAssignedBS() {
 		return assignedBS;
 	}
 //
@@ -61,14 +73,37 @@ public class BaseStation implements Comparable {
 		this.assignedBS.clear();
 	}
 	
-	public void addBS(BaseStation bs) 
+	public void addBS(BaseStation bs, double distance) 
 	{
-		this.assignedBS.add(bs);
+		this.assignedBS.add(new BSDistancePair(bs, distance));
+		this.workload += bs.getCTMax() * Constants.SINGLE_TASK_SIZE;
 	}
+	
 	
 	public boolean removeBS(BaseStation bs) 
 	{
-		return this.assignedBS.remove(bs);
+		for(BSDistancePair p : this.assignedBS) 
+		{
+			if(p.getBS().getLocation().equals(bs.getLocation())) 
+			{
+				this.assignedBS.remove(p);
+				//Utils.getCapacityRequired(p.getDistance(), p.getBS().getCTMax()*Constants.SINGLE_TASK_SIZE);
+				this.workload -= p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE;
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+
+	public BaseStation getConnectedEN() {
+		return connectedEN;
+	}
+
+	public void setConnectedEN(BaseStation connectedEN) {
+		this.connectedEN = connectedEN;
 	}
 
 	@Override

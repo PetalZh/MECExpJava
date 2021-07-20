@@ -23,12 +23,12 @@ public class main {
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
-//		greedy((ArrayList<BaseStation>) bsList.clone());
+		greedy((ArrayList<BaseStation>) bsList.clone());
 //		
 //		hieraCluster((ArrayList<BaseStation>) bsList.clone());
 		
-		MIPAlgo mip = new MIPAlgo();
-		mip.getMIP(bsList);
+//		MIPAlgo mip = new MIPAlgo();
+//		mip.getMIP(bsList);
 		
 		
 	}

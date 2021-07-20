@@ -3,6 +3,7 @@ package utilities;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import objs.BSDistancePair;
 import objs.BaseStation;
 import objs.UserRequest;
 
@@ -18,7 +19,7 @@ public class BSUtils {
 			bs.setCTMax(Utils.getCTMax(requestList));
 			bsList.add(bs);
 			
-//			System.out.println(key + ": " + bs.getCTMax());
+			//System.out.println(key + ": " + bs.getCTMax() + " " + bs.getWorkload()); //
 		}
 		
 		System.out.println("BS #"+ ": " + bsList.size());
@@ -34,6 +35,8 @@ public class BSUtils {
 			double lat1 = Double.parseDouble(latlng1[0]); 
 			double lng1 = Double.parseDouble(latlng1[1]); 
 			bs1.clearBS();
+			bs1.initWorkload();
+			
 			
 			for(BaseStation bs2 : bsList) 
 			{
@@ -43,7 +46,7 @@ public class BSUtils {
 				
 				double distance = Utils.getDistance(lng1, lat1, lng2, lat2);
 				if( distance != 0 && distance <= Constants.DISTANCE_THRESH) {
-					bs1.addBS(bs2);
+					bs1.addBS(bs2, distance);
 				}
 			}
 			
@@ -52,12 +55,13 @@ public class BSUtils {
 //			}
 //			System.out.println();
 			
-			float totalWorkload = bs1.getCTMax();
-			for(BaseStation bs: bs1.getAssignedBS()) {
-				// calculate workload requirement for base station
-				totalWorkload += bs.getCTMax();
-			}
-			bs1.setWorkload(totalWorkload);
+//			float totalWorkload = bs1.getCTMax();
+//			for(BSDistancePair bs: bs1.getAssignedBS()) {
+//				// calculate workload requirement for base station
+//				//totalWorkload += Utils.getCapacityRequired(bs.getDistance(), bs.getAssignedBs().getCTMax() * Constants.SINGLE_TASK_SIZE);
+//				totalWorkload += bs.getBS().getCTMax();
+//			}
+//			bs1.setWorkload(totalWorkload);
 		}
 	}
 	

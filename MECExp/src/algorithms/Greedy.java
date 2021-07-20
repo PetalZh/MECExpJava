@@ -3,6 +3,7 @@ package algorithms;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import objs.BSDistancePair;
 import objs.BaseStation;
 import utilities.BSUtils;
 import utilities.Constants;
@@ -22,15 +23,16 @@ public class Greedy {
 			result.add(candidate);
 			
 			// remove connected bs from bsList
-			ArrayList<BaseStation> conn = candidate.getAssignedBS();
-			for(BaseStation bs : conn) {
-				bsList.remove(bs);
+			ArrayList<BSDistancePair> conn = candidate.getAssignedBS();
+			for(BSDistancePair bs : conn) {
+				bsList.remove(bs.getBS());
 			}
 			
 			bsList.remove(candidate);
-			BSUtils.getBSConnection(bsList);
 			
 			// recompute the connection
+			BSUtils.getBSConnection(bsList);
+			
 		}
 		
 		printResult(result);
@@ -45,17 +47,19 @@ public class Greedy {
 		for(BaseStation bs : result) 
 		{
 			
-			int totalTaskNum = bs.getCTMax();
-			for(BaseStation i : bs.getAssignedBS()) 
-			{
-				totalTaskNum += i.getCTMax();
-			}
+//			int totalTaskNum = bs.getCTMax();
+//			for(BSDistancePair i : bs.getAssignedBS()) 
+//			{
+//				totalTaskNum += i.getBS().getCTMax();
+//			}
 			
 			totalCost += Constants.COST_EN;
-			int serverNum = (int)Math.ceil((totalTaskNum * Constants.SINGLE_TASK_SIZE) / Constants.SINGLE_SERVER_CAPACITY);
-			totalCost += serverNum * Constants.SINGLE_SERVER_CAPACITY;
-			System.out.println(bs.getLocation() + " " + totalTaskNum);
+			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
 			
+			totalCost += serverNum * Constants.SINGLE_SERVER_CAPACITY;
+			
+			System.out.println(bs.getLocation() + " " + bs.getWorkload());
+			//System.out.println(bs.getLocation() + " " + totalTaskNum);
 		}
 		
 		System.out.println("Total Cost: " + totalCost);
