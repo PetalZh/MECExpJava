@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.Hashtable;
 
 import algorithms.Greedy;
+import algorithms.GreedyCan;
+import algorithms.GreedyNew;
 import algorithms.HieraCluster;
 import algorithms.MIPAlgo;
 import objs.BaseStation;
@@ -24,13 +26,13 @@ public class main {
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
 		greedy((ArrayList<BaseStation>) bsList.clone());
+		
+		greedyNew((ArrayList<BaseStation>) bsList.clone());
 //		
 //		hieraCluster((ArrayList<BaseStation>) bsList.clone());
 		
 //		MIPAlgo mip = new MIPAlgo();
 //		mip.getMIP(bsList);
-		
-		
 	}
 	
 	private static void hieraCluster(ArrayList<BaseStation> bsList) 
@@ -56,6 +58,13 @@ public class main {
 		Date end = new Date();
 		
 		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
+	}
+	
+	private static void greedyNew(ArrayList<BaseStation> bsList) 
+	{
+		BSUtils.getBSConnection(bsList);
+		GreedyNew greedy = new GreedyNew();
+		greedy.getResult(bsList, 10);
 	}
 	
 	
@@ -92,11 +101,11 @@ public class main {
 			    
 			    
 			    // item loaded
-			    count ++;
-			    if(count == 1000) 
-			    {
-			    	break;
-			    }
+//			    count ++;
+//			    if(count == 10000) 
+//			    {
+//			    	break;
+//			    }
 			  }
 			
 		} catch (UnsupportedEncodingException e) {

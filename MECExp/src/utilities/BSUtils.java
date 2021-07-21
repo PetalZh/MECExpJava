@@ -27,6 +27,33 @@ public class BSUtils {
 		return bsList;
 	}
 	
+	public static void getBSConnection(ArrayList<BaseStation> bsList, ArrayList<BaseStation> candidates) 
+	{
+		ArrayList<BaseStation> availableBSList = (ArrayList<BaseStation>) bsList.clone();
+		availableBSList.addAll(candidates);
+		
+		for(BaseStation bs1 : bsList) {
+			String[] latlng1 = bs1.getLocation().split("/");
+			double lat1 = Double.parseDouble(latlng1[0]); 
+			double lng1 = Double.parseDouble(latlng1[1]); 
+			bs1.clearBS();
+			bs1.initWorkload();
+			
+			
+			for(BaseStation bs2 : availableBSList) 
+			{
+				String[] latlng2 = bs2.getLocation().split("/");
+				double lat2 = Double.parseDouble(latlng2[0]); 
+				double lng2 = Double.parseDouble(latlng2[1]); 
+				
+				double distance = Utils.getDistance(lng1, lat1, lng2, lat2);
+				if( distance != 0 && distance <= Constants.DISTANCE_THRESH) {
+					bs1.addBS(bs2, distance);
+				}
+			}
+		}
+	}
+	
 	
 	public static void getBSConnection(ArrayList<BaseStation> bsList) 
 	{
@@ -49,19 +76,6 @@ public class BSUtils {
 					bs1.addBS(bs2, distance);
 				}
 			}
-			
-//			for(BaseStation bs: bs1.getAssignedBS()) {
-//				System.out.print(bs.getLocation()+ " ");
-//			}
-//			System.out.println();
-			
-//			float totalWorkload = bs1.getCTMax();
-//			for(BSDistancePair bs: bs1.getAssignedBS()) {
-//				// calculate workload requirement for base station
-//				//totalWorkload += Utils.getCapacityRequired(bs.getDistance(), bs.getAssignedBs().getCTMax() * Constants.SINGLE_TASK_SIZE);
-//				totalWorkload += bs.getBS().getCTMax();
-//			}
-//			bs1.setWorkload(totalWorkload);
 		}
 	}
 	

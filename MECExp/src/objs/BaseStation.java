@@ -13,13 +13,14 @@ public class BaseStation implements Comparable {
 	private String location;
 	private ArrayList<UserRequest> requestList;
 	private ArrayList<BSDistancePair> assignedBS;
-	private BaseStation connectedEN;
+//	private BaseStation connectedEN;
 	private ArrayList<BaseStation> overlapped;
 	
 	public BaseStation(String location) {
 		super();
 		this.location = location;
 		this.assignedBS = new ArrayList<>();
+		this.overlapped = new ArrayList<>();
 	}
 	
 	public int getServerNo() {
@@ -96,15 +97,46 @@ public class BaseStation implements Comparable {
 		return false;
 	}
 	
+	public void excludeSelfWorkload() 
+	{
+		this.workload -= this.CTMax * Constants.SINGLE_TASK_SIZE;
+	}
+	
+	public void includeSelfWorkload() 
+	{
+		this.workload += this.CTMax * Constants.SINGLE_TASK_SIZE;
+	}
 	
 
-	public BaseStation getConnectedEN() {
-		return connectedEN;
+//	public BaseStation getConnectedEN() {
+//		return connectedEN;
+//	}
+//
+//	public void setConnectedEN(BaseStation connectedEN) {
+//		this.connectedEN = connectedEN;
+//	}
+
+	public ArrayList<BaseStation> getOverlapped() {
+		return overlapped;
 	}
 
-	public void setConnectedEN(BaseStation connectedEN) {
-		this.connectedEN = connectedEN;
+	public void addOverlappedBS(BaseStation bs) 
+	{
+		if(!this.overlapped.contains(bs)) 
+		{
+			this.overlapped.add(bs);
+		}
+		
 	}
+	
+	public void removeOverlappedBS(BaseStation bs) {
+		this.overlapped.remove(bs);
+	}
+	
+	
+//	public void setOverlapped(ArrayList<BaseStation> overlapped) {
+//		this.overlapped = overlapped;
+//	}
 
 	@Override
 	public int compareTo(Object o) {

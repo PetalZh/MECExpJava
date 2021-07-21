@@ -46,20 +46,12 @@ public class Greedy {
 		int totalCost = 0; 
 		for(BaseStation bs : result) 
 		{
-			
-//			int totalTaskNum = bs.getCTMax();
-//			for(BSDistancePair i : bs.getAssignedBS()) 
-//			{
-//				totalTaskNum += i.getBS().getCTMax();
-//			}
-			
 			totalCost += Constants.COST_EN;
 			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
 			
 			totalCost += serverNum * Constants.SINGLE_SERVER_CAPACITY;
 			
-			System.out.println(bs.getLocation() + " " + bs.getWorkload());
-			//System.out.println(bs.getLocation() + " " + totalTaskNum);
+			//System.out.println(bs.getLocation() + " " + bs.getWorkload());
 		}
 		
 		System.out.println("Total Cost: " + totalCost);
