@@ -25,9 +25,9 @@ public class main {
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
-		greedy((ArrayList<BaseStation>) bsList.clone());
+		//greedy((ArrayList<BaseStation>) bsList.clone());
 		
-		greedyNew((ArrayList<BaseStation>) bsList.clone());
+		greedyNew((ArrayList<BaseStation>) bsList.clone(), 10);
 //		
 //		hieraCluster((ArrayList<BaseStation>) bsList.clone());
 		
@@ -60,11 +60,17 @@ public class main {
 		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
 	}
 	
-	private static void greedyNew(ArrayList<BaseStation> bsList) 
+	private static void greedyNew(ArrayList<BaseStation> bsList, int threshold) 
 	{
+		Date start = new Date();
+		
 		BSUtils.getBSConnection(bsList);
 		GreedyNew greedy = new GreedyNew();
-		greedy.getResult(bsList, 10);
+		greedy.getResult(bsList, threshold);
+		
+		Date end = new Date();
+		
+		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
 	}
 	
 	
@@ -101,11 +107,11 @@ public class main {
 			    
 			    
 			    // item loaded
-//			    count ++;
-//			    if(count == 10000) 
-//			    {
-//			    	break;
-//			    }
+			    count ++;
+			    if(count == 15000) 
+			    {
+			    	break;
+			    }
 			  }
 			
 		} catch (UnsupportedEncodingException e) {

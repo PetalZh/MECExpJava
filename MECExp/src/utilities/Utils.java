@@ -112,8 +112,9 @@ public class Utils {
 			return 0;
 		}
 		
-		double logNum = 1 + (Constants.CANNEL_SIGNAL_POWER/(Constants.ALPHA * distance));
+		double logNum = 1 + (Constants.CANNEL_SIGNAL_POWER/(Constants.ALPHA * (distance/1000)));
 		double logValue = customLog(2,logNum);
+		//System.out.println("Trans Delay:" + taskSize/logValue);
 		
 		return taskSize/logValue;
 	}
@@ -125,7 +126,9 @@ public class Utils {
 	
 	public static double getCapacityRequired(double distance, double taskSize) 
 	{
-		return taskSize/(Constants.DELAY_THRESH - getTransDelay(distance, taskSize));
+		double result = taskSize/(Constants.DELAY_THRESH - getTransDelay(distance, taskSize));
+		//System.out.println("capacity requirement:" + result);
+		return result;
 	}
 
 }

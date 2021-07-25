@@ -34,8 +34,15 @@ public class BSDistancePair implements Comparable{
 	@Override
 	public int compareTo(Object o) {
 		double compDistance = ((BSDistancePair) o).getDistance();
+		double compare = compDistance - this.distance;
 		
-		return (int)Math.ceil(compDistance - this.distance);
+		if(compare > 0) 
+		{
+			return 1;
+		}else {
+			return -1;
+		}
+
 	}
 	
 	

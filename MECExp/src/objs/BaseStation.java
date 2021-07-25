@@ -77,7 +77,8 @@ public class BaseStation implements Comparable {
 	public void addBS(BaseStation bs, double distance) 
 	{
 		this.assignedBS.add(new BSDistancePair(bs, distance));
-		this.workload += bs.getCTMax() * Constants.SINGLE_TASK_SIZE;
+		this.workload += (float)Utils.getCapacityRequired(distance, bs.getCTMax()*Constants.SINGLE_TASK_SIZE);
+		//this.workload += bs.getCTMax() * Constants.SINGLE_TASK_SIZE;
 	}
 	
 	
@@ -88,8 +89,8 @@ public class BaseStation implements Comparable {
 			if(p.getBS().getLocation().equals(bs.getLocation())) 
 			{
 				this.assignedBS.remove(p);
-				//Utils.getCapacityRequired(p.getDistance(), p.getBS().getCTMax()*Constants.SINGLE_TASK_SIZE);
-				this.workload -= p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE;
+				this.workload -= (float)Utils.getCapacityRequired(p.getDistance(), p.getBS().getCTMax()*Constants.SINGLE_TASK_SIZE);
+				//this.workload -= p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE;
 				return true;
 			}
 		}
@@ -142,6 +143,14 @@ public class BaseStation implements Comparable {
 	public int compareTo(Object o) {
 		float compWorkload = ((BaseStation) o).getWorkload();
 		
-		return (int)Math.ceil(compWorkload - this.workload);
+		double compare = (double)compWorkload - (double)this.workload;
+		//System.out.println(compare + " ");
+		if(compare != 0 && compare > 0.0) 
+		{
+			return 1;
+		}else {
+			return -1;
+		}
+
 	}
 }

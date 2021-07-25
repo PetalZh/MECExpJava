@@ -15,7 +15,7 @@ import utilities.Utils;
 public class GreedyNew {
 	private Hashtable<String, Connection> bs_en_table; 
 	private int threshold;
-	private ArrayList<BaseStation> result;
+	//private ArrayList<BaseStation> result;
 
 	
 	public GreedyNew() 
@@ -49,13 +49,13 @@ public class GreedyNew {
 			
 			while(bsList.size() != 0) 
 			{
-//				System.out.println("----------------------------");
+				System.out.println("----------------------------");
 //				System.out.println("BS list: ");
 //				test_print_list(bsList);
 //				
-//				System.out.println("");
-//				System.out.println("Can list: ");
-//				test_print_list(candidates);
+				System.out.println("");
+				System.out.println("Can list: ");
+				test_print_list(candidates);
 //				
 //				System.out.println("");
 //				System.out.println("EN list: ");
