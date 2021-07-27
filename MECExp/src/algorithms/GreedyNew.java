@@ -28,10 +28,10 @@ public class GreedyNew {
 	{
 		for(BaseStation bs : list) 
 		{
-			System.out.println("id: " + bs.getLocation() + " " + bs.getWorkload() + " " + bs.getCTMax());
+			System.out.println("id: " + bs.getLocation() + " " + bs.getWorkload()); // + " " + bs.getCTMax()
 			for(BSDistancePair p: bs.getAssignedBS()) 
 			{
-				System.out.println(" " + p.getBS().getLocation() + " " + p.getBS().getWorkload() + " " + p.getBS().getCTMax());
+				System.out.println(" " + p.getBS().getLocation() + " " + p.getBS().getWorkload()); //+ " " + p.getBS().getCTMax()
 //				System.out.println("    overlap: ");
 //				for(BaseStation i : p.getBS().getOverlapped()) {
 //					System.out.println("    " + i.getLocation() + " ");
@@ -49,13 +49,13 @@ public class GreedyNew {
 			
 			while(bsList.size() != 0) 
 			{
-				System.out.println("----------------------------");
+//				System.out.println("----------------------------");
 //				System.out.println("BS list: ");
 //				test_print_list(bsList);
 //				
-				System.out.println("");
-				System.out.println("Can list: ");
-				test_print_list(candidates);
+//				System.out.println("");
+//				System.out.println("Can list: ");
+//				test_print_list(candidates);
 //				
 //				System.out.println("");
 //				System.out.println("EN list: ");
@@ -196,7 +196,9 @@ public class GreedyNew {
 			
 			for(BaseStation r : removeList) 
 			{
+				//System.out.println("Before remove: " + can.getLocation() + " workload: " + can.getWorkload());
 				can.removeBS(r);
+				//System.out.println("After remove: " + can.getLocation() + " workload: " + can.getWorkload());
 			}
 		}
 		

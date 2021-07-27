@@ -9,7 +9,7 @@ import utilities.Utils;
 public class BaseStation implements Comparable {
 	private int serverNo;
 	private int CTMax;
-	private float workload;
+	private double workload;
 	private String location;
 	private ArrayList<UserRequest> requestList;
 	private ArrayList<BSDistancePair> assignedBS;
@@ -37,16 +37,19 @@ public class BaseStation implements Comparable {
 
 	public void setCTMax(int cTMax) {
 		CTMax = cTMax;
-		this.workload += cTMax * Constants.SINGLE_TASK_SIZE;
+		double value = (cTMax * Constants.SINGLE_TASK_SIZE)/Constants.DELAY_THRESH;
+		this.workload += Utils.handlePrecision(value);
+		this.workload = Utils.handlePrecision(this.workload);
 	}
 
-	public float getWorkload() {
+	public double getWorkload() {
 		return workload;
 	}
 	
 	public void initWorkload() 
 	{
-		this.workload = this.CTMax * Constants.SINGLE_TASK_SIZE;
+		double value = (this.CTMax * Constants.SINGLE_TASK_SIZE)/Constants.DELAY_THRESH;
+		this.workload = Utils.handlePrecision(value);
 	}
 
 //	public void setWorkload(float workload) {
@@ -77,7 +80,12 @@ public class BaseStation implements Comparable {
 	public void addBS(BaseStation bs, double distance) 
 	{
 		this.assignedBS.add(new BSDistancePair(bs, distance));
-		this.workload += (float)Utils.getCapacityRequired(distance, bs.getCTMax()*Constants.SINGLE_TASK_SIZE);
+		double value = Utils.getCapacityRequired(distance, bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
+		//System.out.println("add value: " + value);
+		//System.out.println("add id: " + bs.getLocation());
+		//System.out.println("bs: " + bs.getLocation() + " " + distance + " " + bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
+		this.workload += value;
+		this.workload = Utils.handlePrecision(this.workload);
 		//this.workload += bs.getCTMax() * Constants.SINGLE_TASK_SIZE;
 	}
 	
@@ -89,8 +97,18 @@ public class BaseStation implements Comparable {
 			if(p.getBS().getLocation().equals(bs.getLocation())) 
 			{
 				this.assignedBS.remove(p);
-				this.workload -= (float)Utils.getCapacityRequired(p.getDistance(), p.getBS().getCTMax()*Constants.SINGLE_TASK_SIZE);
+				double value = Utils.getCapacityRequired(p.getDistance(), p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
+//				System.out.println("remove value: " + value);
+//				System.out.println("Remove id: " + bs.getLocation());
+//				System.out.println("p: " + p.getBS().getLocation() + " " + p.getDistance() + " " + p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
+				this.workload -= value;
+				this.workload = Utils.handlePrecision(this.workload);
 				//this.workload -= p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE;
+				
+//				if(this.workload < 0.001) {
+//					this.workload = 0;
+//				}
+
 				return true;
 			}
 		}
@@ -100,12 +118,16 @@ public class BaseStation implements Comparable {
 	
 	public void excludeSelfWorkload() 
 	{
-		this.workload -= this.CTMax * Constants.SINGLE_TASK_SIZE;
+		double value = (this.CTMax * Constants.SINGLE_TASK_SIZE)/Constants.DELAY_THRESH;
+		this.workload -= Utils.handlePrecision(value);
+		this.workload = Utils.handlePrecision(this.workload);
 	}
 	
 	public void includeSelfWorkload() 
 	{
-		this.workload += this.CTMax * Constants.SINGLE_TASK_SIZE;
+		double value = (this.CTMax * Constants.SINGLE_TASK_SIZE)/Constants.DELAY_THRESH;
+		this.workload += Utils.handlePrecision(value);
+		this.workload = Utils.handlePrecision(this.workload);
 	}
 	
 
@@ -141,16 +163,19 @@ public class BaseStation implements Comparable {
 
 	@Override
 	public int compareTo(Object o) {
-		float compWorkload = ((BaseStation) o).getWorkload();
+		double compWorkload = ((BaseStation) o).getWorkload();
+		double compare = compWorkload - this.workload;
 		
-		double compare = (double)compWorkload - (double)this.workload;
-		//System.out.println(compare + " ");
-		if(compare != 0 && compare > 0.0) 
-		{
-			return 1;
-		}else {
-			return -1;
-		}
+		//System.out.println(compWorkload);
+		return Double.compare(compWorkload, this.workload);
+		
+//		if(this.workload < compWorkload) 
+//		{
+//			return 1;
+//		}else 
+//		{
+//			return -1;
+//		}
 
 	}
 }

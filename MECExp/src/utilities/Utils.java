@@ -128,7 +128,12 @@ public class Utils {
 	{
 		double result = taskSize/(Constants.DELAY_THRESH - getTransDelay(distance, taskSize));
 		//System.out.println("capacity requirement:" + result);
-		return result;
+		return handlePrecision(result);
+	}
+	
+	public static double handlePrecision(double input) 
+	{
+		return (double)Math.round(input * 1000)/(double)1000;
 	}
 
 }

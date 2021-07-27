@@ -25,7 +25,7 @@ public class main {
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
-		//greedy((ArrayList<BaseStation>) bsList.clone());
+		greedy((ArrayList<BaseStation>) bsList.clone());
 		
 		greedyNew((ArrayList<BaseStation>) bsList.clone(), 10);
 //		
@@ -105,10 +105,9 @@ public class main {
 			    	BSTable.put(request.getLocation(), reqList);
 			    }
 			    
-			    
 			    // item loaded
 			    count ++;
-			    if(count == 15000) 
+			    if(count == 30000) 
 			    {
 			    	break;
 			    }

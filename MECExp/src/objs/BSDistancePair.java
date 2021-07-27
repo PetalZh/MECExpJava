@@ -44,9 +44,4 @@ public class BSDistancePair implements Comparable{
 		}
 
 	}
-	
-	
-	
-	
-
 }
