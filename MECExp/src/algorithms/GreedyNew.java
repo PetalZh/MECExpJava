@@ -31,7 +31,7 @@ public class GreedyNew {
 			System.out.println("id: " + bs.getLocation() + " " + bs.getWorkload()); // + " " + bs.getCTMax()
 			for(BSDistancePair p: bs.getAssignedBS()) 
 			{
-				System.out.println(" " + p.getBS().getLocation() + " " + p.getBS().getWorkload()); //+ " " + p.getBS().getCTMax()
+				//System.out.println(" " + p.getBS().getLocation() + " " + p.getBS().getWorkload()); //+ " " + p.getBS().getCTMax()
 //				System.out.println("    overlap: ");
 //				for(BaseStation i : p.getBS().getOverlapped()) {
 //					System.out.println("    " + i.getLocation() + " ");
@@ -62,6 +62,7 @@ public class GreedyNew {
 //				test_print_list(enList);
 				
 				BaseStation en = null;
+				cleanCandidateList(candidates);
 				
 				Collections.sort(bsList);
 				Collections.sort(candidates);
@@ -81,14 +82,29 @@ public class GreedyNew {
 				removeEnFromOverlap(en, candidates);
 				
 				addEN(en, bsList, candidates, enList);
-				
-				
+
 				//this.result = enList;
 			}
 			
 			
 			printResult(enList);
 			return enList;
+	}
+	
+	private void cleanCandidateList(ArrayList<BaseStation> canList) 
+	{
+		ArrayList<BaseStation> removeList = new ArrayList<>();
+		for(BaseStation can : canList) {
+			if(can.getAssignedBS().size() == 0) {
+				removeList.add(can);
+			}
+		}
+		
+		for(BaseStation r : removeList) 
+		{
+			canList.remove(r);
+		}
+		
 	}
 	
 	private void removeEnFromOverlap(BaseStation en, ArrayList<BaseStation> candidates) 

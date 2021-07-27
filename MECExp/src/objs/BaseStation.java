@@ -103,12 +103,16 @@ public class BaseStation implements Comparable {
 //				System.out.println("p: " + p.getBS().getLocation() + " " + p.getDistance() + " " + p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
 				this.workload -= value;
 				this.workload = Utils.handlePrecision(this.workload);
+				
+//				if(this.workload < 0) 
+//				{
+//					System.out.println("remove value: " + value);
+//					System.out.println("Remove id: " + bs.getLocation());
+//					System.out.println("p: " + p.getBS().getLocation() + " " + p.getDistance() + " " + p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
+//				}
+				
 				//this.workload -= p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE;
 				
-//				if(this.workload < 0.001) {
-//					this.workload = 0;
-//				}
-
 				return true;
 			}
 		}

@@ -107,7 +107,7 @@ public class main {
 			    
 			    // item loaded
 			    count ++;
-			    if(count == 30000) 
+			    if(count == 15000) 
 			    {
 			    	break;
 			    }
