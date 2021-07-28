@@ -24,10 +24,18 @@ public class main {
 	public static void main(String args[]) {
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
+		int[] range_input = {199, 499, 999, 1499, 1999, 2499, 2999}; 
+		int range = 2999;
+		if(range >= bsList.size()) 
+		{
+			range = bsList.size() - 1;
+		}
+		System.out.println(range + 1 + " BS used");
+//		bsList.clone().subList(0, range);
+		greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
+		greedyNew((ArrayList<BaseStation>)(new ArrayList<BaseStation>(bsList.subList(0, range))), 10);
 		
-		greedy((ArrayList<BaseStation>) bsList.clone());
-		
-		greedyNew((ArrayList<BaseStation>) bsList.clone(), 10);
+		//greedyNew((ArrayList<BaseStation>)((ArrayList<BaseStation>) bsList.clone()).subList(0, range), 10);
 //		
 //		hieraCluster((ArrayList<BaseStation>) bsList.clone());
 		
@@ -106,11 +114,11 @@ public class main {
 			    }
 			    
 			    // item loaded
-			    count ++;
-			    if(count == 15000) 
-			    {
-			    	break;
-			    }
+//			    count ++;
+//			    if(count == 15000) 
+//			    {
+//			    	break;
+//			    }
 			  }
 			
 		} catch (UnsupportedEncodingException e) {
