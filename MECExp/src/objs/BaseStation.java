@@ -165,21 +165,42 @@ public class BaseStation implements Comparable {
 //		this.overlapped = overlapped;
 //	}
 
+//	@Override
+//	public int compareTo(Object o) {
+//		double compWorkload = ((BaseStation) o).getWorkload();
+//		double compare = compWorkload - this.workload;
+//		
+//		return Double.compare(compWorkload, this.workload);
+//
+//	}
+	
+	// comparator for workload/cost
+	
 	@Override
 	public int compareTo(Object o) {
 		double compWorkload = ((BaseStation) o).getWorkload();
 		double compare = compWorkload - this.workload;
 		
-		//System.out.println(compWorkload);
 		return Double.compare(compWorkload, this.workload);
-		
-//		if(this.workload < compWorkload) 
-//		{
-//			return 1;
-//		}else 
-//		{
-//			return -1;
-//		}
 
+	}
+	
+	private int getTotalCost() 
+	{
+		double totalCapacity = (this.CTMax * Constants.SINGLE_TASK_SIZE)/Constants.DELAY_THRESH;
+		for(BSDistancePair bs : this.assignedBS) 
+		{
+			double distance = bs.getDistance();
+			double bs_task_size = bs.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE;
+			double capacity_req = Utils.getCapacityRequired(distance, bs_task_size);
+			
+			totalCapacity += capacity_req;
+		}
+		
+		int serverNum = (int)Math.ceil(totalCapacity / Constants.SINGLE_SERVER_CAPACITY);
+		
+		int cost = serverNum * Constants.COST_SERVER + Constants.COST_EN;
+		
+		return cost;
 	}
 }

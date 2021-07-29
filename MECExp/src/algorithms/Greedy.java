@@ -7,6 +7,7 @@ import objs.BSDistancePair;
 import objs.BaseStation;
 import utilities.BSUtils;
 import utilities.Constants;
+import utilities.Utils;
 
 public class Greedy {
 	
@@ -35,29 +36,25 @@ public class Greedy {
 			
 		}
 		
-		printResult(result);
+		Utils.printResult(result, "Greedy result: ");
 		
 		return result;
 	}
 	
-	private void printResult(ArrayList<BaseStation> result) 
-	{
-		System.out.println("Greedy result: " + result.size() + " items");
-		int totalCost = 0; 
-		for(BaseStation bs : result) 
-		{
-			totalCost += Constants.COST_EN;
-			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
-			
-			totalCost += serverNum * Constants.SINGLE_SERVER_CAPACITY;
-			
-			//System.out.println(bs.getLocation() + " " + bs.getWorkload());
-		}
-		
-		System.out.println("Total Cost: " + totalCost);
-	}
-
-
-
-
+//	private void printResult(ArrayList<BaseStation> result) 
+//	{
+//		System.out.println("Greedy result: " + result.size() + " items");
+//		int totalCost = 0; 
+//		for(BaseStation bs : result) 
+//		{
+//			totalCost += Constants.COST_EN;
+//			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
+//			
+//			totalCost += serverNum * Constants.COST_SERVER;
+//			
+//			//System.out.println(bs.getLocation() + " " + bs.getWorkload());
+//		}
+//		
+//		System.out.println("Total Cost: " + totalCost);
+//	}
 }

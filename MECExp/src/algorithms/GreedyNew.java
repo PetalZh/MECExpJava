@@ -87,7 +87,7 @@ public class GreedyNew {
 			}
 			
 			
-			printResult(enList);
+			Utils.printResult(enList, "Greedy with candidate list result: ");
 			return enList;
 	}
 	
@@ -115,23 +115,23 @@ public class GreedyNew {
 		}
 	}
 	
-	private void printResult(ArrayList<BaseStation> result) 
-	{
-		System.out.println("-----------------------------");
-		System.out.println("Greedy with candidate list result: " + result.size() + " items");
-		int totalCost = 0; 
-		for(BaseStation bs : result) 
-		{
-			totalCost += Constants.COST_EN;
-			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
-			
-			totalCost += serverNum * Constants.SINGLE_SERVER_CAPACITY;
-			
-			//System.out.println(bs.getLocation() + " " + bs.getWorkload());
-		}
-		
-		System.out.println("Total Cost: " + totalCost);
-	}
+//	private void printResult(ArrayList<BaseStation> result) 
+//	{
+//		System.out.println("-----------------------------");
+//		System.out.println("Greedy with candidate list result: " + result.size() + " items");
+//		int totalCost = 0; 
+//		for(BaseStation bs : result) 
+//		{
+//			totalCost += Constants.COST_EN;
+//			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
+//			
+//			totalCost += serverNum * Constants.COST_SERVER;
+//			
+//			//System.out.println(bs.getLocation() + " " + bs.getWorkload());
+//		}
+//		
+//		System.out.println("Total Cost: " + totalCost);
+//	}
 	
 	private void addEN(BaseStation en, ArrayList<BaseStation> bsList, ArrayList<BaseStation> candidates, ArrayList<BaseStation> enList) 
 	{

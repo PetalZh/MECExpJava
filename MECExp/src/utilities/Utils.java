@@ -135,5 +135,23 @@ public class Utils {
 	{
 		return (double)Math.round(input * 1000)/(double)1000;
 	}
+	
+	public static void printResult(ArrayList<BaseStation> result, String method_name) 
+	{
+		System.out.println("-----------------------------");
+		System.out.println(method_name + " " + result.size() + " items");
+		int totalCost = 0; 
+		for(BaseStation bs : result) 
+		{
+			totalCost += Constants.COST_EN;
+			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
+			
+			totalCost += serverNum * Constants.COST_SERVER;
+			
+			//System.out.println(bs.getLocation() + " " + bs.getWorkload());
+		}
+		
+		System.out.println("Total Cost: " + totalCost);
+	}
 
 }
