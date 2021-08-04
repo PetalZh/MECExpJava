@@ -25,14 +25,14 @@ public class main {
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
-		int[] range_input = {199, 499, 999, 1499, 1999, 2499, 2999}; 
-		int range = 2;
+		int[] range_input = {200, 500, 1000, 1500, 2000, 2500, 3000}; 
+		int range = 200;
 		if(range >= bsList.size()) 
 		{
 			range = bsList.size() - 1;
 		}
 		
-		System.out.println(range + 1 + " BS used");
+		System.out.println(range + " BS used");
 		
 //		greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
 //		greedyNew((ArrayList<BaseStation>)(new ArrayList<BaseStation>(bsList.subList(0, range))), 10);
@@ -119,7 +119,7 @@ public class main {
 			    
 			    // item loaded
 			    count ++;
-			    if(count == 60) 
+			    if(count == 10000) 
 			    {
 			    	break;
 			    }
