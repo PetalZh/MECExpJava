@@ -18,7 +18,10 @@ public class Greedy {
 	public ArrayList<BaseStation> getResult(ArrayList<BaseStation> bsList) 
 	{
 		ArrayList<BaseStation> result = new ArrayList<>();
+		
 		while(bsList.size() != 0) {
+			getCost(bsList); 
+			
 			Collections.sort(bsList);
 			BaseStation candidate = bsList.get(0);
 			result.add(candidate);
@@ -41,20 +44,12 @@ public class Greedy {
 		return result;
 	}
 	
-//	private void printResult(ArrayList<BaseStation> result) 
-//	{
-//		System.out.println("Greedy result: " + result.size() + " items");
-//		int totalCost = 0; 
-//		for(BaseStation bs : result) 
-//		{
-//			totalCost += Constants.COST_EN;
-//			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
-//			
-//			totalCost += serverNum * Constants.COST_SERVER;
-//			
-//			//System.out.println(bs.getLocation() + " " + bs.getWorkload());
-//		}
-//		
-//		System.out.println("Total Cost: " + totalCost);
-//	}
+	private void getCost(ArrayList<BaseStation> bsList) 
+	{
+		for(BaseStation bs : bsList) 
+		{
+			bs.getTotalCost();
+		}
+	}
+	
 }

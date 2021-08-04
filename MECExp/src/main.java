@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.Hashtable;
 
 import algorithms.Greedy;
-import algorithms.GreedyCan;
 import algorithms.GreedyNew;
 import algorithms.HieraCluster;
 import algorithms.MIPAlgo;
@@ -18,6 +17,7 @@ import objs.Cluster;
 import objs.UserRequest;
 import utilities.BSUtils;
 import utilities.Constants;
+import utilities.FileIO;
 import utilities.Utils;
 
 public class main {
@@ -26,7 +26,7 @@ public class main {
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
 		int[] range_input = {199, 499, 999, 1499, 1999, 2499, 2999}; 
-		int range = 2999;
+		int range = 99999;
 		if(range >= bsList.size()) 
 		{
 			range = bsList.size() - 1;
@@ -36,14 +36,13 @@ public class main {
 		
 //		greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
 //		greedyNew((ArrayList<BaseStation>)(new ArrayList<BaseStation>(bsList.subList(0, range))), 10);
+
+
+		//hieraCluster((ArrayList<BaseStation>) bsList.clone());
 		
-
-
-//		hieraCluster((ArrayList<BaseStation>) bsList.clone());
 		
 		MIPAlgo mip = new MIPAlgo();
 		mip.getMIP(bsList);
-		//mip.test();
 	}
 	
 	private static void hieraCluster(ArrayList<BaseStation> bsList) 
@@ -118,7 +117,7 @@ public class main {
 			    
 			    // item loaded
 			    count ++;
-			    if(count == 1500) 
+			    if(count == 60) 
 			    {
 			    	break;
 			    }

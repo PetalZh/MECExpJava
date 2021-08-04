@@ -153,5 +153,10 @@ public class Utils {
 		
 		System.out.println("Total Cost: " + totalCost);
 	}
+	
+//	public static void writeFile(ArrayList<BaseStation> result) 
+//	{
+//		FileIO.writeToFile(result);
+//	}
 
 }

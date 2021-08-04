@@ -15,6 +15,7 @@ public class BaseStation implements Comparable {
 	private ArrayList<BSDistancePair> assignedBS;
 //	private BaseStation connectedEN;
 	private ArrayList<BaseStation> overlapped;
+	private int cost;
 	
 	public BaseStation(String location) {
 		super();
@@ -160,22 +161,16 @@ public class BaseStation implements Comparable {
 		this.overlapped.remove(bs);
 	}
 	
+	public int getCost() 
+	{
+		return this.cost;
+	}
+	
 	
 //	public void setOverlapped(ArrayList<BaseStation> overlapped) {
 //		this.overlapped = overlapped;
 //	}
 
-//	@Override
-//	public int compareTo(Object o) {
-//		double compWorkload = ((BaseStation) o).getWorkload();
-//		double compare = compWorkload - this.workload;
-//		
-//		return Double.compare(compWorkload, this.workload);
-//
-//	}
-	
-	// comparator for workload/cost
-	
 	@Override
 	public int compareTo(Object o) {
 		double compWorkload = ((BaseStation) o).getWorkload();
@@ -185,21 +180,43 @@ public class BaseStation implements Comparable {
 
 	}
 	
-	private int getTotalCost() 
+	// comparator for workload/cost
+	
+//	@Override
+//	public int compareTo(Object o) {
+//		double ratio_compare = ((BaseStation) o).getWorkload()/((BaseStation) o).getCost();
+//		double ratio = this.workload / this.cost;
+//		
+////		System.out.println("ratio_comp: " + ratio_compare);
+////		System.out.println("ratio: " + ratio);
+////		System.out.println("cost: " + this.cost);
+////		
+////		System.out.println(Double.compare(ratio_compare, ratio));
+//		
+//		return Double.compare(ratio_compare, ratio);
+//
+//	}
+	
+	public int getTotalCost() 
 	{
-		double totalCapacity = (this.CTMax * Constants.SINGLE_TASK_SIZE)/Constants.DELAY_THRESH;
-		for(BSDistancePair bs : this.assignedBS) 
-		{
-			double distance = bs.getDistance();
-			double bs_task_size = bs.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE;
-			double capacity_req = Utils.getCapacityRequired(distance, bs_task_size);
-			
-			totalCapacity += capacity_req;
-		}
+//		double totalCapacity = (this.CTMax * Constants.SINGLE_TASK_SIZE)/Constants.DELAY_THRESH;
+//		for(BSDistancePair bs : this.assignedBS) 
+//		{
+//			double distance = bs.getDistance();
+//			double bs_task_size = bs.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE;
+//			double capacity_req = Utils.getCapacityRequired(distance, bs_task_size);
+//			
+//			totalCapacity += capacity_req;
+//		}
 		
-		int serverNum = (int)Math.ceil(totalCapacity / Constants.SINGLE_SERVER_CAPACITY);
+//		int serverNum = (int)Math.ceil(totalCapacity / Constants.SINGLE_SERVER_CAPACITY);
+//		
+//		int cost = serverNum * Constants.COST_SERVER + Constants.COST_EN;
+//		
+//		this.cost = cost;
 		
-		int cost = serverNum * Constants.COST_SERVER + Constants.COST_EN;
+		int cost = Constants.COST_EN + (int)Math.ceil(this.workload /Constants.SINGLE_SERVER_CAPACITY) * Constants.COST_SERVER;
+		this.cost = cost;
 		
 		return cost;
 	}

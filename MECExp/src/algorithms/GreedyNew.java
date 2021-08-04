@@ -10,6 +10,7 @@ import objs.BaseStation;
 import objs.Connection;
 import utilities.BSUtils;
 import utilities.Constants;
+import utilities.FileIO;
 import utilities.Utils;
 
 public class GreedyNew {
@@ -49,6 +50,18 @@ public class GreedyNew {
 			
 			while(bsList.size() != 0) 
 			{
+
+				
+				BaseStation en = null;
+				cleanCandidateList(candidates);
+				
+				getCost(bsList);
+				getCost(candidates);
+				
+				Collections.sort(bsList);
+				Collections.sort(candidates);
+				//System.out.println("test "+candidates.size());
+				
 //				System.out.println("----------------------------");
 //				System.out.println("BS list: ");
 //				test_print_list(bsList);
@@ -60,13 +73,6 @@ public class GreedyNew {
 //				System.out.println("");
 //				System.out.println("EN list: ");
 //				test_print_list(enList);
-				
-				BaseStation en = null;
-				cleanCandidateList(candidates);
-				
-				Collections.sort(bsList);
-				Collections.sort(candidates);
-				//System.out.println("test "+candidates.size());
 				
 				if(candidates.size() != 0 && candidates.get(0).getWorkload() > bsList.get(0).getWorkload()) 
 				{
@@ -88,7 +94,16 @@ public class GreedyNew {
 			
 			
 			Utils.printResult(enList, "Greedy with candidate list result: ");
+			//FileIO.writeToFile(enList, "GreeyNewOutput.txt");
 			return enList;
+	}
+	
+	private void getCost(ArrayList<BaseStation> bsList) 
+	{
+		for(BaseStation bs : bsList) 
+		{
+			bs.getTotalCost();
+		}
 	}
 	
 	private void cleanCandidateList(ArrayList<BaseStation> canList) 
@@ -114,24 +129,6 @@ public class GreedyNew {
 			bs.removeOverlappedBS(en);
 		}
 	}
-	
-//	private void printResult(ArrayList<BaseStation> result) 
-//	{
-//		System.out.println("-----------------------------");
-//		System.out.println("Greedy with candidate list result: " + result.size() + " items");
-//		int totalCost = 0; 
-//		for(BaseStation bs : result) 
-//		{
-//			totalCost += Constants.COST_EN;
-//			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
-//			
-//			totalCost += serverNum * Constants.COST_SERVER;
-//			
-//			//System.out.println(bs.getLocation() + " " + bs.getWorkload());
-//		}
-//		
-//		System.out.println("Total Cost: " + totalCost);
-//	}
 	
 	private void addEN(BaseStation en, ArrayList<BaseStation> bsList, ArrayList<BaseStation> candidates, ArrayList<BaseStation> enList) 
 	{
