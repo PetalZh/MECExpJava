@@ -136,14 +136,6 @@ public class BaseStation implements Comparable {
 	}
 	
 
-//	public BaseStation getConnectedEN() {
-//		return connectedEN;
-//	}
-//
-//	public void setConnectedEN(BaseStation connectedEN) {
-//		this.connectedEN = connectedEN;
-//	}
-
 	public ArrayList<BaseStation> getOverlapped() {
 		return overlapped;
 	}
@@ -166,36 +158,32 @@ public class BaseStation implements Comparable {
 		return this.cost;
 	}
 	
-	
-//	public void setOverlapped(ArrayList<BaseStation> overlapped) {
-//		this.overlapped = overlapped;
+
+//	@Override
+//	public int compareTo(Object o) {
+//		double compWorkload = ((BaseStation) o).getWorkload();
+//		double compare = compWorkload - this.workload;
+//		
+//		return Double.compare(compWorkload, this.workload);
+//
 //	}
-
-	@Override
-	public int compareTo(Object o) {
-		double compWorkload = ((BaseStation) o).getWorkload();
-		double compare = compWorkload - this.workload;
-		
-		return Double.compare(compWorkload, this.workload);
-
-	}
 	
 	// comparator for workload/cost
 	
-//	@Override
-//	public int compareTo(Object o) {
-//		double ratio_compare = ((BaseStation) o).getWorkload()/((BaseStation) o).getCost();
-//		double ratio = this.workload / this.cost;
+	@Override
+	public int compareTo(Object o) {
+		double ratio_compare = ((BaseStation) o).getWorkload()/((BaseStation) o).getCost();
+		double ratio = this.workload * 1000 / this.cost;
+		
+//		System.out.println("ratio_comp: " + ratio_compare);
+		//System.out.println("ratio: " + ratio);
+//		System.out.println("cost: " + this.cost);
 //		
-////		System.out.println("ratio_comp: " + ratio_compare);
-////		System.out.println("ratio: " + ratio);
-////		System.out.println("cost: " + this.cost);
-////		
-////		System.out.println(Double.compare(ratio_compare, ratio));
-//		
-//		return Double.compare(ratio_compare, ratio);
-//
-//	}
+//		System.out.println(Double.compare(ratio_compare, ratio));
+		
+		return Double.compare(ratio_compare, ratio);
+
+	}
 	
 	public int getTotalCost() 
 	{

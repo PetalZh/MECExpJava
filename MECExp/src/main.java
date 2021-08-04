@@ -26,7 +26,7 @@ public class main {
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
 		int[] range_input = {199, 499, 999, 1499, 1999, 2499, 2999}; 
-		int range = 99999;
+		int range = 2;
 		if(range >= bsList.size()) 
 		{
 			range = bsList.size() - 1;
@@ -42,7 +42,9 @@ public class main {
 		
 		
 		MIPAlgo mip = new MIPAlgo();
-		mip.getMIP(bsList);
+		mip.getMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
+		
+		//System.out.println(Utils.getDistanceThreshold(270));
 	}
 	
 	private static void hieraCluster(ArrayList<BaseStation> bsList) 

@@ -77,16 +77,18 @@ public class MIPAlgo {
 				IloNumExpr comp_capacity = cplex.numExpr();
 				//IloNumExpr server_cost = cplex.numExpr();
 				
+				System.out.println(getSelfServerReq(bsList.get(i)));
 				comp_capacity = cplex.sum(comp_capacity, getSelfServerReq(bsList.get(i)));
 				
 				for(int j = 0; j < n; j++) 
 				{
-					if(i != j) 
-					{
-						double comp_capacity_req = getCapacityReq(bsList.get(i), bsList.get(j)); 
-						double server_cost = comp_capacity_req/Constants.SINGLE_SERVER_CAPACITY * Constants.COST_SERVER;
-						comp_capacity = cplex.sum(server_cost, cplex.prod(comp_capacity_req, x[i][j]));
-					}
+					double comp_capacity_req = getCapacityReq(bsList.get(i), bsList.get(j)); 
+					double server_cost = comp_capacity_req/Constants.SINGLE_SERVER_CAPACITY * Constants.COST_SERVER;
+					comp_capacity = cplex.sum(server_cost, cplex.prod(comp_capacity_req, x[i][j]));
+//					if(i != j) 
+//					{
+//						
+//					}
 				}
 				
 				//server_cost = cplex.prod(1/Constants.SINGLE_SERVER_CAPACITY, comp_capacity);
@@ -175,7 +177,11 @@ public class MIPAlgo {
 				// i is not a EN, i should have no bs 
 				//cplex.ifThen(cplex.eq(y[i], 0), cplex.addEq(expr_row, 0));
 				
+				// i is an EN, i should have more than one bs connect
 				cplex.ifThen(cplex.eq(y[i], 1), cplex.addGe(expr_row, 1));
+				//cplex.ifThen(cplex.eq(y[i], 1), cplex.addEq(expr_col, 0));
+				
+				// each bs should connect to at least one EN
 				
 			}
 			
@@ -229,6 +235,7 @@ public class MIPAlgo {
 			}else 
 			{
 				System.out.println("Fail");
+				//System.out.println(cplex.getValue(objective));
 			}
 			//System.out.println(cplex.getValue(objective));
 			

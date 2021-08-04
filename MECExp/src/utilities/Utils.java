@@ -154,9 +154,13 @@ public class Utils {
 		System.out.println("Total Cost: " + totalCost);
 	}
 	
-//	public static void writeFile(ArrayList<BaseStation> result) 
-//	{
-//		FileIO.writeToFile(result);
-//	}
+	public static int getDistanceThreshold(int workload) 
+	{
+		double exp_pow = workload * 0.7 / (Constants.DELAY_THRESH * Constants.BANDWIDTH);
+		double exp_bottom = Constants.ALPHA * (Math.pow(2, exp_pow) - 1);
+		double distance = Constants.CANNEL_SIGNAL_POWER / exp_bottom;
+		
+		return (int)Math.round(distance);
+	}
 
 }

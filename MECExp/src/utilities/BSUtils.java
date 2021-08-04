@@ -11,18 +11,26 @@ public class BSUtils {
 	
 	public static ArrayList<BaseStation> getBSList(Hashtable<String, ArrayList<UserRequest>> BStable){
 		ArrayList<BaseStation> bsList = new ArrayList<>();
-	
+		int max_ct_max = 0;
 		for(String key: BStable.keySet()) {
 			BaseStation bs = new BaseStation(key);
-
+			
 			ArrayList<UserRequest> requestList= BStable.get(key);
-			bs.setCTMax(Utils.getCTMax(requestList));
+			int ct_max = Utils.getCTMax(requestList);
+			
+			bs.setCTMax(ct_max);
 			bsList.add(bs);
 			
-			//System.out.println(key + ": " + bs.getCTMax() + " " + bs.getWorkload()); //
+			if(ct_max > max_ct_max) 
+			{
+				max_ct_max = ct_max;
+			}
+			
+			//System.out.println(key + ": " + bs.getCTMax() + " " + bs.getWorkload()); 
 		}
 		
 		System.out.println("BS #"+ ": " + bsList.size());
+		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(max_ct_max * Constants.SINGLE_TASK_SIZE);
 		
 		return bsList;
 	}
