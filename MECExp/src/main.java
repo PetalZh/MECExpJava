@@ -12,6 +12,7 @@ import algorithms.Greedy;
 import algorithms.GreedyNew;
 import algorithms.HieraCluster;
 import algorithms.MIPAlgo;
+import algorithms.RandomMethod;
 import objs.BaseStation;
 import objs.Cluster;
 import objs.UserRequest;
@@ -26,7 +27,13 @@ public class main {
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
 		int[] range_input = {200, 500, 1000, 1500, 2000, 2500, 3000}; 
-		int range = 200;
+		
+//		for(int r : range_input) 
+//		{
+//			
+//		}
+		
+		int range = 3000;
 		if(range >= bsList.size()) 
 		{
 			range = bsList.size() - 1;
@@ -34,16 +41,18 @@ public class main {
 		
 		System.out.println(range + " BS used");
 		
-//		greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//		greedyNew((ArrayList<BaseStation>)(new ArrayList<BaseStation>(bsList.subList(0, range))), 10);
-
+		random(new ArrayList<BaseStation>(bsList.subList(0, range)));
+		
+		greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
+		greedyNew((ArrayList<BaseStation>)(new ArrayList<BaseStation>(bsList.subList(0, range))), 10);
 
 		//hieraCluster((ArrayList<BaseStation>) bsList.clone());
 		
+		//mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
 		
-		MIPAlgo mip = new MIPAlgo();
-		mip.getMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
-		
+//		double capacityReq = Utils.getCapacityRequired(1026, 75);
+//		System.out.println("capacity: "+ capacityReq);
+//		System.out.println("Distance threshold: "+ Constants.DISTANCE_THRESH);
 		//System.out.println(Utils.getDistanceThreshold(270));
 	}
 	
@@ -55,6 +64,20 @@ public class main {
 		ArrayList<Cluster> clusterList = hieraCluster.getResult(bsList);
 		
 		Date end = new Date();
+		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
+	}
+	
+	private static void random(ArrayList<BaseStation> bsList) 
+	{
+		// Greedy methods
+		Date start = new Date();
+		
+		BSUtils.getBSConnection(bsList);
+		RandomMethod random = new RandomMethod();
+		ArrayList<BaseStation> greedyResult = random.getResult(bsList);
+		
+		Date end = new Date();
+		
 		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
 	}
 	
@@ -79,6 +102,18 @@ public class main {
 		BSUtils.getBSConnection(bsList);
 		GreedyNew greedy = new GreedyNew();
 		greedy.getResult(bsList, threshold);
+		
+		Date end = new Date();
+		
+		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
+	}
+	
+	private static void mip(ArrayList<BaseStation> input)
+	{
+		Date start = new Date();
+		
+		MIPAlgo mip = new MIPAlgo();
+		mip.getMIP(input);
 		
 		Date end = new Date();
 		
@@ -119,7 +154,7 @@ public class main {
 			    
 			    // item loaded
 			    count ++;
-			    if(count == 10000) 
+			    if(count == 1000) 
 			    {
 			    	break;
 			    }

@@ -30,6 +30,7 @@ public class BSUtils {
 		}
 		
 		System.out.println("BS #"+ ": " + bsList.size());
+		//System.out.println("CT max: " + max_ct_max); 
 		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(max_ct_max * Constants.SINGLE_TASK_SIZE);
 		
 		return bsList;
@@ -43,7 +44,6 @@ public class BSUtils {
 			double lng1 = Double.parseDouble(latlng1[1]); 
 			bs1.clearBS();
 			bs1.initWorkload();
-			
 			
 			for(BaseStation bs2 : bsList) 
 			{

@@ -113,7 +113,7 @@ public class Utils {
 		}
 		
 		double logNum = 1 + (Constants.CANNEL_SIGNAL_POWER/(Constants.ALPHA * (distance/1000)));
-		double logValue = customLog(2,logNum);
+		double logValue = customLog(2,logNum) * Constants.BANDWIDTH;
 		//System.out.println("Trans Delay:" + taskSize/logValue);
 		
 		return taskSize/logValue;
@@ -156,9 +156,9 @@ public class Utils {
 	
 	public static int getDistanceThreshold(int workload) 
 	{
-		double exp_pow = workload * 0.7 / (Constants.DELAY_THRESH * Constants.BANDWIDTH);
+		double exp_pow = workload / (Constants.DELAY_THRESH * Constants.BANDWIDTH);
 		double exp_bottom = Constants.ALPHA * (Math.pow(2, exp_pow) - 1);
-		double distance = Constants.CANNEL_SIGNAL_POWER / exp_bottom;
+		double distance = (Constants.CANNEL_SIGNAL_POWER / exp_bottom)* 0.7;
 		
 		return (int)Math.round(distance);
 	}

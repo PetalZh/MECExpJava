@@ -52,13 +52,13 @@ public class MIPAlgo {
 		try {
 			
 			int n = bsList.size();
-			System.out.println("List size: " + n);
+			//System.out.println("List size: " + n);
 			IloCplex cplex = new IloCplex();
 			
 //			cplex.setParam(IloCplex.Param.Simplex.Tolerances.Optimality, 1e-9);
 //			cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, 1e-9);
 			//cplex.setParam(IloCplex.DoubleParam.TimeLimit, 3600);
-			//cplex.setOut(null);
+			cplex.setOut(null);
 			
 //			// whether BS is selected as EN
 			IloNumVar[] y = new IloNumVar[n];
@@ -162,7 +162,7 @@ public class MIPAlgo {
 			if(cplex.solve()) 
 			{
 				System.out.println("------------------------------------------");
-				System.out.println("Solved");
+				System.out.println("MIP Solved");
 				System.out.println(cplex.getObjValue());
 				
 //				printX(cplex, x, n);
@@ -199,10 +199,10 @@ public class MIPAlgo {
 	{
 		int num_en_selected = 0;
 		
-		System.out.println("EN distribution:");
+		//System.out.println("EN distribution:");
 		for(int i = 0; i < n; i++) 
 		{
-			System.out.print(cplex.getValue(y[i]) + " ");
+			//System.out.print(cplex.getValue(y[i]) + " ");
 			
 			
 			if(cplex.getValue(y[i]) == 1)

@@ -82,9 +82,15 @@ public class BaseStation implements Comparable {
 	{
 		this.assignedBS.add(new BSDistancePair(bs, distance));
 		double value = Utils.getCapacityRequired(distance, bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
-		//System.out.println("add value: " + value);
-		//System.out.println("add id: " + bs.getLocation());
-		//System.out.println("bs: " + bs.getLocation() + " " + distance + " " + bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
+		if(value < 0) 
+		{
+			System.out.println("add value: " + value);
+			System.out.println("add id: " + bs.getLocation());
+			System.out.println("bs: " + bs.getLocation() + " " + distance + " " + bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
+		}
+//		System.out.println("add value: " + value);
+//		System.out.println("add id: " + bs.getLocation());
+//		System.out.println("bs: " + bs.getLocation() + " " + distance + " " + bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
 		this.workload += value;
 		this.workload = Utils.handlePrecision(this.workload);
 		//this.workload += bs.getCTMax() * Constants.SINGLE_TASK_SIZE;
@@ -105,12 +111,12 @@ public class BaseStation implements Comparable {
 				this.workload -= value;
 				this.workload = Utils.handlePrecision(this.workload);
 				
-//				if(this.workload < 0) 
-//				{
-//					System.out.println("remove value: " + value);
-//					System.out.println("Remove id: " + bs.getLocation());
-//					System.out.println("p: " + p.getBS().getLocation() + " " + p.getDistance() + " " + p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
-//				}
+				if(this.workload < 0) 
+				{
+					System.out.println("remove value: " + value);
+					System.out.println("Remove id: " + bs.getLocation());
+					System.out.println("p: " + p.getBS().getLocation() + " " + p.getDistance() + " " + p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
+				}
 				
 				//this.workload -= p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE;
 				
@@ -159,31 +165,31 @@ public class BaseStation implements Comparable {
 	}
 	
 
-//	@Override
-//	public int compareTo(Object o) {
-//		double compWorkload = ((BaseStation) o).getWorkload();
-//		double compare = compWorkload - this.workload;
-//		
-//		return Double.compare(compWorkload, this.workload);
-//
-//	}
+	@Override
+	public int compareTo(Object o) {
+		double compWorkload = ((BaseStation) o).getWorkload();
+		double compare = compWorkload - this.workload;
+		
+		return Double.compare(compWorkload, this.workload);
+
+	}
 	
 	// comparator for workload/cost
 	
-	@Override
-	public int compareTo(Object o) {
-		double ratio_compare = ((BaseStation) o).getWorkload()/((BaseStation) o).getCost();
-		double ratio = this.workload * 1000 / this.cost;
-		
-//		System.out.println("ratio_comp: " + ratio_compare);
-		//System.out.println("ratio: " + ratio);
-//		System.out.println("cost: " + this.cost);
+//	@Override
+//	public int compareTo(Object o) {
+//		double ratio_compare = ((BaseStation) o).getWorkload()/((BaseStation) o).getCost();
+//		double ratio = this.workload * 1000 / this.cost;
 //		
-//		System.out.println(Double.compare(ratio_compare, ratio));
-		
-		return Double.compare(ratio_compare, ratio);
-
-	}
+////		System.out.println("ratio_comp: " + ratio_compare);
+//		//System.out.println("ratio: " + ratio);
+////		System.out.println("cost: " + this.cost);
+////		
+////		System.out.println(Double.compare(ratio_compare, ratio));
+//		
+//		return Double.compare(ratio_compare, ratio);
+//
+//	}
 	
 	public int getTotalCost() 
 	{

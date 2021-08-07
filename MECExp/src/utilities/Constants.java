@@ -1,7 +1,7 @@
 package utilities;
 
 public class Constants {
-	  public static final double DELAY_THRESH = 30; // total delay threshold
+	  public static final double DELAY_THRESH = 35; // total delay threshold
 	  public static final int COST_EN = 400; // EN construction cost
 	  public static final int COST_SERVER = 100; // server cost
 	  //public static final int DISTANCE_THRESH = 2000; // distance threshold for connection 5000

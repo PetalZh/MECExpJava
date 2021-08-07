@@ -2,16 +2,16 @@ package algorithms;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 import objs.BSDistancePair;
 import objs.BaseStation;
 import utilities.BSUtils;
-import utilities.Constants;
 import utilities.Utils;
 
-public class Greedy {
-	
-	public Greedy() {
+public class RandomMethod {
+
+	public RandomMethod() {
 		super();
 	}
 	
@@ -24,7 +24,6 @@ public class Greedy {
 			{
 				System.out.println(" " + p.getBS().getLocation() + " " + p.getBS().getWorkload()); //+ " " + p.getBS().getCTMax()
 			}
-			
 		}
 	}
 	
@@ -37,8 +36,8 @@ public class Greedy {
 //			System.out.println("**********************");
 //			test_print_list(result);
 			
-			Collections.sort(bsList);
-			BaseStation candidate = bsList.get(0);
+			int random = getRandom(0, bsList.size());
+			BaseStation candidate = bsList.get(random);
 			result.add(candidate);
 			
 			// remove connected bs from bsList
@@ -51,20 +50,21 @@ public class Greedy {
 			
 			// recompute the connection
 			BSUtils.getBSConnection(bsList);
-			
 		}
-		
-		Utils.printResult(result, "Greedy result: ");
+		//test_print_list(result);
+		Utils.printResult(result, "Random result: ");
 		
 		return result;
 	}
 	
-	private void getCost(ArrayList<BaseStation> bsList) 
+	private int  getRandom(int min, int max) 
 	{
-		for(BaseStation bs : bsList) 
-		{
-			bs.getTotalCost();
-		}
+		Random random = new Random();
+		int s = random.nextInt(max)%(max-min+1) + min;
+
+		//System.out.println(s);
+		
+		return s;
 	}
-	
+
 }
