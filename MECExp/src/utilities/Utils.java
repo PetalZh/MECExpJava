@@ -112,7 +112,7 @@ public class Utils {
 			return 0;
 		}
 		
-		double logNum = 1 + (Constants.CANNEL_SIGNAL_POWER/(Constants.ALPHA * (distance/1000)));
+		double logNum = 1 + (Constants.CANNEL_SIGNAL_POWER/(Constants.ALPHA * distance));
 		double logValue = customLog(2,logNum) * Constants.BANDWIDTH;
 		//System.out.println("Trans Delay:" + taskSize/logValue);
 		
@@ -136,7 +136,7 @@ public class Utils {
 		return (double)Math.round(input * 1000)/(double)1000;
 	}
 	
-	public static void printResult(ArrayList<BaseStation> result, String method_name) 
+	public static int printResult(ArrayList<BaseStation> result, String method_name) 
 	{
 		System.out.println("-----------------------------");
 		System.out.println(method_name + " " + result.size() + " items");
@@ -152,6 +152,8 @@ public class Utils {
 		}
 		
 		System.out.println("Total Cost: " + totalCost);
+		
+		return totalCost;
 	}
 	
 	public static int getDistanceThreshold(int workload) 

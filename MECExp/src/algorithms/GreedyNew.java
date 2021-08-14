@@ -32,7 +32,7 @@ public class GreedyNew {
 			System.out.println("id: " + bs.getLocation() + " " + bs.getWorkload()); // + " " + bs.getCTMax()
 			for(BSDistancePair p: bs.getAssignedBS()) 
 			{
-				//System.out.println(" " + p.getBS().getLocation() + " " + p.getBS().getWorkload()); //+ " " + p.getBS().getCTMax()
+				System.out.println(" " + p.getBS().getLocation() + " " + p.getBS().getWorkload()); //+ " " + p.getBS().getCTMax()
 //				System.out.println("    overlap: ");
 //				for(BaseStation i : p.getBS().getOverlapped()) {
 //					System.out.println("    " + i.getLocation() + " ");
@@ -48,36 +48,25 @@ public class GreedyNew {
 			ArrayList<BaseStation> candidates = new ArrayList<>();
 			ArrayList<BaseStation> enList = new ArrayList<>();
 			
+			//test_print_list(bsList);
+			
 			while(bsList.size() != 0) 
 			{
-
-				
 				BaseStation en = null;
-				cleanCandidateList(candidates);
+				//cleanCandidateList(candidates);
 				
 				getCost(bsList);
 				getCost(candidates);
 				
-				Collections.sort(bsList);
-				Collections.sort(candidates);
+				Collections.sort(bsList, BaseStation.getConnectionComparator());
+				Collections.sort(candidates, BaseStation.getConnectionComparator());
 				//System.out.println("test "+candidates.size());
-				
-//				System.out.println("----------------------------");
-//				System.out.println("BS list: ");
-//				test_print_list(bsList);
-//				
-//				System.out.println("");
-//				System.out.println("Can list: ");
-//				test_print_list(candidates);
-//				
-//				System.out.println("");
-//				System.out.println("EN list: ");
-//				test_print_list(enList);
-				
-				if(candidates.size() != 0 && candidates.get(0).getWorkload() > bsList.get(0).getWorkload()) 
+			
+				// candidates.get(0).getWorkload() > bsList.get(0).getWorkload()
+				if(candidates.size() != 0 && candidates.get(0).getAssignedBS().size() > bsList.get(0).getAssignedBS().size()) 
 				{
 					en = candidates.get(0);
-					en.includeSelfWorkload();
+					//en.includeSelfWorkload();
 					candidates.remove(en);
 				}else {
 					en = bsList.get(0);
@@ -90,6 +79,18 @@ public class GreedyNew {
 				addEN(en, bsList, candidates, enList);
 
 				//this.result = enList;
+				
+//				System.out.println("----------------------------");
+//				System.out.println("BS list: ");
+//				test_print_list(bsList);
+//				
+//				System.out.println("");
+//				System.out.println("Can list: ");
+//				test_print_list(candidates);
+//				
+//				System.out.println("");
+//				System.out.println("EN list: ");
+//				test_print_list(enList);
 			}
 			
 			
@@ -146,12 +147,15 @@ public class GreedyNew {
 			// Step 2: address overlapped base station
 			ArrayList<BaseStation> overlapped = en.getOverlapped();
 			
+			
 			for(BaseStation bs : overlapped) 
 			{	
-				BaseStation prev = this.bs_en_table.get(bs.getLocation()).getEn();
-				updateSignleBSAssignment(en, prev , bs);
+				if(this.bs_en_table.get(bs.getLocation()) != null) 
+				{
+					BaseStation prev = this.bs_en_table.get(bs.getLocation()).getEn();
+					updateSignleBSAssignment(en, prev , bs);
+				}
 			}
-			
 		}
 		
 		// Address new added BSs come with en
@@ -178,7 +182,7 @@ public class GreedyNew {
 			BaseStation item = iter.next().getBS();
 			counter++;
 			if(!candidates.contains(item)) {
-				item.excludeSelfWorkload();
+				//item.excludeSelfWorkload();
 				candidates.add(item);
 			}
 			
@@ -206,7 +210,7 @@ public class GreedyNew {
 					removeList.add(assigned.getBS());
 				}
 			}
-			
+//			
 			for(BaseStation r : removeList) 
 			{
 				//System.out.println("Before remove: " + can.getLocation() + " workload: " + can.getWorkload());
@@ -218,8 +222,6 @@ public class GreedyNew {
 		// Step 4: Recompute connections for BS List
 		
 		BSUtils.getBSConnection(bsList);
-		
-		
 	}
 	
 	private void registerNewAssignment(BaseStation bs, BaseStation en) 

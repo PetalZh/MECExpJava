@@ -22,38 +22,63 @@ import utilities.FileIO;
 import utilities.Utils;
 
 public class main {
+	static int input_size = 0;
+	
+	
 	public static void main(String args[]) {
+		
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
-		int[] range_input = {200, 500, 1000, 1500, 2000, 2500, 3000}; 
+		
+		for(int i = 1; i <= 10; i++) 
+		{
+			FileIO.writeText("Random" + Constants.DELAY_THRESH, "Round " + i);
+			FileIO.writeText("Greedy" + Constants.DELAY_THRESH, "Round " + i);
+			FileIO.writeText("GreedyNew" + Constants.DELAY_THRESH, "Round " + i);
+			
+			startExp(bsList);
+		}
+		
+		
+		
+//		double capacityReq = Utils.getCapacityRequired(1026, 75);
+//		System.out.println("capacity: "+ capacityReq);
+		//System.out.println("Distance threshold: "+ Constants.DISTANCE_THRESH);
+		//System.out.println(Utils.getDistanceThreshold(270));
+		//System.out.println(Utils.getTransDelay(3369, 30));
+	}
+	
+	private static void startExp(ArrayList<BaseStation> bsList) 
+	{
+		int[] range_input = {100, 200, 300, 400, 500, 600, 800, 1000, 1500, 2000, 2500, 3000}; 
 		
 //		for(int r : range_input) 
 //		{
+//			input_size = r;
+//			int range = r;
+//			if(range >= bsList.size()) 
+//			{
+//				range = bsList.size() - 1;
+//			}
 //			
+//			System.out.println("---------------------------------");
+//			System.out.println(range + " BS used");
+//			
+//			random(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//			
+//			greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//			greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range)), 10);
 //		}
 		
-		int range = 3000;
+		//hieraCluster((ArrayList<BaseStation>) bsList.clone());
+		
+		int range = 100;
 		if(range >= bsList.size()) 
 		{
 			range = bsList.size() - 1;
 		}
-		
-		System.out.println(range + " BS used");
-		
-		random(new ArrayList<BaseStation>(bsList.subList(0, range)));
-		
-		greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
-		greedyNew((ArrayList<BaseStation>)(new ArrayList<BaseStation>(bsList.subList(0, range))), 10);
-
-		//hieraCluster((ArrayList<BaseStation>) bsList.clone());
-		
-		//mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
-		
-//		double capacityReq = Utils.getCapacityRequired(1026, 75);
-//		System.out.println("capacity: "+ capacityReq);
-//		System.out.println("Distance threshold: "+ Constants.DISTANCE_THRESH);
-		//System.out.println(Utils.getDistanceThreshold(270));
+		mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
 	}
 	
 	private static void hieraCluster(ArrayList<BaseStation> bsList) 
@@ -74,11 +99,15 @@ public class main {
 		
 		BSUtils.getBSConnection(bsList);
 		RandomMethod random = new RandomMethod();
-		ArrayList<BaseStation> greedyResult = random.getResult(bsList);
+		ArrayList<BaseStation> result = random.getResult(bsList);
 		
 		Date end = new Date();
 		
-		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
+		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
+		FileIO.output(result, input_size, time,  "random");
+		
+		//FileIO.outputResult(result, time,  "random");
+		System.out.println("Running time: " + time + " s");
 	}
 	
 	private static void greedy(ArrayList<BaseStation> bsList) 
@@ -88,11 +117,16 @@ public class main {
 		
 		BSUtils.getBSConnection(bsList);
 		Greedy greedy = new Greedy();
-		ArrayList<BaseStation> greedyResult = greedy.getResult(bsList);
+		ArrayList<BaseStation> result = greedy.getResult(bsList);
 		
 		Date end = new Date();
 		
-		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
+		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
+		
+		FileIO.output(result, input_size, time,  "greedy");
+		//FileIO.outputResult(result, time,  "Greedy" + Constants.DELAY_THRESH);
+		
+		System.out.println("Running time: " + time + " s");
 	}
 	
 	private static void greedyNew(ArrayList<BaseStation> bsList, int threshold) 
@@ -101,11 +135,16 @@ public class main {
 		
 		BSUtils.getBSConnection(bsList);
 		GreedyNew greedy = new GreedyNew();
-		greedy.getResult(bsList, threshold);
+		ArrayList<BaseStation> result = greedy.getResult(bsList, threshold);
 		
 		Date end = new Date();
 		
-		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
+		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
+		FileIO.output(result, input_size, time,  "greedy_new");
+		
+		//FileIO.outputResult(result, time,  "GreedyNew" + Constants.DELAY_THRESH);
+		
+		System.out.println("Running time: " + time + " s");
 	}
 	
 	private static void mip(ArrayList<BaseStation> input)
@@ -154,7 +193,7 @@ public class main {
 			    
 			    // item loaded
 			    count ++;
-			    if(count == 1000) 
+			    if(count == 100) 
 			    {
 			    	break;
 			    }

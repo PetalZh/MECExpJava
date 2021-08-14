@@ -14,39 +14,6 @@ public class MIPAlgo {
 		super();
 	}
 	
-//	public void test() 
-//	{
-//		try {
-//			IloCplex cplex = new IloCplex();
-//			IloNumVar x = cplex.numVar(0,  Double.MAX_VALUE);
-//			IloNumVar y = cplex.numVar(0, Double.MAX_VALUE);
-//			
-//			// obj
-//			IloLinearNumExpr obj = cplex.linearNumExpr();
-//			obj.addTerm(0.12, x);
-//			obj.addTerm(0.15, y);
-//			
-//			cplex.addMinimize(obj);
-//			
-//			// constraints
-//			
-//			cplex.addGe(cplex.sum(cplex.prod(60, x), cplex.prod(60, y)), 300);
-//			cplex.addGe(cplex.sum(cplex.prod(12, x), cplex.prod(6, y)), 36);
-//			cplex.addGe(cplex.sum(cplex.prod(10, x), cplex.prod(30, y)), 90);
-//			
-//			if(cplex.solve()) 
-//			{
-//				System.out.println("Obj: " + cplex.getObjValue());
-//				System.out.println("x: " + cplex.getValue(x));
-//				System.out.println("y: " + cplex.getValue(y));
-//			}
-//			
-//		} catch (IloException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-	
 	public void getMIP(ArrayList<BaseStation> bsList) 
 	{
 		try {
@@ -147,11 +114,17 @@ public class MIPAlgo {
 					{
 						double distance = Utils.getDistance(bsList.get(i).getLocation(), bsList.get(j).getLocation());
 						double trans_delay = Utils.getTransDelay(distance, bsList.get(j).getCTMax() * Constants.SINGLE_TASK_SIZE);
-
-						if(trans_delay >= Constants.DELAY_THRESH) 
+						//System.out.println("Trans Delay: " + trans_delay);
+						//System.out.println("Distance: " + distance + " workload: " +  bsList.get(j).getCTMax() * Constants.SINGLE_TASK_SIZE);
+						if(distance > 2000) //Constants.DISTANCE_THRESH
 						{
 							cplex.addEq(x[i][j], 0);
 						}
+						
+//						if(trans_delay >= Constants.DELAY_THRESH) 
+//						{
+//							cplex.addEq(x[i][j], 0);
+//						}
 					}else {
 						cplex.addEq(x[i][j], 0);
 					}
@@ -165,7 +138,7 @@ public class MIPAlgo {
 				System.out.println("MIP Solved");
 				System.out.println(cplex.getObjValue());
 				
-//				printX(cplex, x, n);
+				printX(cplex, x, n);
 				printY(cplex, y, n);
 				
 			}else 
@@ -199,10 +172,10 @@ public class MIPAlgo {
 	{
 		int num_en_selected = 0;
 		
-		//System.out.println("EN distribution:");
+		System.out.println("EN distribution:");
 		for(int i = 0; i < n; i++) 
 		{
-			//System.out.print(cplex.getValue(y[i]) + " ");
+			System.out.print(cplex.getValue(y[i]) + " ");
 			
 			
 			if(cplex.getValue(y[i]) == 1)

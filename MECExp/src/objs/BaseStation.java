@@ -1,12 +1,14 @@
 package objs;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import utilities.Constants;
 import utilities.Utils;
 
 
-public class BaseStation implements Comparable {
+// implements Comparable
+public class BaseStation {
 	private int serverNo;
 	private int CTMax;
 	private double workload;
@@ -118,8 +120,6 @@ public class BaseStation implements Comparable {
 					System.out.println("p: " + p.getBS().getLocation() + " " + p.getDistance() + " " + p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
 				}
 				
-				//this.workload -= p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE;
-				
 				return true;
 			}
 		}
@@ -165,13 +165,39 @@ public class BaseStation implements Comparable {
 	}
 	
 
-	@Override
-	public int compareTo(Object o) {
-		double compWorkload = ((BaseStation) o).getWorkload();
-		double compare = compWorkload - this.workload;
-		
-		return Double.compare(compWorkload, this.workload);
-
+//	@Override
+//	public int compareTo(Object o) {
+//		double compWorkload = ((BaseStation) o).getWorkload();
+//		double compare = compWorkload - this.workload;
+//		
+//		return Double.compare(compWorkload, this.workload);
+//
+//	}
+	
+	public static Comparator<BaseStation> getCapacityComparator()
+	{
+		return new Comparator<BaseStation>() 
+		{
+			@Override
+			public int compare(BaseStation o1, BaseStation o2) {
+				// TODO Auto-generated method stub
+				return Double.compare(o2.workload, o1.workload);
+			}
+			
+		};
+	}
+	
+	public static Comparator<BaseStation> getConnectionComparator()
+	{
+		return new Comparator<BaseStation>() 
+		{
+			@Override
+			public int compare(BaseStation o1, BaseStation o2) {
+				// TODO Auto-generated method stub
+				return Integer.compare(o2.getAssignedBS().size(), o1.getAssignedBS().size());
+			}
+			
+		};
 	}
 	
 	// comparator for workload/cost

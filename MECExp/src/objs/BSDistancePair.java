@@ -36,12 +36,13 @@ public class BSDistancePair implements Comparable{
 		double compDistance = ((BSDistancePair) o).getDistance();
 		double compare = compDistance - this.distance;
 		
-		if(compare > 0) 
-		{
-			return 1;
-		}else {
-			return -1;
-		}
+//		if(compare > 0) 
+//		{
+//			return 1;
+//		}else {
+//			return -1;
+//		}
+		return Double.compare(compDistance, this.distance);
 
 	}
 }

@@ -22,7 +22,7 @@ public class Greedy {
 			System.out.println("id: " + bs.getLocation() + " " + bs.getWorkload()); // + " " + bs.getCTMax()
 			for(BSDistancePair p: bs.getAssignedBS()) 
 			{
-				System.out.println(" " + p.getBS().getLocation() + " " + p.getBS().getWorkload()); //+ " " + p.getBS().getCTMax()
+				//System.out.println(" " + p.getBS().getLocation() + " " + p.getBS().getWorkload()); //+ " " + p.getBS().getCTMax()
 			}
 			
 		}
@@ -37,7 +37,9 @@ public class Greedy {
 //			System.out.println("**********************");
 //			test_print_list(result);
 			
-			Collections.sort(bsList);
+			Collections.sort(bsList, BaseStation.getCapacityComparator());
+			//Collections.sort(bsList, BaseStation.getConnectionComparator());
+
 			BaseStation candidate = bsList.get(0);
 			result.add(candidate);
 			
