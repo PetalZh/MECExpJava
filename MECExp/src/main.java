@@ -30,55 +30,85 @@ public class main {
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
+		//double[] delay_thresh = {8, 10, 12, 14, 16, 18};
+		double[] delay_thresh = {16};
 		
-		for(int i = 1; i <= 10; i++) 
+		for(double d : delay_thresh) 
 		{
-			FileIO.writeText("Random" + Constants.DELAY_THRESH, "Round " + i);
-			FileIO.writeText("Greedy" + Constants.DELAY_THRESH, "Round " + i);
-			FileIO.writeText("GreedyNew" + Constants.DELAY_THRESH, "Round " + i);
+			Constants.DELAY_THRESH = d;
+			Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
 			
-			startExp(bsList);
+			for(int i = 1; i <= 1; i++) 
+			{
+				startExp(bsList, false);
+			}
+			//startExp(bsList, true);
+			
 		}
+		
+//		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
+//		int range = 3000;
+//		if(range >= bsList.size()) 
+//		{
+//			range = bsList.size() - 1;
+//		}
+//		
+//		input_size = range + 1;
+		
+//		for(int i = 5; i <= 30; i++) 
+//		{
+//			System.out.println("tau: " + i);
+//			greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range)), i);
+//		}
+		
+//		random(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//		greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//		greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range)), 10);
+		
+		//mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
 		
 		
 		
 //		double capacityReq = Utils.getCapacityRequired(1026, 75);
 //		System.out.println("capacity: "+ capacityReq);
-		//System.out.println("Distance threshold: "+ Constants.DISTANCE_THRESH);
-		//System.out.println(Utils.getDistanceThreshold(270));
-		//System.out.println(Utils.getTransDelay(3369, 30));
+
+//		System.out.println("theta: "+ delay_thresh);
+//		System.out.println("Distance threshold: "+ Constants.DISTANCE_THRESH);
+//		System.out.println("distance: " + Utils.getDistanceThreshold(30));
+//		System.out.println("tans delay: " + Utils.getTransDelay(3369, 30));
 	}
 	
-	private static void startExp(ArrayList<BaseStation> bsList) 
+	private static void startExp(ArrayList<BaseStation> bsList, boolean includeMIP) 
 	{
-		int[] range_input = {100, 200, 300, 400, 500, 600, 800, 1000, 1500, 2000, 2500, 3000}; 
+		//int[] range_input = {100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1500, 2000, 2500, 3000}; 
+		//int[] range_input = {500, 800, 1000, 1500, 2000, 2500, 3000}; 
+		int[] range_input = {3000}; 
 		
-//		for(int r : range_input) 
-//		{
-//			input_size = r;
-//			int range = r;
-//			if(range >= bsList.size()) 
-//			{
-//				range = bsList.size() - 1;
-//			}
-//			
-//			System.out.println("---------------------------------");
-//			System.out.println(range + " BS used");
-//			
-//			random(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//			
-//			greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//			greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range)), 10);
-//		}
+		for(int r : range_input) 
+		{
+			int range = r - 1;
+			if(range >= bsList.size()) 
+			{
+				range = bsList.size() - 1;
+			}
+			input_size = range + 1;
+			
+			System.out.println("---------------------------------");
+			System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
+			
+			random(new ArrayList<BaseStation>(bsList.subList(0, range)));
+			
+			greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
+			greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range)), 10);
+			
+			if(includeMIP && range <= 500) 
+			{
+				mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
+			}
+			
+		}
 		
 		//hieraCluster((ArrayList<BaseStation>) bsList.clone());
-		
-		int range = 100;
-		if(range >= bsList.size()) 
-		{
-			range = bsList.size() - 1;
-		}
-		mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
 	}
 	
 	private static void hieraCluster(ArrayList<BaseStation> bsList) 
@@ -97,7 +127,7 @@ public class main {
 		// Greedy methods
 		Date start = new Date();
 		
-		BSUtils.getBSConnection(bsList);
+		//BSUtils.getBSConnection(bsList);
 		RandomMethod random = new RandomMethod();
 		ArrayList<BaseStation> result = random.getResult(bsList);
 		
@@ -105,6 +135,7 @@ public class main {
 		
 		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
 		FileIO.output(result, input_size, time,  "random");
+		FileIO.outputDistribution(result, input_size, "random");
 		
 		//FileIO.outputResult(result, time,  "random");
 		System.out.println("Running time: " + time + " s");
@@ -124,6 +155,8 @@ public class main {
 		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
 		
 		FileIO.output(result, input_size, time,  "greedy");
+		FileIO.outputDistribution(result, input_size, "greedy");
+		
 		//FileIO.outputResult(result, time,  "Greedy" + Constants.DELAY_THRESH);
 		
 		System.out.println("Running time: " + time + " s");
@@ -142,8 +175,11 @@ public class main {
 		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
 		FileIO.output(result, input_size, time,  "greedy_new");
 		
-		//FileIO.outputResult(result, time,  "GreedyNew" + Constants.DELAY_THRESH);
+		//FileIO.outputTau(result, threshold);
+		FileIO.outputDistribution(result, input_size, "greedy_new");
 		
+		//FileIO.outputResult(result, time,  "GreedyNew" + Constants.DELAY_THRESH);
+
 		System.out.println("Running time: " + time + " s");
 	}
 	
@@ -156,6 +192,8 @@ public class main {
 		
 		Date end = new Date();
 		
+		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
+		FileIO.output_mip(mip.getCost(), mip.getEn_num(), input_size, time, "mip");
 		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
 	}
 	
@@ -192,11 +230,11 @@ public class main {
 			    }
 			    
 			    // item loaded
-			    count ++;
-			    if(count == 100) 
-			    {
-			    	break;
-			    }
+//			    count ++;
+//			    if(count == 5000) 
+//			    {
+//			    	break;
+//			    }
 			  }
 			
 		} catch (UnsupportedEncodingException e) {

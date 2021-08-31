@@ -7,6 +7,7 @@ import java.util.Random;
 import objs.BSDistancePair;
 import objs.BaseStation;
 import utilities.BSUtils;
+import utilities.Constants;
 import utilities.Utils;
 
 public class RandomMethod {
@@ -33,23 +34,25 @@ public class RandomMethod {
 		//test_print_list(bsList); 
 		
 		while(bsList.size() != 0) {
-//			System.out.println("**********************");
-//			test_print_list(result);
 			
 			int random = getRandom(0, bsList.size());
 			BaseStation candidate = bsList.get(random);
+			
+			
 			result.add(candidate);
 			
+			ArrayList<BaseStation> connList = getConnected(candidate, bsList);
+			
 			// remove connected bs from bsList
-			ArrayList<BSDistancePair> conn = candidate.getAssignedBS();
-			for(BSDistancePair bs : conn) {
-				bsList.remove(bs.getBS());
+			for(BaseStation bs : connList) {
+				bsList.remove(bs);
 			}
 			
 			bsList.remove(candidate);
 			
-			// recompute the connection
-			BSUtils.getBSConnection(bsList);
+//			System.out.println("**********************");
+//			test_print_list(result);
+
 		}
 		//test_print_list(result);
 		Utils.printResult(result, "Random result: ");
@@ -67,4 +70,19 @@ public class RandomMethod {
 		return s;
 	}
 
+	private ArrayList<BaseStation> getConnected(BaseStation en, ArrayList<BaseStation> bsList)
+	{
+		ArrayList<BaseStation> connList = new ArrayList<>();
+		for(BaseStation bs : bsList) 
+		{
+			double distance = Utils.getDistance(en.getLocation(), bs.getLocation());
+			double trans_delay = Utils.getTransDelay(distance, bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
+			//trans_delay < Constants.DELAY_THRESH; distance <= Constants.DISTANCE_THRESH
+			if( distance != 0 && trans_delay < Constants.DELAY_THRESH) {
+				en.addBS(bs, distance);
+				connList.add(bs);
+			}
+		}
+		return connList;
+	}
 }

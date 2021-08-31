@@ -14,6 +14,9 @@ public class MIPAlgo {
 		super();
 	}
 	
+	private int cost;
+	private int en_num;
+	
 	public void getMIP(ArrayList<BaseStation> bsList) 
 	{
 		try {
@@ -53,7 +56,7 @@ public class MIPAlgo {
 				for(int j = 0; j < n; j++) 
 				{
 					double comp_capacity_req = getCapacityReq(bsList.get(i), bsList.get(j)); 
-					double server_cost = comp_capacity_req/Constants.SINGLE_SERVER_CAPACITY * Constants.COST_SERVER;
+					double server_cost = (comp_capacity_req/Constants.SINGLE_SERVER_CAPACITY) * Constants.COST_SERVER;
 					//System.out.println("server cost: " + server_cost);
 					//server_cost_expr = cplex.prod(server_cost, x[i][j]);
 					if(server_cost > 0) 
@@ -61,7 +64,7 @@ public class MIPAlgo {
 						objective = cplex.sum(objective, cplex.prod(server_cost, x[i][j]));
 					}
 					
-					
+//					objective = cplex.sum(objective, cplex.prod(server_cost, x[i][j]));
 				}
 				
 			}
@@ -116,7 +119,7 @@ public class MIPAlgo {
 						double trans_delay = Utils.getTransDelay(distance, bsList.get(j).getCTMax() * Constants.SINGLE_TASK_SIZE);
 						//System.out.println("Trans Delay: " + trans_delay);
 						//System.out.println("Distance: " + distance + " workload: " +  bsList.get(j).getCTMax() * Constants.SINGLE_TASK_SIZE);
-						if(distance > 2000) //Constants.DISTANCE_THRESH
+						if(trans_delay > Constants.DELAY_THRESH) //distance > Constants.DISTANCE_THRESH
 						{
 							cplex.addEq(x[i][j], 0);
 						}
@@ -138,7 +141,9 @@ public class MIPAlgo {
 				System.out.println("MIP Solved");
 				System.out.println(cplex.getObjValue());
 				
-				printX(cplex, x, n);
+				this.cost = (int)cplex.getObjValue();
+				
+				//printX(cplex, x, n);
 				printY(cplex, y, n);
 				
 			}else 
@@ -172,10 +177,10 @@ public class MIPAlgo {
 	{
 		int num_en_selected = 0;
 		
-		System.out.println("EN distribution:");
+		//System.out.println("EN distribution:");
 		for(int i = 0; i < n; i++) 
 		{
-			System.out.print(cplex.getValue(y[i]) + " ");
+			//System.out.print(cplex.getValue(y[i]) + " ");
 			
 			
 			if(cplex.getValue(y[i]) == 1)
@@ -185,6 +190,7 @@ public class MIPAlgo {
 		}
 		System.out.println();
 		System.out.println("# of EN selected: " + num_en_selected);
+		this.en_num = num_en_selected;
 	}
 	
 	
@@ -207,6 +213,15 @@ public class MIPAlgo {
 		return server_cost_req;
 		//return capacity_req;
 	}
-	
 
+	public int getCost() {
+		return cost;
+	}
+
+	public int getEn_num() {
+		return en_num;
+	}
+
+	
+	
 }

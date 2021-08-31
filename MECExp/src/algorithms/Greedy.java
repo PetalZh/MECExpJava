@@ -37,8 +37,8 @@ public class Greedy {
 //			System.out.println("**********************");
 //			test_print_list(result);
 			
-			Collections.sort(bsList, BaseStation.getCapacityComparator());
-			//Collections.sort(bsList, BaseStation.getConnectionComparator());
+			//Collections.sort(bsList, BaseStation.getCapacityComparator());
+			Collections.sort(bsList, BaseStation.getConnectionComparator());
 
 			BaseStation candidate = bsList.get(0);
 			result.add(candidate);

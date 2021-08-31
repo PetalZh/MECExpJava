@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import objs.BSDistancePair;
 import objs.BaseStation;
 
 public class FileIO {
@@ -112,6 +113,114 @@ public class FileIO {
 				  + input_size + "," + result.size() + "," + totalCost + "," + time);
 		  bufferWritter.newLine();
 		  
+		  
+		  bufferWritter.flush();
+		  bufferWritter.close();
+		
+		 }catch(IOException e){
+			 e.printStackTrace();
+		 }
+	}
+	
+	public static void outputTau(ArrayList<BaseStation> result, int tau) 
+	{
+		FileWriter fileWritter;
+		BufferedWriter bufferWritter;
+		
+		try{
+		  File file =new File("output/result_tau.txt");
+		
+		  //if file doesnt exists, then create it
+		  if(!file.exists()){
+		   file.createNewFile();
+		  }
+		
+		  //true = append file
+		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
+		  bufferWritter = new BufferedWriter(fileWritter);
+		
+		  int totalCost = 0; 
+		  for(BaseStation bs : result) 
+		  {
+			totalCost += Constants.COST_EN;
+			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
+			
+			totalCost += serverNum * Constants.COST_SERVER;
+		  }
+		  
+		  bufferWritter.write(tau + "," + result.size() + "," + totalCost);
+		  bufferWritter.newLine();
+		  
+		  
+		  bufferWritter.flush();
+		  bufferWritter.close();
+		
+		 }catch(IOException e){
+			 e.printStackTrace();
+		 }
+	}
+	
+	public static void output_mip(int cost, int en_num, int input_size,String time, String method_name) 
+	{
+		FileWriter fileWritter;
+		BufferedWriter bufferWritter;
+		
+		try{
+		  File file =new File("output/result.txt");
+		
+		  //if file doesnt exists, then create it
+		  if(!file.exists()){
+		   file.createNewFile();
+		  }
+		
+		  //true = append file
+		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
+		  bufferWritter = new BufferedWriter(fileWritter);
+		  
+		  bufferWritter.write(method_name  + "," + Constants.DELAY_THRESH + "," 
+				  + input_size + "," + en_num + "," + cost + "," + time);
+		  bufferWritter.newLine();
+		  
+		  
+		  bufferWritter.flush();
+		  bufferWritter.close();
+		
+		 }catch(IOException e){
+			 e.printStackTrace();
+		 }
+	}
+	
+	public static void outputDistribution(ArrayList<BaseStation> result, int input_size,String method_name) 
+	{
+		FileWriter fileWritter;
+		BufferedWriter bufferWritter;
+		
+		try{
+		  File file =new File("output/distribution.txt");
+		
+		  //if file doesnt exists, then create it
+		  if(!file.exists()){
+		   file.createNewFile();
+		  }
+		
+		  //true = append file
+		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
+		  bufferWritter = new BufferedWriter(fileWritter);
+		
+		  int totalCost = 0; 
+		  for(BaseStation bs : result) 
+		  {
+			  for(BSDistancePair p : bs.getAssignedBS()) 
+			  {
+				  double transDelay = Utils.handlePrecision(Utils.getTransDelay(p.getDistance(), p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE));
+				  double comDelay = Utils.handlePrecision(Constants.DELAY_THRESH - transDelay);
+				  
+				  bufferWritter.write(method_name  + "," + Constants.DELAY_THRESH + "," 
+						  + input_size + "," + transDelay + "," + comDelay);
+				  bufferWritter.newLine();
+			  }
+			  
+		  }
 		  
 		  bufferWritter.flush();
 		  bufferWritter.close();

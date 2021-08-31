@@ -113,6 +113,10 @@ public class BaseStation {
 				this.workload -= value;
 				this.workload = Utils.handlePrecision(this.workload);
 				
+				if(value < 0) 
+				{
+					System.out.println("error capacity: " + value);
+				}
 				if(this.workload < 0) 
 				{
 					System.out.println("remove value: " + value);

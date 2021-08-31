@@ -30,8 +30,9 @@ public class BSUtils {
 		}
 		
 		System.out.println("BS #"+ ": " + bsList.size());
+		Constants.CTMAX = max_ct_max;
 		//System.out.println("CT max: " + max_ct_max); 
-		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(max_ct_max * Constants.SINGLE_TASK_SIZE);
+		
 		
 		return bsList;
 	}
@@ -52,7 +53,9 @@ public class BSUtils {
 				double lng2 = Double.parseDouble(latlng2[1]); 
 				
 				double distance = Utils.getDistance(lng1, lat1, lng2, lat2);
-				if( distance != 0 && distance <= Constants.DISTANCE_THRESH) {
+				double trans_delay = Utils.getTransDelay(distance, bs2.getCTMax() * Constants.SINGLE_TASK_SIZE);
+				//trans_delay < Constants.DELAY_THRESH; distance <= Constants.DISTANCE_THRESH
+				if( distance != 0 && trans_delay < Constants.DELAY_THRESH) {
 					//System.out.println("Before add: " + bs1.getLocation() + " workload: " + bs1.getWorkload());
 					bs1.addBS(bs2, distance);
 					//System.out.println("After add: " + bs1.getLocation() +" "+ bs1.getWorkload());
