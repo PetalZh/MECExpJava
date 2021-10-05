@@ -11,5 +11,10 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Applications/CPLEX_Studio201/cplex/bin/x86-64_osx"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/petalzhang/Projects/rmit/MECExpJava/MECExp/jar/slf4j-api-1.7.30 2.jar"/>
+	<classpathentry kind="lib" path="/Users/petalzhang/Projects/rmit/MECExpJava/MECExp/jar/smile-core-2.6.0.jar"/>
+	<classpathentry kind="lib" path="/Users/petalzhang/Projects/rmit/MECExpJava/MECExp/jar/smile-data-2.6.0.jar"/>
+	<classpathentry kind="lib" path="/Users/petalzhang/Projects/rmit/MECExpJava/MECExp/jar/smile-graph-2.6.0.jar"/>
+	<classpathentry kind="lib" path="/Users/petalzhang/Projects/rmit/MECExpJava/MECExp/jar/smile-math-2.6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
