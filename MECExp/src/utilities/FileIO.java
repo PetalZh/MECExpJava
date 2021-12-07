@@ -230,6 +230,40 @@ public class FileIO {
 		 }
 	}
 	
+	public static void output_cluster(ArrayList<ArrayList<BaseStation>> clusters) 
+	{
+		FileWriter fileWritter;
+		BufferedWriter bufferWritter;
+		
+		try{
+		  File file =new File("output/cluster.txt");
+		
+		  //if file doesnt exists, then create it
+		  if(!file.exists()){
+		   file.createNewFile();
+		  }
+		
+		  //true = append file
+		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
+		  bufferWritter = new BufferedWriter(fileWritter);
+		  
+		  for(ArrayList<BaseStation> c : clusters) 
+		  {
+			  for(BaseStation bs : c) 
+			  {
+				  bufferWritter.write(bs.getLocation() + ",");
+			  }
+			  bufferWritter.newLine();
+		  }
+		  
+		  bufferWritter.flush();
+		  bufferWritter.close();
+		
+		 }catch(IOException e){
+			 e.printStackTrace();
+		 }
+	}
+	
 	public static void outputResult(ArrayList<BaseStation> result, String time, String method_name) 
 	{
 		FileWriter fileWritter;

@@ -47,8 +47,13 @@ public class Utils {
 	{
 		ArrayList<TimePoint> pointList = new ArrayList<>();
 		for(int i = 0; i < requestList.size(); i++) {
-			pointList.add(new TimePoint(requestList.get(i).getStartTime(), 0));
-			pointList.add(new TimePoint(requestList.get(i).getEndTime(), 1));
+			try {
+				pointList.add(new TimePoint(requestList.get(i).getStartTime(), 0));
+				pointList.add(new TimePoint(requestList.get(i).getEndTime(), 1));
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
 		}
 		
 		Collections.sort(pointList);

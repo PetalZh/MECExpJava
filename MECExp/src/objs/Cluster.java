@@ -79,10 +79,10 @@ public class Cluster {
 		
 		// if center can cover all stations
 		// TODO update distance theta later
-		if(longestToCenter > Constants.DISTANCE_THRESH) 
-		{
-			return null;
-		}
+//		if(longestToCenter > Constants.DISTANCE_THRESH) 
+//		{
+//			return null;
+//		}
 		
 		return center;
 	}

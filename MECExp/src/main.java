@@ -11,11 +11,14 @@ import java.util.Hashtable;
 import algorithms.Greedy;
 import algorithms.GreedyNew;
 import algorithms.HieraCluster;
+import algorithms.HieraCluster2;
 import algorithms.MIPAlgo;
+import algorithms.Partition;
 import algorithms.RandomMethod;
 import objs.BaseStation;
 import objs.Cluster;
 import objs.UserRequest;
+import optimizers.DynamicGreedy;
 import utilities.BSUtils;
 import utilities.Constants;
 import utilities.FileIO;
@@ -23,15 +26,16 @@ import utilities.Utils;
 
 public class main {
 	static int input_size = 0;
-	
+	static ArrayList<UserRequest> userRequests = new ArrayList<>();
 	
 	public static void main(String args[]) {
 		
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
+		
 		//double[] delay_thresh = {8, 10, 12, 14, 16, 18};
-		double[] delay_thresh = {16};
+		double[] delay_thresh = {14};
 		
 		for(double d : delay_thresh) 
 		{
@@ -96,15 +100,25 @@ public class main {
 			System.out.println("---------------------------------");
 			System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
 			
-			random(new ArrayList<BaseStation>(bsList.subList(0, range)));
-			
+//			random(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//			
 			greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
-			greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range)), 10);
+			greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range + 1)), 10);
 			
-			if(includeMIP && range <= 500) 
-			{
-				mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
-			}
+//			HieraCluster cluster = new HieraCluster();
+//			cluster.getResult(new ArrayList<BaseStation>(bsList.subList(0, range)));
+			
+//			HieraCluster2 cluster = new HieraCluster2(210);
+//			ArrayList<ArrayList<BaseStation>> clusters = cluster.getResult(new ArrayList<BaseStation>(bsList.subList(0, range)));
+			
+			//clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
+			
+			//mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
+
+//			if(includeMIP && range <= 500) 
+//			{
+//				mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//			}
 			
 		}
 		
@@ -166,6 +180,8 @@ public class main {
 	{
 		Date start = new Date();
 		
+		ArrayList<BaseStation> bsList_copy = (ArrayList<BaseStation>)bsList.clone(); // this is for original list for dynamic case
+		
 		BSUtils.getBSConnection(bsList);
 		GreedyNew greedy = new GreedyNew();
 		ArrayList<BaseStation> result = greedy.getResult(bsList, threshold);
@@ -181,6 +197,41 @@ public class main {
 		//FileIO.outputResult(result, time,  "GreedyNew" + Constants.DELAY_THRESH);
 
 		System.out.println("Running time: " + time + " s");
+		
+		greedyNew_dynamic(bsList_copy, result);
+	}
+	
+	private static void greedyNew_dynamic(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList) 
+	{
+		Date start = new Date();
+		DynamicGreedy dynamicGreedy = new DynamicGreedy();
+		dynamicGreedy.dynamicAssign(bsList, enList, userRequests);
+		Date end = new Date();
+		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
+		System.out.println("Running time: " + time + " s");
+	}
+	
+	private static void clusterAndMIP(ArrayList<BaseStation> bsList)
+	{
+		Date start = new Date();
+		HieraCluster2 hie_cluster = new HieraCluster2(210);
+		ArrayList<ArrayList<BaseStation>> clusters = hie_cluster.getResult(bsList);
+		
+		double total_cost = 0;
+		int total_en = 0;
+		for(ArrayList<BaseStation> cluster : clusters) 
+		{
+			MIPAlgo mip = new MIPAlgo();
+			mip.getMIP(cluster);
+			
+			total_cost += mip.getCost();
+			total_en += mip.getEn_num();
+		}
+		Date end = new Date();
+		
+		System.out.println("Total cost: " + total_cost);
+		System.out.println("Total en: " + total_en);
+		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
 	}
 	
 	private static void mip(ArrayList<BaseStation> input)
@@ -220,6 +271,7 @@ public class main {
 			    request.setDuration(duration);
 			    //System.out.println(utils.timeFormater(item[2]).getTime() + " " + utils.timeFormater(item[3]).getTime()+ " " +duration);
 			    
+			    userRequests.add(request);
 			    //request list to station
 			    if(BSTable.containsKey(request.getLocation())) {
 			    	BSTable.get(request.getLocation()).add(request);
@@ -229,12 +281,12 @@ public class main {
 			    	BSTable.put(request.getLocation(), reqList);
 			    }
 			    
-			    // item loaded
-//			    count ++;
-//			    if(count == 5000) 
-//			    {
-//			    	break;
-//			    }
+//			     item loaded
+			    count ++;
+			    if(count == 30000) 
+			    {
+			    	break;
+			    }
 			  }
 			
 		} catch (UnsupportedEncodingException e) {

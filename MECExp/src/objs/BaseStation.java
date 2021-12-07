@@ -17,6 +17,8 @@ public class BaseStation {
 	private ArrayList<BSDistancePair> assignedBS;
 //	private BaseStation connectedEN;
 	private ArrayList<BaseStation> overlapped;
+	private ArrayList<UserRequest> assignedURs;
+	private double capacityRequired;
 	private int cost;
 	
 	public BaseStation(String location) {
@@ -24,6 +26,8 @@ public class BaseStation {
 		this.location = location;
 		this.assignedBS = new ArrayList<>();
 		this.overlapped = new ArrayList<>();
+		assignedURs = new ArrayList<>();
+		this.capacityRequired = 0;
 	}
 	
 	public int getServerNo() {
@@ -66,6 +70,14 @@ public class BaseStation {
 //	public void setAssignedBS(ArrayList<BaseStation> assignedBS) {
 //		this.assignedBS = assignedBS;
 //	}
+	
+	public ArrayList<UserRequest> getAssignedURs() {
+		return assignedURs;
+	}
+	
+	public void addUR(UserRequest r) {
+		this.assignedURs.add(r);
+	}
 
 	public String getLocation() {
 		return location;
@@ -168,6 +180,31 @@ public class BaseStation {
 		return this.cost;
 	}
 	
+	public ArrayList<UserRequest> getRequestList() {
+		return requestList;
+	}
+
+	public void setRequestList(ArrayList<UserRequest> requestList) {
+		this.requestList = requestList;
+	}
+	
+	public double getCapacityRequired() {
+		return capacityRequired;
+	}
+
+//	public void setCapacityRequired(double capacityRequired) {
+//		this.capacityRequired = capacityRequired;
+//	}
+//	
+	public void updateCapacityRequired(double capacityRequired) {
+		if(capacityRequired > this.capacityRequired) 
+		{
+			this.capacityRequired = capacityRequired;
+			this.workload = capacityRequired;
+		}
+		
+	}
+	
 
 //	@Override
 //	public int compareTo(Object o) {
@@ -178,6 +215,7 @@ public class BaseStation {
 //
 //	}
 	
+
 	public static Comparator<BaseStation> getCapacityComparator()
 	{
 		return new Comparator<BaseStation>() 
