@@ -135,6 +135,18 @@ public class Utils {
 		return Math.log(logNum)/Math.log(base);
 	}
 	
+	public static double getCapacityRequiredByTransDelay(double trans_delay, double taskSize_c) 
+	{
+		double result = taskSize_c/(Constants.DELAY_THRESH - trans_delay);
+		return handlePrecision(result);
+	}
+	
+	public static double getCapacityRequired(double distance, double taskSize_t, double taskSize_c) 
+	{
+		double result = taskSize_c/(Constants.DELAY_THRESH - getTransDelay(distance, taskSize_t));
+		return handlePrecision(result);
+	}
+	
 	public static double getCapacityRequired(double distance, double taskSize) 
 	{
 		double result = taskSize/(Constants.DELAY_THRESH - getTransDelay(distance, taskSize));
@@ -178,6 +190,52 @@ public class Utils {
 		double distance = (Constants.CANNEL_SIGNAL_POWER / exp_bottom) * 0.95 ;
 		
 		return (int)Math.round(distance);
+	}
+	
+//	public static int getAverageWorkload(ArrayList<UserRequest> userRequests)
+//	{
+//		double total_time = 0;
+//		for(UserRequest r : userRequests) 
+//		{
+//			total_time += r.getDuration();
+//		}
+//		
+//		Double avg_time = total_time / userRequests.size();
+//		
+//		return avg_time.intValue();
+//	}
+	
+	public static int getAverageCT(ArrayList<UserRequest> requestList) 
+	{
+		ArrayList<TimePoint> pointList = new ArrayList<>();
+		for(int i = 0; i < requestList.size(); i++) {
+			try {
+				pointList.add(new TimePoint(requestList.get(i).getStartTime(), 0));
+				pointList.add(new TimePoint(requestList.get(i).getEndTime(), 1));
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+		}
+		
+		int total = 0;
+		int count = 0;
+		for(int i = 0; i < pointList.size(); i++) {
+			if(pointList.get(i).getType() == 0) 
+			{
+				count++;
+			}else {
+				count--;
+			}
+			
+			total += count;
+			
+		}
+		
+		int avg = (int)Math.ceil((float)total/(float)pointList.size()); 
+
+		return avg;
+		
 	}
 
 }

@@ -58,7 +58,7 @@ public class BSUtils {
 				//trans_delay < Constants.DELAY_THRESH; distance <= Constants.DISTANCE_THRESH
 				if( distance != 0 && trans_delay < Constants.DELAY_THRESH) {
 					//System.out.println("Before add: " + bs1.getLocation() + " workload: " + bs1.getWorkload());
-					bs1.addBS(bs2, distance);
+					bs1.addBS(bs2, distance, Constants.isPeak);
 					//System.out.println("After add: " + bs1.getLocation() +" "+ bs1.getWorkload());
 				}
 			}

@@ -86,7 +86,8 @@ public class main {
 	{
 		//int[] range_input = {100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1500, 2000, 2500, 3000}; 
 		//int[] range_input = {500, 800, 1000, 1500, 2000, 2500, 3000}; 
-		int[] range_input = {3000}; 
+		int[] range_input = {3000};
+//		int[] range_input = {3000}; 
 		
 		for(int r : range_input) 
 		{
@@ -160,6 +161,8 @@ public class main {
 		// Greedy methods
 		Date start = new Date();
 		
+		ArrayList<BaseStation> bsList_copy = (ArrayList<BaseStation>)bsList.clone(); 
+		
 		BSUtils.getBSConnection(bsList);
 		Greedy greedy = new Greedy();
 		ArrayList<BaseStation> result = greedy.getResult(bsList);
@@ -169,11 +172,19 @@ public class main {
 		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
 		
 		FileIO.output(result, input_size, time,  "greedy");
-		FileIO.outputDistribution(result, input_size, "greedy");
+		//FileIO.outputDistribution(result, input_size, "greedy");
 		
 		//FileIO.outputResult(result, time,  "Greedy" + Constants.DELAY_THRESH);
 		
 		System.out.println("Running time: " + time + " s");
+		
+		Date start2 = new Date();
+		ArrayList<BaseStation> result2 = greedy_dynamic(bsList_copy, result, false);
+		Date end2 = new Date();
+		
+		String time2 = String.valueOf(((double)(end.getTime() - start.getTime()) + (double)(end2.getTime() - start2.getTime()))/(double)1000);
+		
+		FileIO.output(result2, input_size, time2,  "greedy_fine");
 	}
 	
 	private static void greedyNew(ArrayList<BaseStation> bsList, int threshold) 
@@ -192,23 +203,32 @@ public class main {
 		FileIO.output(result, input_size, time,  "greedy_new");
 		
 		//FileIO.outputTau(result, threshold);
-		FileIO.outputDistribution(result, input_size, "greedy_new");
+		//FileIO.outputDistribution(result, input_size, "greedy_new");
 		
-		//FileIO.outputResult(result, time,  "GreedyNew" + Constants.DELAY_THRESH);
+		FileIO.outputResult(result, time,  "GreedyNew" + Constants.DELAY_THRESH);
 
 		System.out.println("Running time: " + time + " s");
 		
-		greedyNew_dynamic(bsList_copy, result);
+		Date start2 = new Date();
+		ArrayList<BaseStation> result2 = greedy_dynamic(bsList_copy, result, true);
+		Date end2 = new Date();
+		
+		String time2 = String.valueOf(((double)(end.getTime() - start.getTime()) + (double)(end2.getTime() - start2.getTime()))/(double)1000);
+		
+		FileIO.output(result2, input_size, time2,  "greedy_new_fine");
+		
 	}
 	
-	private static void greedyNew_dynamic(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList) 
+	private static ArrayList<BaseStation> greedy_dynamic(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList, boolean withCandidate) 
 	{
 		Date start = new Date();
 		DynamicGreedy dynamicGreedy = new DynamicGreedy();
-		dynamicGreedy.dynamicAssign(bsList, enList, userRequests);
+		ArrayList<BaseStation> result = dynamicGreedy.dynamicAssign(bsList, enList, userRequests, withCandidate);
 		Date end = new Date();
 		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
 		System.out.println("Running time: " + time + " s");
+		
+		return result;
 	}
 	
 	private static void clusterAndMIP(ArrayList<BaseStation> bsList)
@@ -282,11 +302,11 @@ public class main {
 			    }
 			    
 //			     item loaded
-			    count ++;
-			    if(count == 30000) 
-			    {
-			    	break;
-			    }
+//			    count ++;
+//			    if(count == 30000) 
+//			    {
+//			    	break;
+//			    }
 			  }
 			
 		} catch (UnsupportedEncodingException e) {

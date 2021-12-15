@@ -14,22 +14,42 @@ public class BaseStation {
 	private double workload;
 	private String location;
 	private ArrayList<UserRequest> requestList;
-	private ArrayList<BSDistancePair> assignedBS;
+	private ArrayList<BSDistancePair> assignedBS; // assigned BS from
 //	private BaseStation connectedEN;
 	private ArrayList<BaseStation> overlapped;
 	private ArrayList<UserRequest> assignedURs;
 	private double capacityRequired;
 	private int cost;
+	private BaseStation assignTo;
+	private ArrayList<BaseStation> fromList; // assigned BS
 	
 	public BaseStation(String location) {
 		super();
 		this.location = location;
 		this.assignedBS = new ArrayList<>();
 		this.overlapped = new ArrayList<>();
+		this.fromList = new ArrayList<>();
 		assignedURs = new ArrayList<>();
+		ArrayList<BaseStation> BSList =  new ArrayList<>();
 		this.capacityRequired = 0;
 	}
 	
+	public ArrayList<BaseStation> getFromList() {
+		return fromList;
+	}
+
+	public void AddFromBS(BaseStation bs) {
+		this.fromList.add(bs);
+	}
+
+	public BaseStation getAssignTo() {
+		return assignTo;
+	}
+
+	public void setAssignTo(BaseStation assignTo) {
+		this.assignTo = assignTo;
+	}
+
 	public int getServerNo() {
 		return serverNo;
 	}
@@ -92,15 +112,26 @@ public class BaseStation {
 		this.assignedBS.clear();
 	}
 	
-	public void addBS(BaseStation bs, double distance) 
+	public void addBS(BaseStation bs, double distance, boolean isPeak) 
 	{
 		this.assignedBS.add(new BSDistancePair(bs, distance));
-		double value = Utils.getCapacityRequired(distance, bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
+		
+		double value = 0;
+		
+		if(isPeak) 
+		{
+			value = Utils.getCapacityRequired(distance, bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
+		}else {
+			value = Utils.getCapacityRequired(distance, Utils.getAverageCT(bs.getRequestList()) * Constants.SINGLE_TASK_SIZE);
+		}
+		
 		if(value < 0) 
 		{
-			System.out.println("add value: " + value);
-			System.out.println("add id: " + bs.getLocation());
-			System.out.println("bs: " + bs.getLocation() + " " + distance + " " + bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
+			value = 0;
+//			System.out.println(Utils.getAverageCT(bs.getRequestList()));
+//			System.out.println("add value: " + value);
+//			System.out.println("add id: " + bs.getLocation());
+//			System.out.println("bs: " + bs.getLocation() + " " + distance + " " + bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
 		}
 //		System.out.println("add value: " + value);
 //		System.out.println("add id: " + bs.getLocation());
@@ -118,23 +149,30 @@ public class BaseStation {
 			if(p.getBS().getLocation().equals(bs.getLocation())) 
 			{
 				this.assignedBS.remove(p);
-				double value = Utils.getCapacityRequired(p.getDistance(), p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
+				double value = 0;
+				if(Constants.isPeak) 
+				{
+					value = Utils.getCapacityRequired(p.getDistance(), p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
+				}else {
+					value = Utils.getCapacityRequired(p.getDistance(), Utils.getAverageCT(p.getBS().getRequestList()) * Constants.SINGLE_TASK_SIZE);
+				}
+				
 //				System.out.println("remove value: " + value);
 //				System.out.println("Remove id: " + bs.getLocation());
 //				System.out.println("p: " + p.getBS().getLocation() + " " + p.getDistance() + " " + p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
 				this.workload -= value;
 				this.workload = Utils.handlePrecision(this.workload);
 				
-				if(value < 0) 
-				{
-					System.out.println("error capacity: " + value);
-				}
-				if(this.workload < 0) 
-				{
-					System.out.println("remove value: " + value);
-					System.out.println("Remove id: " + bs.getLocation());
-					System.out.println("p: " + p.getBS().getLocation() + " " + p.getDistance() + " " + p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
-				}
+//				if(value < 0) 
+//				{
+//					System.out.println("error capacity: " + value);
+//				}
+//				if(this.workload < 0) 
+//				{
+//					System.out.println("remove value: " + value);
+//					System.out.println("Remove id: " + bs.getLocation());
+//					System.out.println("p: " + p.getBS().getLocation() + " " + p.getDistance() + " " + p.getBS().getCTMax() * Constants.SINGLE_TASK_SIZE);
+//				}
 				
 				return true;
 			}
@@ -196,6 +234,15 @@ public class BaseStation {
 //		this.capacityRequired = capacityRequired;
 //	}
 //	
+//	public void updateCapacityRequired(double capacityRequired) {
+//		if(capacityRequired > this.capacityRequired) 
+//		{
+//			this.capacityRequired = capacityRequired;
+//			this.workload = capacityRequired;
+//		}
+//		
+//	}
+	
 	public void updateCapacityRequired(double capacityRequired) {
 		if(capacityRequired > this.capacityRequired) 
 		{

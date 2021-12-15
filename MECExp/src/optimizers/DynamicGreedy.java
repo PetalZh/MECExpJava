@@ -1,10 +1,12 @@
 package optimizers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
 import objs.BaseStation;
+import objs.TimePoint;
 import objs.UserRequest;
 import utilities.Utils;
 
@@ -14,54 +16,155 @@ public class DynamicGreedy {
 		super();
 	}
 	
-	public void dynamicAssign(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList, ArrayList<UserRequest> userRequests) 
+//	Date start1 = new Date();
+//	Date end1 = new Date();
+//	
+//	String time = String.valueOf((double)(end1.getTime() - start1.getTime())/(double)1000);
+//	System.out.println("prepare time: " + time + " s");
+	
+	
+//	public void dynamicAssign(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList, ArrayList<UserRequest> userRequests) 
+//	{
+//		System.out.println("number of user requests: " + userRequests.size());
+////		HashMap<String, BaseStation> bsIndex = createBSIndex(bsList);
+////		
+////		assignURs(enList, userRequests, bsIndex);
+//		
+//		assignURByBS(enList, bsList);
+//		
+//		for(BaseStation en : enList) 
+//		{
+//			int en_ct_max = Utils.getCTMax(en.getAssignedURs());
+//			 
+//		}
+//		
+//		for(UserRequest ur : userRequests) 
+//		{
+//			
+//			ArrayList<UserRequest> bs_overlap_list = getOverlapList(ur, ur.getFrom().getRequestList());
+//			ArrayList<UserRequest> en_overlap_list = getOverlapList(ur, ur.getTo().getAssignedURs());
+//			
+//			int ct_max_trans = Utils.getCTMax(bs_overlap_list);
+//			int ct_max_comp = Utils.getCTMax(en_overlap_list);
+//			
+//			double distance = Utils.getDistance(ur.getLocation(), ur.getTo().getLocation());
+////			double trans_delay = Utils.getTransDelay(distance, ct_max_trans);
+//			double capacity = Utils.getCapacityRequired(distance, ct_max_comp);
+//			ur.getTo().updateCapacityRequired(capacity);
+//		}
+//		
+//		
+//		Utils.printResult(enList, "Greedy with candidate list in dynamic result: ");
+//		
+//	}
+	
+	public ArrayList<BaseStation> dynamicAssign(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList, ArrayList<UserRequest> userRequests, boolean withCandidate) 
 	{
-		System.out.println("number of user requests: " + userRequests.size());
-		HashMap<String, BaseStation> bsIndex = createBSIndex(bsList);
+//		System.out.println("number of user requests: " + userRequests.size());
 		
-		Date start1 = new Date();
-		assignURs(enList, userRequests, bsIndex);
-		Date end1 = new Date();
+		assignURByBS(enList, bsList);
 		
-		String time = String.valueOf((double)(end1.getTime() - start1.getTime())/(double)1000);
-		System.out.println("prepare time: " + time + " s");
-		
-		Date start2 = new Date();
-		for(UserRequest ur : userRequests) 
+		for(BaseStation en : enList) 
 		{
+			int en_ct_max = Utils.getCTMax(en.getAssignedURs());
 			
-			ArrayList<UserRequest> bs_overlap_list = getOverlapList(ur, ur.getFrom().getRequestList());
-			ArrayList<UserRequest> en_overlap_list = getOverlapList(ur, ur.getTo().getAssignedURs());
-			
-			int ct_max_trans = Utils.getCTMax(bs_overlap_list);
-			int ct_max_comp = Utils.getCTMax(en_overlap_list);
-			
-			double distance = Utils.getDistance(ur.getLocation(), ur.getTo().getLocation());
-//			double trans_delay = Utils.getTransDelay(distance, ct_max_trans);
-			double capacity = Utils.getCapacityRequired(distance, ct_max_comp);
-			ur.getTo().updateCapacityRequired(capacity);
+			double max_trans_delay = 0;
+			for(BaseStation bs : en.getFromList())
+			{
+				double distance = Utils.getDistance(en.getLocation(), bs.getLocation());
+				int ct_max = Utils.getCTMax(bs.getAssignedURs());
+				double delay = Utils.getTransDelay(distance, ct_max);
+				if(delay > max_trans_delay) 
+				{
+					max_trans_delay = delay;
+				}
+			}
+			double capacityRequired = Utils.getCapacityRequiredByTransDelay(max_trans_delay, en_ct_max);
+			en.updateCapacityRequired(capacityRequired); 
+			 
 		}
-		Date end2 = new Date();
-		String time2 = String.valueOf((double)(end2.getTime() - start2.getTime())/(double)1000);
-		System.out.println("cal time: " + time2 + " s");
+		
+		if(withCandidate) 
+		{
+			Utils.printResult(enList, "Greedy with candidate list in dynamic result: ");
+		}else {
+			Utils.printResult(enList, "Greedy in dynamic result: ");
+		}
 		
 		
-		Utils.printResult(enList, "Greedy with candidate list in dynamic result: ");
+		
+		return enList;
 		
 	}
 	
-	private ArrayList<UserRequest> getOverlapList(UserRequest ur, ArrayList<UserRequest> ur_list) 
+//	private ArrayList<TimePoint> getTimeEntries(ArrayList<UserRequest> requestList)
+//	{
+//		ArrayList<TimePoint> pointList = new ArrayList<>();
+//		for(int i = 0; i < requestList.size(); i++) {
+//			try {
+//				pointList.add(new TimePoint(requestList.get(i).getStartTime(), 0));
+//				pointList.add(new TimePoint(requestList.get(i).getEndTime(), 1));
+//			}catch(Exception e) {
+//				System.out.println(e.getMessage());
+//			}
+//			
+//		}
+//		
+//		Collections.sort(pointList);
+//		return pointList;
+//	}
+	
+//	private ArrayList<UserRequest> getOverlapList(UserRequest ur, ArrayList<UserRequest> ur_list) 
+//	{
+//		ArrayList<UserRequest> overlap_list = new ArrayList<>();
+//		
+//		for(UserRequest ur2: ur_list) 
+//		{
+//			if(ur.getStartTime().getTime() <= ur2.getEndTime().getTime() || ur.getEndTime().getTime() >= ur2.getStartTime().getTime()) 
+//			{
+//				overlap_list.add(ur2);
+//			}
+//		}
+//		return overlap_list;
+//	}
+	
+	
+	private void assignURByBS(ArrayList<BaseStation> enList, ArrayList<BaseStation> bsList) 
 	{
-		ArrayList<UserRequest> overlap_list = new ArrayList<>();
-		
-		for(UserRequest ur2: ur_list) 
+		for(BaseStation bs : bsList) 
 		{
-			if(ur.getStartTime().getTime() <= ur2.getEndTime().getTime() || ur.getEndTime().getTime() >= ur2.getStartTime().getTime()) 
+			double distance_min = 999999999;
+			BaseStation assignedEN = null;
+			
+			// get the nearest en
+			for(BaseStation en : enList) 
 			{
-				overlap_list.add(ur2);
+				if(bs.getLocation().equals(en.getLocation())) 
+				{
+					assignedEN = en;
+					break;
+				}
+				
+				double distance = Utils.getDistance(bs.getLocation(), en.getLocation());
+				if(distance < distance_min) 
+				{
+					distance_min = distance;
+					assignedEN = en;
+					
+				}
 			}
+			
+			bs.setAssignTo(assignedEN);
+			assignedEN.AddFromBS(bs);
+			
+			for (UserRequest ur : bs.getRequestList()) 
+			{
+				assignedEN.addUR(ur);
+				ur.setTo(assignedEN);
+				ur.setFrom(bs);
+			}
+			
 		}
-		return overlap_list;
 	}
 
 	private void assignURs(ArrayList<BaseStation> enList, ArrayList<UserRequest> userRequests, HashMap<String, BaseStation> bsIndex) 

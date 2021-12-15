@@ -109,6 +109,11 @@ public class FileIO {
 			totalCost += serverNum * Constants.COST_SERVER;
 		  }
 		  
+		  if(!Constants.isPeak) 
+		  {
+			  method_name = method_name + "_avg";
+		  }
+		  
 		  bufferWritter.write(method_name  + "," + Constants.DELAY_THRESH + "," 
 				  + input_size + "," + result.size() + "," + totalCost + "," + time);
 		  bufferWritter.newLine();

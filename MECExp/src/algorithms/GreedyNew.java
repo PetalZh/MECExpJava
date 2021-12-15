@@ -242,7 +242,7 @@ public class GreedyNew {
 		if(distance_to_prev_en > distance_to_new_en)
 		{
 			// connect bs with new en
-			new_en.addBS(bs, distance_to_new_en);
+			new_en.addBS(bs, distance_to_new_en, Constants.isPeak);
 			// update table
 			this.bs_en_table.get(bs.getLocation()).setEn(new_en);
 			// disconnect bs from old en
