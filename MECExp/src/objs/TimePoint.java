@@ -1,6 +1,7 @@
 package objs;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.Date;
 
 /*
@@ -36,6 +37,7 @@ public class TimePoint implements Comparable{
 
 	@Override
 	public int compareTo(Object o) {
+		
 		long comparageTime = ((TimePoint) o).getTime().getTime();
 		int comparageType = ((TimePoint) o).getType();
 		if(this.time.getTime() == comparageTime) {
@@ -43,7 +45,7 @@ public class TimePoint implements Comparable{
 			return comparageType - this.type; 
 		}else {
 			// Asc order
-			return (int) (this.time.getTime() - comparageTime);
+			return Long.compare(this.time.getTime(), comparageTime); // (int) (this.time.getTime() - comparageTime);
 		}
 		
 	}

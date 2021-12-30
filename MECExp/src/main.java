@@ -34,8 +34,8 @@ public class main {
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 		
 		
-		//double[] delay_thresh = {8, 10, 12, 14, 16, 18};
-		double[] delay_thresh = {14};
+//		double[] delay_thresh = {8, 10, 12, 14, 16, 18};
+		double[] delay_thresh = {16};
 		
 		for(double d : delay_thresh) 
 		{
@@ -50,7 +50,9 @@ public class main {
 			
 		}
 		
-//		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
+		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
+		
+		System.out.println("Distance threshold: " + Constants.DISTANCE_THRESH);
 //		int range = 3000;
 //		if(range >= bsList.size()) 
 //		{
@@ -84,10 +86,10 @@ public class main {
 	
 	private static void startExp(ArrayList<BaseStation> bsList, boolean includeMIP) 
 	{
-		//int[] range_input = {100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1500, 2000, 2500, 3000}; 
-		//int[] range_input = {500, 800, 1000, 1500, 2000, 2500, 3000}; 
-		int[] range_input = {3000};
-//		int[] range_input = {3000}; 
+//		int[] range_input = {100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1500, 2000, 2500, 3100}; 
+//		int[] range_input = {500, 800, 1000, 1500, 2000, 2500, 3100}; 
+//		int[] range_input = {3000};
+		int[] range_input = {3100}; 
 		
 		for(int r : range_input) 
 		{
@@ -112,7 +114,7 @@ public class main {
 //			HieraCluster2 cluster = new HieraCluster2(210);
 //			ArrayList<ArrayList<BaseStation>> clusters = cluster.getResult(new ArrayList<BaseStation>(bsList.subList(0, range)));
 			
-			//clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//			clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
 			
 			//mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
 
@@ -249,9 +251,13 @@ public class main {
 		}
 		Date end = new Date();
 		
+		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
+		
+		FileIO.output_mip((int)Math.round(total_cost), total_en, input_size, time, "mip_cluster");
+		
 		System.out.println("Total cost: " + total_cost);
 		System.out.println("Total en: " + total_en);
-		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
+		System.out.println("Running time: " + time + " s");
 	}
 	
 	private static void mip(ArrayList<BaseStation> input)
@@ -303,7 +309,7 @@ public class main {
 			    
 //			     item loaded
 //			    count ++;
-//			    if(count == 30000) 
+//			    if(count == 20) 
 //			    {
 //			    	break;
 //			    }

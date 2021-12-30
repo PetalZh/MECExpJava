@@ -6,12 +6,12 @@ public class Constants {
 	  public static final int COST_SERVER = 100; // server cost
 	  //public static final int DISTANCE_THRESH = 2000; // distance threshold for connection 5000
 	  public static final int SINGLE_SERVER_CAPACITY = 100; // single server capacity
-	  public static final double ALPHA = 0.3; // noise-distance coefficient
-	  public static final int BANDWIDTH = 200; // bandwidth
-	  public static final int CANNEL_SIGNAL_POWER = 35; // channel signal power
+	  public static final double ALPHA = 0.003; // noise-distance coefficient 0.3
+	  public static final int BANDWIDTH = 5; // bandwidth 200
+	  public static final int CANNEL_SIGNAL_POWER = 35; // channel signal power 35
 	  public static final int SINGLE_TASK_SIZE = 15; //
 	  
 	  public static int DISTANCE_THRESH = 2000;
 	  public static int CTMAX = 0;
-	  public static boolean isPeak = false;
+	  public static boolean isPeak = true;
 }

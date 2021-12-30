@@ -27,8 +27,8 @@ public class MIPAlgo {
 			
 //			cplex.setParam(IloCplex.Param.Simplex.Tolerances.Optimality, 1e-9);
 //			cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, 1e-9);
-//			cplex.setParam(IloCplex.DoubleParam.TimeLimit, 60);
-//			cplex.setOut(null);
+			cplex.setParam(IloCplex.DoubleParam.TimeLimit, 600);
+			cplex.setOut(null);
 			
 //			// whether BS is selected as EN
 			IloNumVar[] y = new IloNumVar[n];

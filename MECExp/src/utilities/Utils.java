@@ -57,6 +57,11 @@ public class Utils {
 		}
 		
 		Collections.sort(pointList);
+//		for(TimePoint p : pointList) 
+//		{
+//			System.out.println(p.getTime().getTime());
+//		}
+		
 		int count = 0;
 		int max = 0;
 		for(int i = 0; i < pointList.size(); i++) {
