@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar:///Applications/CPLEX_Studio201/cplex/lib/cplex.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jar/slf4j-api-1.7.30 2.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jar/smile-core-2.6.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jar/smile-data-2.6.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jar/smile-graph-2.6.0.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jar/smile-math-2.6.0.jar!/" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="10" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="cplex.jar">
+        <CLASSES>
+          <root url="jar:///Applications/CPLEX_Studio201/cplex/lib/cplex.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <NATIVE>
+          <root url="file:///Applications/CPLEX_Studio201/cplex/bin/x86-64_osx" />
+        </NATIVE>
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="slf4j-api-1.7.30 2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jar/slf4j-api-1.7.30 2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="smile-core-2.6.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jar/smile-core-2.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="smile-data-2.6.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jar/smile-data-2.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="smile-graph-2.6.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jar/smile-graph-2.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="smile-math-2.6.0.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jar/smile-math-2.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>

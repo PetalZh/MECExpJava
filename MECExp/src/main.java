@@ -28,28 +28,55 @@ public class main {
 	static int input_size = 0;
 	static ArrayList<UserRequest> userRequests = new ArrayList<>();
 	
+	/*
+	 * args[0] theta value
+	 * args[1] input bs range
+	 * args[2] 0: peak 1: avg
+	 * */
 	public static void main(String args[]) {
 		
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
+
+//		double[] delay_thresh = {10, 12, 14, 16, 18, 20, 22, 24, 26};
+//		double[] delay_thresh = {18};
 		
+		double delay_thresh = Double.valueOf(args[0]);
+		int bs_range = Integer.parseInt(args[1]);
+		int workload_type = Integer.parseInt(args[2]);
+//		Constants.DELAY_THRESH = delay_thresh;
 		
-//		double[] delay_thresh = {8, 10, 12, 14, 16, 18};
-		double[] delay_thresh = {16};
+//		int workload_type = Integer.parseInt(args[1]);
+
 		
-		for(double d : delay_thresh) 
+		Constants.DELAY_THRESH = delay_thresh;
+		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
+		
+		if(workload_type == 0) 
 		{
-			Constants.DELAY_THRESH = d;
-			Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
-			
-			for(int i = 1; i <= 1; i++) 
-			{
-				startExp(bsList, false);
-			}
-			//startExp(bsList, true);
-			
+			Constants.isPeak = true;
+		}else {
+			Constants.isPeak = false;
 		}
-		
+
+		for(int i = 1; i <= 1; i++) 
+		{
+			startExp(bsList, bs_range, false);
+		}
+
+
+//		for(double d : delay_thresh) 
+//		{
+//			Constants.DELAY_THRESH = d;
+//			Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
+//			
+//			for(int i = 1; i <= 1; i++) 
+//			{
+//				startExp(bsList, false);
+//			}
+//			
+//		}
+
 		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
 		
 		System.out.println("Distance threshold: " + Constants.DISTANCE_THRESH);
@@ -84,12 +111,39 @@ public class main {
 //		System.out.println("tans delay: " + Utils.getTransDelay(3369, 30));
 	}
 	
+	private static void startExp(ArrayList<BaseStation> bsList, int bs_range, boolean includeMIP) 
+	{
+		int r = bs_range; 
+		
+		int range = r - 1;
+		if(range >= bsList.size()) 
+		{
+			range = bsList.size() - 1;
+		}
+		input_size = range + 1;
+		
+		System.out.println("---------------------------------");
+		System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
+		
+//		random(new ArrayList<BaseStation>(bsList.subList(0, range)));
+
+//		greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//		greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range + 1)), 10);
+		
+		clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//		mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//		if(includeMIP && range <= 500) 
+//		{
+//			mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//		}
+
+	}
+	
 	private static void startExp(ArrayList<BaseStation> bsList, boolean includeMIP) 
 	{
-//		int[] range_input = {100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1500, 2000, 2500, 3100}; 
+		int[] range_input = {100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1500, 2000, 2500, 3100};
 //		int[] range_input = {500, 800, 1000, 1500, 2000, 2500, 3100}; 
-//		int[] range_input = {3000};
-		int[] range_input = {3100}; 
+//		int[] range_input = {1500};
 		
 		for(int r : range_input) 
 		{
@@ -100,8 +154,8 @@ public class main {
 			}
 			input_size = range + 1;
 			
-			System.out.println("---------------------------------");
-			System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
+//			System.out.println("---------------------------------");
+//			System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
 			
 //			random(new ArrayList<BaseStation>(bsList.subList(0, range)));
 //			
@@ -114,7 +168,7 @@ public class main {
 //			HieraCluster2 cluster = new HieraCluster2(210);
 //			ArrayList<ArrayList<BaseStation>> clusters = cluster.getResult(new ArrayList<BaseStation>(bsList.subList(0, range)));
 			
-//			clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
+			clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
 			
 			//mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
 
@@ -166,6 +220,7 @@ public class main {
 		ArrayList<BaseStation> bsList_copy = (ArrayList<BaseStation>)bsList.clone(); 
 		
 		BSUtils.getBSConnection(bsList);
+
 		Greedy greedy = new Greedy();
 		ArrayList<BaseStation> result = greedy.getResult(bsList);
 		
@@ -174,19 +229,23 @@ public class main {
 		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
 		
 		FileIO.output(result, input_size, time,  "greedy");
-		//FileIO.outputDistribution(result, input_size, "greedy");
+		FileIO.outputDistribution(result, input_size, "greedy");
 		
 		//FileIO.outputResult(result, time,  "Greedy" + Constants.DELAY_THRESH);
 		
 		System.out.println("Running time: " + time + " s");
 		
-		Date start2 = new Date();
-		ArrayList<BaseStation> result2 = greedy_dynamic(bsList_copy, result, false);
-		Date end2 = new Date();
 		
-		String time2 = String.valueOf(((double)(end.getTime() - start.getTime()) + (double)(end2.getTime() - start2.getTime()))/(double)1000);
-		
-		FileIO.output(result2, input_size, time2,  "greedy_fine");
+		if(Constants.isPeak) 
+		{
+			Date start2 = new Date();
+			ArrayList<BaseStation> result2 = greedy_dynamic(bsList_copy, result, false);
+			Date end2 = new Date();
+			
+			String time2 = String.valueOf(((double)(end.getTime() - start.getTime()) + (double)(end2.getTime() - start2.getTime()))/(double)1000);
+			
+			FileIO.output(result2, input_size, time2,  "greedy_fine");
+		}
 	}
 	
 	private static void greedyNew(ArrayList<BaseStation> bsList, int threshold) 
@@ -208,17 +267,18 @@ public class main {
 		//FileIO.outputDistribution(result, input_size, "greedy_new");
 		
 		FileIO.outputResult(result, time,  "GreedyNew" + Constants.DELAY_THRESH);
-
+		
 		System.out.println("Running time: " + time + " s");
 		
-		Date start2 = new Date();
-		ArrayList<BaseStation> result2 = greedy_dynamic(bsList_copy, result, true);
-		Date end2 = new Date();
-		
-		String time2 = String.valueOf(((double)(end.getTime() - start.getTime()) + (double)(end2.getTime() - start2.getTime()))/(double)1000);
-		
-		FileIO.output(result2, input_size, time2,  "greedy_new_fine");
-		
+		if(Constants.isPeak) 
+		{
+			Date start2 = new Date();
+			ArrayList<BaseStation> result2 = greedy_dynamic(bsList_copy, result, true);
+			Date end2 = new Date();
+			String time2 = String.valueOf(((double)(end.getTime() - start.getTime()) + (double)(end2.getTime() - start2.getTime()))/(double)1000);
+			
+			FileIO.output(result2, input_size, time2,  "greedy_new_fine");
+		}
 	}
 	
 	private static ArrayList<BaseStation> greedy_dynamic(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList, boolean withCandidate) 
@@ -228,7 +288,7 @@ public class main {
 		ArrayList<BaseStation> result = dynamicGreedy.dynamicAssign(bsList, enList, userRequests, withCandidate);
 		Date end = new Date();
 		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
-		System.out.println("Running time: " + time + " s");
+		//System.out.println("Running time: " + time + " s");
 		
 		return result;
 	}
@@ -241,11 +301,11 @@ public class main {
 		
 		double total_cost = 0;
 		int total_en = 0;
-		for(ArrayList<BaseStation> cluster : clusters) 
+		for(ArrayList<BaseStation> cluster : clusters)
 		{
 			MIPAlgo mip = new MIPAlgo();
 			mip.getMIP(cluster);
-			
+
 			total_cost += mip.getCost();
 			total_en += mip.getEn_num();
 		}
@@ -281,7 +341,7 @@ public class main {
 		FileInputStream inputStream = null;
 		Hashtable<String, ArrayList<UserRequest>> BSTable = new Hashtable<>();
 		try {
-			inputStream = new FileInputStream("shanghai15.csv");
+			inputStream = new FileInputStream("shanghai_full.csv");
 			reader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
 			String line = null;
 			reader.readLine();//skip title line
@@ -309,7 +369,7 @@ public class main {
 			    
 //			     item loaded
 //			    count ++;
-//			    if(count == 20) 
+//			    if(count == 10000)
 //			    {
 //			    	break;
 //			    }

@@ -192,7 +192,7 @@ public class Utils {
 	{
 		double exp_pow = workload / (Constants.DELAY_THRESH * Constants.BANDWIDTH);
 		double exp_bottom = Constants.ALPHA * (Math.pow(2, exp_pow) - 1);
-		double distance = (Constants.CANNEL_SIGNAL_POWER / exp_bottom) * 0.95 ;
+		double distance = (Constants.CANNEL_SIGNAL_POWER / exp_bottom);
 		
 		return (int)Math.round(distance);
 	}

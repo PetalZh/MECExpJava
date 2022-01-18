@@ -181,8 +181,6 @@ public class MIPAlgo {
 		for(int i = 0; i < n; i++) 
 		{
 			//System.out.print(cplex.getValue(y[i]) + " ");
-			
-			
 			if(cplex.getValue(y[i]) != 0)
 			{
 				num_en_selected++;

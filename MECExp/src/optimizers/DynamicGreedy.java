@@ -84,12 +84,12 @@ public class DynamicGreedy {
 			 
 		}
 		
-		if(withCandidate) 
-		{
-			Utils.printResult(enList, "Greedy with candidate list in dynamic result: ");
-		}else {
-			Utils.printResult(enList, "Greedy in dynamic result: ");
-		}
+//		if(withCandidate) 
+//		{
+//			Utils.printResult(enList, "Greedy with candidate list in dynamic result: ");
+//		}else {
+//			Utils.printResult(enList, "Greedy in dynamic result: ");
+//		}
 		
 		
 		

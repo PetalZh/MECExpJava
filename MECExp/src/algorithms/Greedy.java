@@ -39,7 +39,6 @@ public class Greedy {
 			
 			//Collections.sort(bsList, BaseStation.getCapacityComparator());
 			Collections.sort(bsList, BaseStation.getConnectionComparator());
-
 			BaseStation candidate = bsList.get(0);
 			result.add(candidate);
 			

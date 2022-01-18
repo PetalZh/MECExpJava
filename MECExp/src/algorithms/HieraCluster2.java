@@ -31,10 +31,12 @@ public class HieraCluster2{
 		}
 		
 		clusterList.add(bsList);
+
+		System.out.print(bsList.size() + " ");
 		
 		System.out.println("# of clusters: " + clusterList.size());
 		
-		//FileIO.output_cluster(clusterList);
+		FileIO.output_cluster(clusterList);
 		
 		return clusterList;
 	}
@@ -77,7 +79,7 @@ public class HieraCluster2{
 	    for (int key : clusters.keySet()) {
 	    	if(clusters.get(key).size() >= cluster_size) 
 	    	{
-	    		System.out.println(clusters.get(key).size());
+	    		System.out.print(clusters.get(key).size() + " ");
 	    		clusterList.add(clusters.get(key));
 	    		
 	    		remove(clusters.get(key), bsList);
