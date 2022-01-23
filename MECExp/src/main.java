@@ -229,7 +229,7 @@ public class main {
 		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
 		
 		FileIO.output(result, input_size, time,  "greedy");
-		FileIO.outputDistribution(result, input_size, "greedy");
+//		FileIO.outputDistribution(result, input_size, "greedy");
 		
 		//FileIO.outputResult(result, time,  "Greedy" + Constants.DELAY_THRESH);
 		
@@ -301,6 +301,8 @@ public class main {
 		
 		double total_cost = 0;
 		int total_en = 0;
+
+		ArrayList<BaseStation> result = new ArrayList<>();
 		for(ArrayList<BaseStation> cluster : clusters)
 		{
 			MIPAlgo mip = new MIPAlgo();
@@ -308,11 +310,14 @@ public class main {
 
 			total_cost += mip.getCost();
 			total_en += mip.getEn_num();
+
+			result.addAll(mip.getEnList());
 		}
 		Date end = new Date();
 		
 		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
-		
+
+		FileIO.outputDistribution(result, input_size, "mip_cluster");
 		FileIO.output_mip((int)Math.round(total_cost), total_en, input_size, time, "mip_cluster");
 		
 		System.out.println("Total cost: " + total_cost);
@@ -341,7 +346,7 @@ public class main {
 		FileInputStream inputStream = null;
 		Hashtable<String, ArrayList<UserRequest>> BSTable = new Hashtable<>();
 		try {
-			inputStream = new FileInputStream("shanghai_full.csv");
+			inputStream = new FileInputStream("shanghai15.csv");
 			reader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
 			String line = null;
 			reader.readLine();//skip title line
@@ -369,7 +374,7 @@ public class main {
 			    
 //			     item loaded
 //			    count ++;
-//			    if(count == 10000)
+//			    if(count == 100)
 //			    {
 //			    	break;
 //			    }
