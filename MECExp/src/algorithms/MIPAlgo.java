@@ -1,4 +1,5 @@
 package algorithms;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import ilog.concert.*;
@@ -16,6 +17,7 @@ public class MIPAlgo {
 	
 	private int cost;
 	private int en_num;
+	private ArrayList<BaseStation> enList;
 	
 	public void getMIP(ArrayList<BaseStation> bsList) 
 	{
@@ -27,7 +29,7 @@ public class MIPAlgo {
 			
 //			cplex.setParam(IloCplex.Param.Simplex.Tolerances.Optimality, 1e-9);
 //			cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, 1e-9);
-			//cplex.setParam(IloCplex.DoubleParam.TimeLimit, 3600);
+			cplex.setParam(IloCplex.DoubleParam.TimeLimit, 600);
 			cplex.setOut(null);
 			
 //			// whether BS is selected as EN
@@ -145,7 +147,7 @@ public class MIPAlgo {
 				
 				//printX(cplex, x, n);
 				printY(cplex, y, n);
-				
+				this.enList = formulateResult(bsList, cplex, x, y, n);
 			}else 
 			{
 				System.out.println("Fail");
@@ -158,6 +160,28 @@ public class MIPAlgo {
 			e.printStackTrace();
 		}
 		
+	}
+
+	private ArrayList<BaseStation> formulateResult(ArrayList<BaseStation> bsList, IloCplex cplex, IloNumVar[][] x, IloNumVar[] y, int n) throws UnknownObjectException, IloException
+	{
+		ArrayList<BaseStation> enList = new ArrayList<>();
+		for(int i = 0; i < n; i++)
+		{
+			if(cplex.getValue(y[i]) != 0)
+			{
+				BaseStation en = bsList.get(i);
+				for(int j = 0; j < n; j++)
+				{
+					if(cplex.getValue(x[i][j]) > 0)
+					{
+						BaseStation bs = bsList.get(j);
+						en.addBS(bs, Utils.getDistance(en.getLocation(), bs.getLocation()), Constants.isPeak);
+					}
+				}
+			enList.add(en);
+			}
+		}
+		return enList;
 	}
 	
 	private void printX(IloCplex cplex, IloNumVar[][] x, int n) throws UnknownObjectException, IloException 
@@ -181,9 +205,7 @@ public class MIPAlgo {
 		for(int i = 0; i < n; i++) 
 		{
 			//System.out.print(cplex.getValue(y[i]) + " ");
-			
-			
-			if(cplex.getValue(y[i]) == 1)
+			if(cplex.getValue(y[i]) != 0)
 			{
 				num_en_selected++;
 			}
@@ -221,6 +243,11 @@ public class MIPAlgo {
 	public int getEn_num() {
 		return en_num;
 	}
+
+	public ArrayList<BaseStation> getEnList(){
+		return this.enList;
+	}
+
 
 	
 	

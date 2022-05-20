@@ -14,6 +14,7 @@ public class BSUtils {
 		int max_ct_max = 0;
 		for(String key: BStable.keySet()) {
 			BaseStation bs = new BaseStation(key);
+			bs.setRequestList(BStable.get(key));
 			
 			ArrayList<UserRequest> requestList= BStable.get(key);
 			int ct_max = Utils.getCTMax(requestList);
@@ -55,14 +56,16 @@ public class BSUtils {
 				double distance = Utils.getDistance(lng1, lat1, lng2, lat2);
 				double trans_delay = Utils.getTransDelay(distance, bs2.getCTMax() * Constants.SINGLE_TASK_SIZE);
 				//trans_delay < Constants.DELAY_THRESH; distance <= Constants.DISTANCE_THRESH
-				if( distance != 0 && trans_delay < Constants.DELAY_THRESH) {
+				if( distance != 0 && trans_delay < Constants.DELAY_THRESH * 0.998) {
 					//System.out.println("Before add: " + bs1.getLocation() + " workload: " + bs1.getWorkload());
-					bs1.addBS(bs2, distance);
+					bs1.addBS(bs2, distance, Constants.isPeak);
 					//System.out.println("After add: " + bs1.getLocation() +" "+ bs1.getWorkload());
 				}
 			}
 		}
 	}
+
+
 	
 
 

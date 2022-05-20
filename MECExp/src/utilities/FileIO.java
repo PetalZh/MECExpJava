@@ -2,8 +2,12 @@ package utilities;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import objs.BSDistancePair;
@@ -85,8 +89,8 @@ public class FileIO {
 	
 	public static void output(ArrayList<BaseStation> result, int input_size,String time, String method_name) 
 	{
-		FileWriter fileWritter;
-		BufferedWriter bufferWritter;
+		OutputStream fileOutputStream = null;
+		PrintWriter out = null;
 		
 		try{
 		  File file =new File("output/result.txt");
@@ -95,11 +99,10 @@ public class FileIO {
 		  if(!file.exists()){
 		   file.createNewFile();
 		  }
-		
-		  //true = append file
-		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
-		  bufferWritter = new BufferedWriter(fileWritter);
-		
+		  
+		  fileOutputStream = new FileOutputStream(file, true);
+		  out = new PrintWriter(fileOutputStream);
+		  
 		  int totalCost = 0; 
 		  for(BaseStation bs : result) 
 		  {
@@ -109,23 +112,39 @@ public class FileIO {
 			totalCost += serverNum * Constants.COST_SERVER;
 		  }
 		  
-		  bufferWritter.write(method_name  + "," + Constants.DELAY_THRESH + "," 
+		  if(!Constants.isPeak) 
+		  {
+			  method_name = method_name + "_avg";
+		  }
+		  
+		  out.println(method_name  + "," + Constants.DELAY_THRESH + "," 
 				  + input_size + "," + result.size() + "," + totalCost + "," + time);
-		  bufferWritter.newLine();
 		  
-		  
-		  bufferWritter.flush();
-		  bufferWritter.close();
-		
+//		  System.out.println(method_name  + "," + Constants.DELAY_THRESH + "," 
+//				  + input_size + "," + result.size() + "," + totalCost + "," + time);
 		 }catch(IOException e){
 			 e.printStackTrace();
-		 }
+		 }finally 
+		{
+			 try {
+					fileOutputStream.flush();
+					out.flush();
+					fileOutputStream.close();
+					out.close();
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
 	}
 	
 	public static void outputTau(ArrayList<BaseStation> result, int tau) 
 	{
-		FileWriter fileWritter;
-		BufferedWriter bufferWritter;
+		//FileWriter fileWritter = null;
+		BufferedWriter bufferWritter = null;
+		OutputStream fileOutputStream = null;
+		OutputStreamWriter outputStreamWriter = null;
 		
 		try{
 		  File file =new File("output/result_tau.txt");
@@ -136,8 +155,12 @@ public class FileIO {
 		  }
 		
 		  //true = append file
-		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
-		  bufferWritter = new BufferedWriter(fileWritter);
+//		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
+//		  bufferWritter = new BufferedWriter(fileWritter);
+		  
+		  fileOutputStream = new FileOutputStream(file, true);
+		  outputStreamWriter = new OutputStreamWriter(fileOutputStream, "UTF-8");
+		  bufferWritter = new BufferedWriter(outputStreamWriter);
 		
 		  int totalCost = 0; 
 		  for(BaseStation bs : result) 
@@ -150,22 +173,40 @@ public class FileIO {
 		  
 		  bufferWritter.write(tau + "," + result.size() + "," + totalCost);
 		  bufferWritter.newLine();
-		  
-		  
-		  bufferWritter.flush();
-		  bufferWritter.close();
 		
 		 }catch(IOException e){
 			 e.printStackTrace();
-		 }
+		 }finally 
+		{
+			 if(bufferWritter != null) 
+			 {
+				 try {
+					outputStreamWriter.flush();
+					fileOutputStream.flush();
+					bufferWritter.flush();
+					
+					
+					bufferWritter.close();
+					fileOutputStream.close();
+					outputStreamWriter.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				 
+			 }
+		}
 	}
 	
 	public static void output_mip(int cost, int en_num, int input_size,String time, String method_name) 
 	{
-		FileWriter fileWritter;
-		BufferedWriter bufferWritter;
 		
-		try{
+		//FileWriter fileWritter = null;
+		BufferedWriter bufferWritter = null;
+		OutputStream fileOutputStream = null;
+		OutputStreamWriter outputStreamWriter = null;
+		
+		try{		
 		  File file =new File("output/result.txt");
 		
 		  //if file doesnt exists, then create it
@@ -174,26 +215,46 @@ public class FileIO {
 		  }
 		
 		  //true = append file
-		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
-		  bufferWritter = new BufferedWriter(fileWritter);
+//		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
+//		  bufferWritter = new BufferedWriter(fileWritter);
+		  fileOutputStream = new FileOutputStream(file, true);
+		  outputStreamWriter = new OutputStreamWriter(fileOutputStream, "UTF-8");
+		  bufferWritter = new BufferedWriter(outputStreamWriter);
 		  
 		  bufferWritter.write(method_name  + "," + Constants.DELAY_THRESH + "," 
 				  + input_size + "," + en_num + "," + cost + "," + time);
 		  bufferWritter.newLine();
-		  
-		  
-		  bufferWritter.flush();
-		  bufferWritter.close();
 		
 		 }catch(IOException e){
 			 e.printStackTrace();
-		 }
+		 }finally 
+		{
+			 if(bufferWritter != null) 
+			 {
+				 try {
+					outputStreamWriter.flush();
+					fileOutputStream.flush();
+					bufferWritter.flush();
+					
+					
+					bufferWritter.close();
+					fileOutputStream.close();
+					outputStreamWriter.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				 
+			 }
+		}
 	}
 	
 	public static void outputDistribution(ArrayList<BaseStation> result, int input_size,String method_name) 
 	{
-		FileWriter fileWritter;
-		BufferedWriter bufferWritter;
+		//FileWriter fileWritter = null;
+		BufferedWriter bufferWritter = null;
+		OutputStream fileOutputStream = null;
+		OutputStreamWriter outputStreamWriter = null;
 		
 		try{
 		  File file =new File("output/distribution.txt");
@@ -204,8 +265,11 @@ public class FileIO {
 		  }
 		
 		  //true = append file
-		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
-		  bufferWritter = new BufferedWriter(fileWritter);
+//		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
+//		  bufferWritter = new BufferedWriter(fileWritter);
+		  fileOutputStream = new FileOutputStream(file, true);
+		  outputStreamWriter = new OutputStreamWriter(fileOutputStream, "UTF-8");
+		  bufferWritter = new BufferedWriter(outputStreamWriter);
 		
 		  int totalCost = 0; 
 		  for(BaseStation bs : result) 
@@ -221,6 +285,55 @@ public class FileIO {
 			  }
 			  
 		  }
+		 }catch(IOException e){
+			 e.printStackTrace();
+		 }finally 
+		{
+			 if(bufferWritter != null) 
+			 {
+				 try {
+					outputStreamWriter.flush();
+					fileOutputStream.flush();
+					bufferWritter.flush();
+					
+					
+					bufferWritter.close();
+					fileOutputStream.close();
+					outputStreamWriter.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				 
+			 }
+		}
+	}
+	
+	public static void output_cluster(ArrayList<ArrayList<BaseStation>> clusters) 
+	{
+		FileWriter fileWritter;
+		BufferedWriter bufferWritter;
+		
+		try{
+		  File file =new File("output/cluster.txt");
+		
+		  //if file doesnt exists, then create it
+		  if(!file.exists()){
+		   file.createNewFile();
+		  }
+		
+		  //true = append file
+		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
+		  bufferWritter = new BufferedWriter(fileWritter);
+		  
+		  for(ArrayList<BaseStation> c : clusters) 
+		  {
+			  for(BaseStation bs : c) 
+			  {
+				  bufferWritter.write(bs.getLocation() + ",");
+			  }
+			  bufferWritter.newLine();
+		  }
 		  
 		  bufferWritter.flush();
 		  bufferWritter.close();
@@ -232,9 +345,8 @@ public class FileIO {
 	
 	public static void outputResult(ArrayList<BaseStation> result, String time, String method_name) 
 	{
-		FileWriter fileWritter;
-		BufferedWriter bufferWritter;
-		
+		OutputStream fileOutputStream = null;
+		PrintWriter out = null;	
 		try{
 		  File file =new File("output/" + method_name + ".txt");
 		
@@ -242,17 +354,17 @@ public class FileIO {
 		  if(!file.exists()){
 		   file.createNewFile();
 		  }
-		
-		  //true = append file
-		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
-		  bufferWritter = new BufferedWriter(fileWritter);
 		  
-	  
-	  	  bufferWritter.write("-----------------------------");
-		  bufferWritter.newLine();
-		
-		  bufferWritter.write(method_name + ": " + result.size() + " items");
-		  bufferWritter.newLine();
+		  fileOutputStream = new FileOutputStream(file, true);
+		  out = new PrintWriter(fileOutputStream);
+		  
+		  if(!Constants.isPeak) 
+		  {
+			  method_name = method_name + "_avg";
+		  }
+		  
+		  out.println("-----------------------------");
+		  out.println(method_name + ": " + result.size() + " items");
 		
 		  int totalCost = 0; 
 		  for(BaseStation bs : result) 
@@ -261,28 +373,98 @@ public class FileIO {
 			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
 			
 			totalCost += serverNum * Constants.COST_SERVER;
-			
-			//System.out.println(bs.getLocation() + " " + bs.getWorkload());
 		  }
 		
-		  bufferWritter.write("Total Cost: " + totalCost);
-		  bufferWritter.newLine();
+		  out.println("Total Cost: " + totalCost);
+		  out.println("Running time: " + time  + " s");
 		  
-		  bufferWritter.write("Running time: " + time  + " s");
-		  bufferWritter.newLine();
-		  
-		  bufferWritter.flush();
-		  bufferWritter.close();
-		
 		 }catch(IOException e){
 			 e.printStackTrace();
-		 }
+		 }finally 
+		{
+			 try {
+					fileOutputStream.flush();
+					out.flush();
+					fileOutputStream.close();
+					out.close();
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
 	}
 	
-	private void writeResult() 
-	{
-		
-	}
+//	public static void outputResult(ArrayList<BaseStation> result, String time, String method_name) 
+//	{
+//		//FileWriter fileWritter = null;
+//		BufferedWriter bufferWritter = null;
+//		OutputStream fileOutputStream = null;
+//		OutputStreamWriter outputStreamWriter = null;
+//		
+//		try{
+//		  File file =new File("output/" + method_name + ".txt");
+//		
+//		  //if file doesnt exists, then create it
+//		  if(!file.exists()){
+//		   file.createNewFile();
+//		  }
+//		
+//		  //true = append file
+////		  fileWritter = new FileWriter(file.getAbsolutePath(), true);
+////		  bufferWritter = new BufferedWriter(fileWritter);
+//		  fileOutputStream = new FileOutputStream(file, true);
+//		  outputStreamWriter = new OutputStreamWriter(fileOutputStream, "UTF-8");
+//		  bufferWritter = new BufferedWriter(outputStreamWriter);
+//	  
+//	  	  bufferWritter.write("-----------------------------");
+//		  bufferWritter.newLine();
+//		
+//		  bufferWritter.write(method_name + ": " + result.size() + " items");
+//		  bufferWritter.newLine();
+//		
+//		  int totalCost = 0; 
+//		  for(BaseStation bs : result) 
+//		  {
+//			totalCost += Constants.COST_EN;
+//			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
+//			
+//			totalCost += serverNum * Constants.COST_SERVER;
+//			
+//			//System.out.println(bs.getLocation() + " " + bs.getWorkload());
+//		  }
+//		
+//		  bufferWritter.write("Total Cost: " + totalCost);
+//		  bufferWritter.newLine();
+//		  
+//		  bufferWritter.write("Running time: " + time  + " s");
+//		  bufferWritter.newLine();
+//		
+//		 }catch(IOException e){
+//			 e.printStackTrace();
+//		 }finally 
+//		{
+//			 if(bufferWritter != null) 
+//			 {
+//				 try {
+//					outputStreamWriter.flush();
+//					fileOutputStream.flush();
+//					bufferWritter.flush();
+//					
+//					
+//					bufferWritter.close();
+//					fileOutputStream.close();
+//					outputStreamWriter.close();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				 
+//			 }
+//		}
+//	}
+	
+
 	
 
 }

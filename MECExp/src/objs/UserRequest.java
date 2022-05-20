@@ -8,6 +8,8 @@ public class UserRequest {
 	private String userId;
 	private String location;
 	private double duration;
+	private BaseStation from;
+	private BaseStation to;
 	
 	public UserRequest(Date startime, Date endTime, String userId, String location) 
 	{
@@ -63,4 +65,28 @@ public class UserRequest {
 	public void setDuration(double duration) {
 		this.duration = duration;
 	}
+
+
+	public BaseStation getFrom() {
+		return from;
+	}
+
+
+	public void setFrom(BaseStation from) {
+		this.from = from;
+	}
+
+
+	public BaseStation getTo() {
+		return to;
+	}
+
+
+	public void setTo(BaseStation to) {
+		this.to = to;
+	}
+
+
+	
+	
 }

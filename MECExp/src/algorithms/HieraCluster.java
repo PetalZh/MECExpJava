@@ -53,7 +53,7 @@ public class HieraCluster {
 	
 	private boolean aggregate(ArrayList<Cluster> clusterList, HashSet<String> skipSet) 
 	{
-		double shortest = 9999999;
+		double shortest = 99999999;
 		Cluster cluster1 = null;
 		Cluster cluster2 = null;
 		

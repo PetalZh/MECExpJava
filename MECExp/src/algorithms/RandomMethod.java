@@ -79,7 +79,7 @@ public class RandomMethod {
 			double trans_delay = Utils.getTransDelay(distance, bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
 			//trans_delay < Constants.DELAY_THRESH; distance <= Constants.DISTANCE_THRESH
 			if( distance != 0 && trans_delay < Constants.DELAY_THRESH) {
-				en.addBS(bs, distance);
+				en.addBS(bs, distance, Constants.isPeak);
 				connList.add(bs);
 			}
 		}
