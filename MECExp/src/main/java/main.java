@@ -50,7 +50,7 @@ public class main {
 //		int workload_type = Integer.parseInt(args[1]);
 
 		
-		Constants.DELAY_THRESH = delay_thresh;
+//		Constants.DELAY_THRESH = delay_thresh;
 		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
 		
 		if(workload_type == 0) 
