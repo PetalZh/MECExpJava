@@ -1,0 +1,7 @@
+#data/
+.idea/
+.DS_Store
+.DS_Store/
+.settings/
+__MACOSX
+__pycache__
