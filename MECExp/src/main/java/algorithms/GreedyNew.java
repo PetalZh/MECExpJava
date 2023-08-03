@@ -47,26 +47,20 @@ public class GreedyNew {
 			this.threshold = thres;
 			ArrayList<BaseStation> candidates = new ArrayList<>();
 			ArrayList<BaseStation> enList = new ArrayList<>();
-			
-			//test_print_list(bsList);
-			
+
 			while(bsList.size() != 0) 
 			{
 				BaseStation en = null;
-				//cleanCandidateList(candidates);
-				
+
 				getCost(bsList);
 				getCost(candidates);
 				
 				Collections.sort(bsList, BaseStation.getConnectionComparator());
 				Collections.sort(candidates, BaseStation.getConnectionComparator());
-				//System.out.println("test "+candidates.size());
-			
-				// candidates.get(0).getWorkload() > bsList.get(0).getWorkload()
+
 				if(candidates.size() != 0 && candidates.get(0).getAssignedBS().size() > bsList.get(0).getAssignedBS().size()) 
 				{
 					en = candidates.get(0);
-					//en.includeSelfWorkload();
 					candidates.remove(en);
 				}else {
 					en = bsList.get(0);
@@ -77,25 +71,9 @@ public class GreedyNew {
 				removeEnFromOverlap(en, candidates);
 				
 				addEN(en, bsList, candidates, enList);
-
-				//this.result = enList;
-				
-//				System.out.println("----------------------------");
-//				System.out.println("BS list: ");
-//				test_print_list(bsList);
-//				
-//				System.out.println("");
-//				System.out.println("Can list: ");
-//				test_print_list(candidates);
-//				
-//				System.out.println("");
-//				System.out.println("EN list: ");
-//				test_print_list(enList);
 			}
-			
-			
+
 			Utils.printResult(enList, "Greedy with candidate list result: ");
-			//FileIO.writeToFile(enList, "GreeyNewOutput.txt");
 			return enList;
 	}
 	

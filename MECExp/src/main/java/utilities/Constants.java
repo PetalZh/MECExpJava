@@ -26,7 +26,7 @@ public class Constants {
 	//public static final int DISTANCE_THRESH = 2000; // distance threshold for connection 5000
 	public static final long SINGLE_SERVER_CAPACITY = 400_000_000_000L; // single server capacity
 	public static final double ALPHA = 0.1; // noise-distance coefficient 0.3
-	public static final double BANDWIDTH = 5.00E6; // bandwidth 200
+	public static final double BANDWIDTH = 50.00E6; // bandwidth 200
 	public static final int CANNEL_SIGNAL_POWER = 35; // channel signal power 35
 	public static final int SINGLE_TASK_SIZE = (25*60*60*2)/8; //
 

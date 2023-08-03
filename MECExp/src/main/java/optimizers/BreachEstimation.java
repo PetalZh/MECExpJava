@@ -126,8 +126,6 @@ public class BreachEstimation {
 					// violate
 					violate++;
 				}
-
-
 			}
 		}
 		System.out.println("# of Violate: " + violate);

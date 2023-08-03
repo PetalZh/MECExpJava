@@ -9,6 +9,7 @@ import objs.BaseStation;
 import objs.TimePoint;
 import objs.UserRequest;
 import utilities.Utils;
+import java.util.concurrent.*;
 
 public class DynamicGreedy {
 
@@ -60,8 +61,6 @@ public class DynamicGreedy {
 	
 	public ArrayList<BaseStation> dynamicAssign(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList, ArrayList<UserRequest> userRequests, boolean withCandidate) 
 	{
-//		System.out.println("number of user requests: " + userRequests.size());
-		
 		assignURByBS(enList, bsList);
 		
 		for(BaseStation en : enList) 
@@ -83,20 +82,49 @@ public class DynamicGreedy {
 			en.updateCapacityRequired(capacityRequired); 
 			 
 		}
-		
-//		if(withCandidate) 
-//		{
-//			Utils.printResult(enList, "Greedy with candidate list in dynamic result: ");
-//		}else {
-//			Utils.printResult(enList, "Greedy in dynamic result: ");
-//		}
-		
-		
-		
 		return enList;
-		
 	}
-	
+
+	public ArrayList<BaseStation> dynamicAssignMultithreading(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList, ArrayList<UserRequest> userRequests, boolean withCandidate) {
+		assignURByBS(enList, bsList);
+
+		// Create thread pool
+		int numOfThreads = Runtime.getRuntime().availableProcessors();
+		ExecutorService executorService = Executors.newFixedThreadPool(numOfThreads);
+
+		// Create and submit a task for each en
+		for (BaseStation en : enList) {
+			executorService.submit(() -> {
+				int en_ct_max = Utils.getCTMax(en.getAssignedURs());
+
+				double max_trans_delay = 0;
+				for(BaseStation bs : en.getFromList()) {
+					double distance = Utils.getDistance(en.getLocation(), bs.getLocation());
+					int ct_max = Utils.getCTMax(bs.getAssignedURs());
+					double delay = Utils.getTransDelay(distance, ct_max);
+					if(delay > max_trans_delay) {
+						max_trans_delay = delay;
+					}
+				}
+				double capacityRequired = Utils.getCapacityRequiredByTransDelay(max_trans_delay, en_ct_max);
+				en.updateCapacityRequired(capacityRequired);
+			});
+		}
+
+		// wait for all tasks to complete
+		executorService.shutdown();
+		try {
+			if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+				executorService.shutdownNow();
+			}
+		} catch (InterruptedException ex) {
+			executorService.shutdownNow();
+			Thread.currentThread().interrupt();
+		}
+		return enList;
+	}
+
+
 //	private ArrayList<TimePoint> getTimeEntries(ArrayList<UserRequest> requestList)
 //	{
 //		ArrayList<TimePoint> pointList = new ArrayList<>();

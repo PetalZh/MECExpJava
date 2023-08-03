@@ -210,7 +210,7 @@ public class MIPAlgo {
 				num_en_selected++;
 			}
 		}
-		System.out.println();
+//		System.out.println();
 		System.out.println("# of EN selected: " + num_en_selected);
 		this.en_num = num_en_selected;
 	}

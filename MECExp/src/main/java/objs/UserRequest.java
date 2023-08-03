@@ -1,8 +1,9 @@
 package objs;
 
 import java.util.Date;
+import java.lang.Comparable;
 
-public class UserRequest {
+public class UserRequest implements Comparable<UserRequest> {
 	private Date startTime;
 	private Date endTime;
 	private String userId;
@@ -86,7 +87,9 @@ public class UserRequest {
 		this.to = to;
 	}
 
-
-	
-	
+	@Override
+	public int compareTo(UserRequest o) {
+		int startComparison = this.startTime.compareTo(o.startTime);
+		return startComparison != 0 ? startComparison : this.endTime.compareTo(o.endTime);
+	}
 }

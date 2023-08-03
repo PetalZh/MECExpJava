@@ -39,12 +39,13 @@ public class main {
 		Hashtable<String, ArrayList<UserRequest>> BSTable = readDoc();
 		ArrayList<BaseStation> bsList = BSUtils.getBSList(BSTable);
 
-//		double[] delay_thresh = {10, 12, 14, 16, 18, 20, 22, 24, 26};
+		double[] delay_thresh = {0.1, 0.2, 0.3, 0.4};
 //		double[] delay_thresh = {18};
-		
-		double delay_thresh = Double.valueOf(args[0]);
-		int bs_range = Integer.parseInt(args[1]);
-		int workload_type = Integer.parseInt(args[2]);
+
+		String method = args[0];
+//		double delay_thresh = Double.valueOf(args[1]);
+//		int bs_range = Integer.parseInt(args[2]);
+		int workload_type = Integer.parseInt(args[3]);
 //		Constants.DELAY_THRESH = delay_thresh;
 		
 //		int workload_type = Integer.parseInt(args[1]);
@@ -52,135 +53,76 @@ public class main {
 		
 //		Constants.DELAY_THRESH = delay_thresh;
 		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
-		
-		if(workload_type == 0) 
-		{
-			Constants.isPeak = true;
-		}else {
-			Constants.isPeak = false;
-		}
 
-		for(int i = 1; i <= 1; i++) 
-		{
-			startExp(bsList, bs_range, false);
-		}
+		Constants.isPeak = workload_type == 0;
 
-
-//		for(double d : delay_thresh) 
+//		for(int i = 1; i <= 1; i++)
 //		{
-//			Constants.DELAY_THRESH = d;
-//			Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
-//			
-//			for(int i = 1; i <= 1; i++) 
-//			{
-//				startExp(bsList, false);
-//			}
-//			
+//			startExp(bsList, bs_range, false, method);
 //		}
+
+
+		for(double d : delay_thresh)
+		{
+			Constants.DELAY_THRESH = d;
+			Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
+
+			for(int i = 1; i <= 1; i++)
+			{
+				startExp(bsList, false, method);
+			}
+
+		}
 
 		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
 		
 		System.out.println("Distance threshold: " + Constants.DISTANCE_THRESH);
-//		int range = 3000;
-//		if(range >= bsList.size()) 
+	}
+
+//	private static void startExp(ArrayList<BaseStation> bsList, int bs_range, boolean includeMIP, String method)
+//	{
+//		int r = bs_range;
+//
+//		int range = r - 1;
+//		if(range >= bsList.size())
 //		{
 //			range = bsList.size() - 1;
 //		}
-//		
 //		input_size = range + 1;
-		
-//		for(int i = 5; i <= 30; i++) 
-//		{
-//			System.out.println("tau: " + i);
-//			greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range)), i);
+//
+//		System.out.println("---------------------------------");
+//		System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
+//
+//		switch (method){
+//			case "CFS" -> greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//			case "DA-CFS" -> greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range + 1)), 10);
+//			case "MIP" -> mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//			case "ClusterAndMIP" -> clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
 //		}
-		
-//		random(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//		greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//		greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range)), 10);
-		
-		//mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
-		
-		
-		
-//		double capacityReq = Utils.getCapacityRequired(1026, 75);
-//		System.out.println("capacity: "+ capacityReq);
-
-//		System.out.println("theta: "+ delay_thresh);
-//		System.out.println("Distance threshold: "+ Constants.DISTANCE_THRESH);
-//		System.out.println("distance: " + Utils.getDistanceThreshold(30));
-//		System.out.println("tans delay: " + Utils.getTransDelay(3369, 30));
-	}
+//	}
 	
-	private static void startExp(ArrayList<BaseStation> bsList, int bs_range, boolean includeMIP) 
-	{
-		int r = bs_range; 
-		
-		int range = r - 1;
-		if(range >= bsList.size()) 
-		{
-			range = bsList.size() - 1;
-		}
-		input_size = range + 1;
-		
-		System.out.println("---------------------------------");
-		System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
-		
-//		random(new ArrayList<BaseStation>(bsList.subList(0, range)));
-
-		greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//		greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range + 1)), 10);
-		
-//		clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//		mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//		if(includeMIP && range <= 500) 
-//		{
-//			mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//		}
-
-	}
-	
-	private static void startExp(ArrayList<BaseStation> bsList, boolean includeMIP) 
+	private static void startExp(ArrayList<BaseStation> bsList, boolean includeMIP, String method)
 	{
 		int[] range_input = {100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1500, 2000, 2500, 3100};
-//		int[] range_input = {500, 800, 1000, 1500, 2000, 2500, 3100}; 
-//		int[] range_input = {1500};
-		
-		for(int r : range_input) 
+		for(int r : range_input)
 		{
 			int range = r - 1;
-			if(range >= bsList.size()) 
+			if(range >= bsList.size())
 			{
 				range = bsList.size() - 1;
 			}
 			input_size = range + 1;
-			
-//			System.out.println("---------------------------------");
-//			System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
-			
-//			random(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//			
-			greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
-			greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range + 1)), 10);
-			
-//			HieraCluster cluster = new HieraCluster();
-//			cluster.getResult(new ArrayList<BaseStation>(bsList.subList(0, range)));
-			
-//			HieraCluster2 cluster = new HieraCluster2(210);
-//			ArrayList<ArrayList<BaseStation>> clusters = cluster.getResult(new ArrayList<BaseStation>(bsList.subList(0, range)));
-			
-			clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
-			
-			//mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
 
-//			if(includeMIP && range <= 500) 
-//			{
-//				mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//			}
-			
+			System.out.println("---------------------------------");
+			System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
+
+			switch (method){
+				case "CFS" -> greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
+				case "DA-CFS" -> greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range + 1)), 10);
+				case "MIP" -> mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
+				case "ClusterAndMIP" -> clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
+			}
 		}
-		
-		//hieraCluster((ArrayList<BaseStation>) bsList.clone());
 	}
 	
 	private static void hieraCluster(ArrayList<BaseStation> bsList) 
@@ -244,11 +186,12 @@ public class main {
 			
 			String time2 = String.valueOf(((double)(end.getTime() - start.getTime()) + (double)(end2.getTime() - start2.getTime()))/(double)1000);
 			FileIO.output(result2, input_size, time2,  "greedy_fine");
-		}else{
-
-			BreachEstimation estimation = new BreachEstimation(result);
-			estimation.doEstimate();
+			System.out.println("Greedy running time: " + time2 + " s");
 		}
+//		else{
+//			BreachEstimation estimation = new BreachEstimation(result);
+//			estimation.doEstimate();
+//		}
 	}
 	
 	private static void greedyNew(ArrayList<BaseStation> bsList, int threshold) 
@@ -286,14 +229,14 @@ public class main {
 	
 	private static ArrayList<BaseStation> greedy_dynamic(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList, boolean withCandidate) 
 	{
-		Date start = new Date();
-		DynamicGreedy dynamicGreedy = new DynamicGreedy();
-		ArrayList<BaseStation> result = dynamicGreedy.dynamicAssign(bsList, enList, userRequests, withCandidate);
-		Date end = new Date();
-		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
+//		Date start = new Date();
+//		DynamicGreedy dynamicGreedy = new DynamicGreedy();
+//		ArrayList<BaseStation> result = dynamicGreedy.dynamicAssign(bsList, enList, userRequests, withCandidate);
+//		Date end = new Date();
+//		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
 		//System.out.println("Running time: " + time + " s");
 		
-		return result;
+		return new DynamicGreedy().dynamicAssignMultithreading(bsList, enList, userRequests, withCandidate);
 	}
 	
 	private static void clusterAndMIP(ArrayList<BaseStation> bsList)
@@ -340,6 +283,7 @@ public class main {
 		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
 		FileIO.output_mip(mip.getCost(), mip.getEn_num(), input_size, time, "mip");
 		System.out.println("Running time: " + (double)(end.getTime() - start.getTime())/(double)1000 + " s");
+		System.out.println();
 	}
 	
 	
@@ -349,11 +293,11 @@ public class main {
 		FileInputStream inputStream = null;
 		Hashtable<String, ArrayList<UserRequest>> BSTable = new Hashtable<>();
 		try {
-			inputStream = new FileInputStream("shanghai15.csv");
+			inputStream = new FileInputStream("shanghai_full.csv");
 			reader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
 			String line = null;
 			reader.readLine();//skip title line
-			int count = 0;
+//			int count = 0;
 			while((line=reader.readLine())!=null){
 			    String item[] = line.split(",");
 			    if(Utils.timeFormater(item[2]) == null || Utils.timeFormater(item[3]) == null || item[4].equals("")) {
@@ -376,11 +320,11 @@ public class main {
 			    }
 			    
 //			     item loaded
-			    count ++;
-			    if(count == 100000)
-			    {
-			    	break;
-			    }
+//			    count ++;
+//			    if(count == 100000)
+//			    {
+//			    	break;
+//			    }
 			  }
 			
 		} catch (UnsupportedEncodingException e) {

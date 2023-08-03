@@ -2,10 +2,10 @@ package utilities;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Hashtable;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import objs.BaseStation;
 import objs.TimePoint;
@@ -43,42 +43,68 @@ public class Utils {
 		
 	}
 	
-	public static int getCTMax(ArrayList<UserRequest> requestList) 
-	{
-		ArrayList<TimePoint> pointList = new ArrayList<>();
-		for(int i = 0; i < requestList.size(); i++) {
-			try {
-				pointList.add(new TimePoint(requestList.get(i).getStartTime(), 0));
-				pointList.add(new TimePoint(requestList.get(i).getEndTime(), 1));
-			}catch(Exception e) {
-				System.out.println(e.getMessage());
-			}
-			
-		}
-		
-		Collections.sort(pointList);
-//		for(TimePoint p : pointList) 
-//		{
-//			System.out.println(p.getTime().getTime());
+//	public static int getCTMax(ArrayList<UserRequest> requestList)
+//	{
+//		ArrayList<TimePoint> pointList = new ArrayList<>();
+//		for(int i = 0; i < requestList.size(); i++) {
+//			try {
+//				pointList.add(new TimePoint(requestList.get(i).getStartTime(), 0));
+//				pointList.add(new TimePoint(requestList.get(i).getEndTime(), 1));
+//			}catch(Exception e) {
+//				System.out.println(e.getMessage());
+//			}
+//
 //		}
-		
+//
+//		Collections.sort(pointList);
+////		for(TimePoint p : pointList)
+////		{
+////			System.out.println(p.getTime().getTime());
+////		}
+//
+//		int count = 0;
+//		int max = 0;
+//		for(int i = 0; i < pointList.size(); i++) {
+//			if(pointList.get(i).getType() == 0)
+//			{
+//				count++;
+//			}else {
+//				count--;
+//			}
+//
+//			if(count > max) {
+//				max = count;
+//			}
+//		}
+//		return max;
+//	}
+
+
+//	Optimized getCTMax method
+	public static int getCTMax(ArrayList<UserRequest> requestList)
+	{
+		Collections.sort(requestList, Comparator.comparing(UserRequest::getStartTime).thenComparing(UserRequest::getEndTime));
+
 		int count = 0;
 		int max = 0;
-		for(int i = 0; i < pointList.size(); i++) {
-			if(pointList.get(i).getType() == 0) 
-			{
-				count++;
-			}else {
-				count--;
+		for(int i = 0; i < requestList.size(); i++) {
+			UserRequest curRequest = requestList.get(i);
+			count++; // Start of the request
+			while(i + 1 < requestList.size() && requestList.get(i + 1).getStartTime().equals(curRequest.getStartTime())) {
+				count++; // Another request starts at the same time
+				i++;
 			}
-			
-			if(count > max) {
-				max = count;
+			max = Math.max(max, count);
+			count--; // End of the request
+			while(i + 1 < requestList.size() && requestList.get(i + 1).getStartTime().equals(curRequest.getEndTime())) {
+				count--; // Another request ends at the same time
+				i++;
 			}
 		}
 		return max;
 	}
-	
+
+
 	// calculate distance between two points with lat and lng
 	// cite from https://www.jianshu.com/p/18efaabab98e
 	private static final  double EARTH_RADIUS = 6378137;
@@ -209,10 +235,10 @@ public class Utils {
 //		
 //		return avg_time.intValue();
 //	}
-	
+
 	public static int getAverageCT(ArrayList<UserRequest> requestList) 
 	{
-		ArrayList<TimePoint> pointList = new ArrayList<>();
+		ArrayList<TimePoint> pointList = new ArrayList<>(requestList.size() * 2);
 		for(int i = 0; i < requestList.size(); i++) {
 			try {
 				pointList.add(new TimePoint(requestList.get(i).getStartTime(), 0));
@@ -236,11 +262,7 @@ public class Utils {
 			total += count;
 			
 		}
-		
-		int avg = (int)Math.ceil((float)total/(float)pointList.size()); 
-
-		return avg;
-		
+		return (int)Math.ceil((float)total/(float)pointList.size());
 	}
 
 }

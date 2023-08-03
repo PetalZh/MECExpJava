@@ -16,7 +16,7 @@ public class BSUtils {
 			BaseStation bs = new BaseStation(key);
 			bs.setRequestList(BStable.get(key));
 			
-			ArrayList<UserRequest> requestList= BStable.get(key);
+			ArrayList<UserRequest> requestList = BStable.get(key);
 			int ct_max = Utils.getCTMax(requestList);
 			
 			bs.setCTMax(ct_max);
