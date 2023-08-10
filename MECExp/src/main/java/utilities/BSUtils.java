@@ -38,35 +38,30 @@ public class BSUtils {
 		return bsList;
 	}
 	
-	public static void getBSConnection(ArrayList<BaseStation> bsList) 
-	{
-		for(BaseStation bs1 : bsList) {
-			String[] latlng1 = bs1.getLocation().split("/");
-			double lat1 = Double.parseDouble(latlng1[0]); 
-			double lng1 = Double.parseDouble(latlng1[1]); 
+
+	public static void getBSConnection(ArrayList<BaseStation> bsList) {
+//		Loops are independent, changed to parallel
+		bsList.parallelStream().forEach(bs1 -> {
+			double[] latLng1 = parseLatLng(bs1.getLocation());
 			bs1.clearBS();
 			bs1.initWorkload();
-			
-			for(BaseStation bs2 : bsList) 
-			{
-				String[] latlng2 = bs2.getLocation().split("/");
-				double lat2 = Double.parseDouble(latlng2[0]); 
-				double lng2 = Double.parseDouble(latlng2[1]); 
-				
-				double distance = Utils.getDistance(lng1, lat1, lng2, lat2);
+
+//			 Exclude duplicate comparisons
+			bsList.stream().filter(bs2 -> !bs1.equals(bs2)).forEach(bs2 -> {
+				double[] latLng2 = parseLatLng(bs2.getLocation());
+				double distance = Utils.getDistance(latLng1[1], latLng1[0], latLng2[1], latLng2[0]);
 				double trans_delay = Utils.getTransDelay(distance, bs2.getCTMax() * Constants.SINGLE_TASK_SIZE);
-				//trans_delay < Constants.DELAY_THRESH; distance <= Constants.DISTANCE_THRESH
-				if( distance != 0 && trans_delay < Constants.DELAY_THRESH * 0.998) {
-					//System.out.println("Before add: " + bs1.getLocation() + " workload: " + bs1.getWorkload());
+
+				if (trans_delay < Constants.DELAY_THRESH * 0.998) {
 					bs1.addBS(bs2, distance, Constants.isPeak);
-					//System.out.println("After add: " + bs1.getLocation() +" "+ bs1.getWorkload());
 				}
-			}
-		}
+			});
+		});
 	}
 
-
-	
-
-
+	private static double[] parseLatLng(String location) {
+		String[] latLngStr = location.split("/");
+//		Resource consumption is too high
+		return new double[]{Double.parseDouble(latLngStr[0]), Double.parseDouble(latLngStr[1])};
+	}
 }

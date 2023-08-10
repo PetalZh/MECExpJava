@@ -2,11 +2,12 @@ package algorithms;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import objs.BSDistancePair;
 import objs.BaseStation;
 import utilities.BSUtils;
-import utilities.Constants;
 import utilities.Utils;
 
 public class Greedy {
@@ -28,9 +29,9 @@ public class Greedy {
 		}
 	}
 	
-	public ArrayList<BaseStation> getResult(ArrayList<BaseStation> bsList) 
+	public List<BaseStation> getResult(ArrayList<BaseStation> bsList)
 	{
-		ArrayList<BaseStation> result = new ArrayList<>();
+		List<BaseStation> result = new LinkedList<>();
 		//test_print_list(bsList); 
 		
 		while(bsList.size() != 0) {

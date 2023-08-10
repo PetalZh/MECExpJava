@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import objs.BSDistancePair;
 import objs.BaseStation;
@@ -87,7 +88,7 @@ public class FileIO {
 	}
 	
 	
-	public static void output(ArrayList<BaseStation> result, int input_size,String time, String method_name) 
+	public static void output(List<BaseStation> result, int input_size, String time, String method_name)
 	{
 		OutputStream fileOutputStream = null;
 		PrintWriter out = null;

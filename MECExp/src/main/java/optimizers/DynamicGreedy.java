@@ -1,14 +1,13 @@
 package optimizers;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 
 import objs.BaseStation;
-import objs.TimePoint;
 import objs.UserRequest;
 import utilities.Utils;
+
+import java.util.List;
 import java.util.concurrent.*;
 
 public class DynamicGreedy {
@@ -85,42 +84,25 @@ public class DynamicGreedy {
 		return enList;
 	}
 
-	public ArrayList<BaseStation> dynamicAssignMultithreading(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList, ArrayList<UserRequest> userRequests, boolean withCandidate) {
+	public List<BaseStation> dynamicAssignMultithreading(List<BaseStation> bsList, List<BaseStation> enList, ArrayList<UserRequest> userRequests, boolean withCandidate) {
 		assignURByBS(enList, bsList);
 
-		// Create thread pool
-		int numOfThreads = Runtime.getRuntime().availableProcessors();
-		ExecutorService executorService = Executors.newFixedThreadPool(numOfThreads);
+		enList.parallelStream().forEach(en -> {
+			int en_ct_max = Utils.getCTMax(en.getAssignedURs());
 
-		// Create and submit a task for each en
-		for (BaseStation en : enList) {
-			executorService.submit(() -> {
-				int en_ct_max = Utils.getCTMax(en.getAssignedURs());
-
-				double max_trans_delay = 0;
-				for(BaseStation bs : en.getFromList()) {
-					double distance = Utils.getDistance(en.getLocation(), bs.getLocation());
-					int ct_max = Utils.getCTMax(bs.getAssignedURs());
-					double delay = Utils.getTransDelay(distance, ct_max);
-					if(delay > max_trans_delay) {
-						max_trans_delay = delay;
-					}
+			double max_trans_delay = 0;
+			for(BaseStation bs : en.getFromList()) {
+				double distance = Utils.getDistance(en.getLocation(), bs.getLocation());
+				int ct_max = Utils.getCTMax(bs.getAssignedURs());
+				double delay = Utils.getTransDelay(distance, ct_max);
+				if(delay > max_trans_delay) {
+					max_trans_delay = delay;
 				}
-				double capacityRequired = Utils.getCapacityRequiredByTransDelay(max_trans_delay, en_ct_max);
-				en.updateCapacityRequired(capacityRequired);
-			});
-		}
-
-		// wait for all tasks to complete
-		executorService.shutdown();
-		try {
-			if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
-				executorService.shutdownNow();
 			}
-		} catch (InterruptedException ex) {
-			executorService.shutdownNow();
-			Thread.currentThread().interrupt();
-		}
+			double capacityRequired = Utils.getCapacityRequiredByTransDelay(max_trans_delay, en_ct_max);
+			en.updateCapacityRequired(capacityRequired);
+		});
+
 		return enList;
 	}
 
@@ -157,7 +139,7 @@ public class DynamicGreedy {
 //	}
 	
 	
-	private void assignURByBS(ArrayList<BaseStation> enList, ArrayList<BaseStation> bsList) 
+	private void assignURByBS(List<BaseStation> enList, List<BaseStation> bsList)
 	{
 		for(BaseStation bs : bsList) 
 		{

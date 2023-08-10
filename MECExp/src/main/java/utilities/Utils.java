@@ -194,7 +194,7 @@ public class Utils {
 		return (double)Math.round(input * 1000)/(double)1000;
 	}
 	
-	public static int printResult(ArrayList<BaseStation> result, String method_name) 
+	public static int printResult(List<BaseStation> result, String method_name)
 	{
 		System.out.println("-----------------------------");
 		System.out.println(method_name + " " + result.size() + " items");

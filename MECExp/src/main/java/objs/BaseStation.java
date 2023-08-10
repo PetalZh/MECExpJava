@@ -8,7 +8,7 @@ import utilities.Utils;
 
 
 // implements Comparable
-public class BaseStation {
+public class BaseStation implements Cloneable{
 	private int serverNo;
 	private int CTMax;
 	private double workload;
@@ -329,4 +329,13 @@ public class BaseStation {
 		
 		return cost;
 	}
+
+    @Override
+    public BaseStation clone() {
+        try {
+            return (BaseStation) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

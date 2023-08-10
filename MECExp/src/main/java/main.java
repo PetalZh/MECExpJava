@@ -7,6 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import algorithms.Greedy;
 import algorithms.GreedyNew;
@@ -44,7 +46,7 @@ public class main {
 
 		String method = args[0];
 //		double delay_thresh = Double.valueOf(args[1]);
-//		int bs_range = Integer.parseInt(args[2]);
+		int bs_range = Integer.parseInt(args[2]);
 		int workload_type = Integer.parseInt(args[3]);
 //		Constants.DELAY_THRESH = delay_thresh;
 		
@@ -69,7 +71,7 @@ public class main {
 
 			for(int i = 1; i <= 1; i++)
 			{
-				startExp(bsList, false, method);
+				startExp(bsList, bs_range, false, method);
 			}
 
 		}
@@ -79,51 +81,51 @@ public class main {
 		System.out.println("Distance threshold: " + Constants.DISTANCE_THRESH);
 	}
 
-//	private static void startExp(ArrayList<BaseStation> bsList, int bs_range, boolean includeMIP, String method)
-//	{
-//		int r = bs_range;
-//
-//		int range = r - 1;
-//		if(range >= bsList.size())
-//		{
-//			range = bsList.size() - 1;
-//		}
-//		input_size = range + 1;
-//
-//		System.out.println("---------------------------------");
-//		System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
-//
-//		switch (method){
-//			case "CFS" -> greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//			case "DA-CFS" -> greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range + 1)), 10);
-//			case "MIP" -> mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//			case "ClusterAndMIP" -> clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
-//		}
-//	}
-	
-	private static void startExp(ArrayList<BaseStation> bsList, boolean includeMIP, String method)
+	private static void startExp(ArrayList<BaseStation> bsList, int bs_range, boolean includeMIP, String method)
 	{
-		int[] range_input = {100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1500, 2000, 2500, 3100};
-		for(int r : range_input)
+		int r = bs_range;
+
+		int range = r - 1;
+		if(range >= bsList.size())
 		{
-			int range = r - 1;
-			if(range >= bsList.size())
-			{
-				range = bsList.size() - 1;
-			}
-			input_size = range + 1;
+			range = bsList.size() - 1;
+		}
+		input_size = range + 1;
 
-			System.out.println("---------------------------------");
-			System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
+		System.out.println("---------------------------------");
+		System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
 
-			switch (method){
-				case "CFS" -> greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
-				case "DA-CFS" -> greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range + 1)), 10);
-				case "MIP" -> mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
-				case "ClusterAndMIP" -> clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
-			}
+		switch (method){
+			case "CFS" -> greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
+			case "DA-CFS" -> greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range + 1)), 10);
+			case "MIP" -> mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
+			case "ClusterAndMIP" -> clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
 		}
 	}
+	
+//	private static void startExp(ArrayList<BaseStation> bsList, boolean includeMIP, String method)
+//	{
+//		int[] range_input = {100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1500, 2000, 2500, 3100};
+//		for(int r : range_input)
+//		{
+//			int range = r - 1;
+//			if(range >= bsList.size())
+//			{
+//				range = bsList.size() - 1;
+//			}
+//			input_size = range + 1;
+//
+//			System.out.println("---------------------------------");
+//			System.out.println(input_size + " BS used" + ", theta = " + Constants.DELAY_THRESH);
+//
+//			switch (method){
+//				case "CFS" -> greedy(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//				case "DA-CFS" -> greedyNew(new ArrayList<BaseStation>(bsList.subList(0, range + 1)), 10);
+//				case "MIP" -> mip(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//				case "ClusterAndMIP" -> clusterAndMIP(new ArrayList<BaseStation>(bsList.subList(0, range)));
+//			}
+//		}
+//	}
 	
 	private static void hieraCluster(ArrayList<BaseStation> bsList) 
 	{
@@ -159,13 +161,16 @@ public class main {
 	{
 		// Greedy methods
 		Date start = new Date();
-		
-		ArrayList<BaseStation> bsList_copy = (ArrayList<BaseStation>)bsList.clone(); 
-		
+
+		List<BaseStation> bsList_copy = bsList.stream()
+				.map(BaseStation::clone)
+				.collect(Collectors.toList());
+
+
 		BSUtils.getBSConnection(bsList);
 
 		Greedy greedy = new Greedy();
-		ArrayList<BaseStation> result = greedy.getResult(bsList);
+		List<BaseStation> result = greedy.getResult(bsList);
 		
 		Date end = new Date();
 		
@@ -181,7 +186,7 @@ public class main {
 		if(Constants.isPeak) 
 		{
 			Date start2 = new Date();
-			ArrayList<BaseStation> result2 = greedy_dynamic(bsList_copy, result, false);
+			List<BaseStation> result2 = greedy_dynamic(bsList_copy, result, false);
 			Date end2 = new Date();
 			
 			String time2 = String.valueOf(((double)(end.getTime() - start.getTime()) + (double)(end2.getTime() - start2.getTime()))/(double)1000);
@@ -219,7 +224,7 @@ public class main {
 		if(Constants.isPeak) 
 		{
 			Date start2 = new Date();
-			ArrayList<BaseStation> result2 = greedy_dynamic(bsList_copy, result, true);
+			List<BaseStation> result2 = greedy_dynamic(bsList_copy, result, true);
 			Date end2 = new Date();
 			String time2 = String.valueOf(((double)(end.getTime() - start.getTime()) + (double)(end2.getTime() - start2.getTime()))/(double)1000);
 			
@@ -227,7 +232,7 @@ public class main {
 		}
 	}
 	
-	private static ArrayList<BaseStation> greedy_dynamic(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList, boolean withCandidate) 
+	private static List<BaseStation> greedy_dynamic(List<BaseStation> bsList, List<BaseStation> enList, boolean withCandidate)
 	{
 //		Date start = new Date();
 //		DynamicGreedy dynamicGreedy = new DynamicGreedy();
