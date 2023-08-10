@@ -11,11 +11,12 @@ import utilities.Utils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
 
 public class BreachEstimation {
-    private ArrayList<BaseStation> enList;
+    private List<BaseStation> enList;
 
-    public BreachEstimation(ArrayList<BaseStation> result)
+    public BreachEstimation(List<BaseStation> result)
     {
         this.enList = result;
     }
@@ -49,7 +50,7 @@ public class BreachEstimation {
 		return  total_workload;
 	}
 
-	private ArrayList<ArrayList<UserRequest>> preprocess(ArrayList<BaseStation> enList)
+	private ArrayList<ArrayList<UserRequest>> preprocess(List<BaseStation> enList)
 	{
 		ArrayList<ArrayList<UserRequest>> enRequestList = new ArrayList<>();
 		for (BaseStation en : enList)
@@ -77,8 +78,6 @@ public class BreachEstimation {
 			}
 			enRequestList.add(uqList);
 		}
-
-
 		return enRequestList;
 	}
 

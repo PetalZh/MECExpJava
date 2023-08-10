@@ -43,64 +43,19 @@ public class Utils {
 		
 	}
 	
-//	public static int getCTMax(ArrayList<UserRequest> requestList)
-//	{
-//		ArrayList<TimePoint> pointList = new ArrayList<>();
-//		for(int i = 0; i < requestList.size(); i++) {
-//			try {
-//				pointList.add(new TimePoint(requestList.get(i).getStartTime(), 0));
-//				pointList.add(new TimePoint(requestList.get(i).getEndTime(), 1));
-//			}catch(Exception e) {
-//				System.out.println(e.getMessage());
-//			}
-//
-//		}
-//
-//		Collections.sort(pointList);
-////		for(TimePoint p : pointList)
-////		{
-////			System.out.println(p.getTime().getTime());
-////		}
-//
-//		int count = 0;
-//		int max = 0;
-//		for(int i = 0; i < pointList.size(); i++) {
-//			if(pointList.get(i).getType() == 0)
-//			{
-//				count++;
-//			}else {
-//				count--;
-//			}
-//
-//			if(count > max) {
-//				max = count;
-//			}
-//		}
-//		return max;
-//	}
-
-
-//	Optimized getCTMax method
 	public static int getCTMax(ArrayList<UserRequest> requestList)
 	{
-		Collections.sort(requestList, Comparator.comparing(UserRequest::getStartTime).thenComparing(UserRequest::getEndTime));
+		TimePoint[] pointArray = requestList.parallelStream()
+				.flatMap(r -> Stream.of(new TimePoint(r.getStartTime(), 1), new TimePoint(r.getEndTime(), -1)))
+				.toList().toArray(new TimePoint[0]);
+		Arrays.parallelSort(pointArray, TimePoint::compareTo);
 
 		int count = 0;
 		int max = 0;
-		for(int i = 0; i < requestList.size(); i++) {
-			UserRequest curRequest = requestList.get(i);
-			count++; // Start of the request
-			while(i + 1 < requestList.size() && requestList.get(i + 1).getStartTime().equals(curRequest.getStartTime())) {
-				count++; // Another request starts at the same time
-				i++;
-			}
-			max = Math.max(max, count);
-			count--; // End of the request
-			while(i + 1 < requestList.size() && requestList.get(i + 1).getStartTime().equals(curRequest.getEndTime())) {
-				count--; // Another request ends at the same time
-				i++;
-			}
-		}
+        for (TimePoint timePoint : pointArray) {
+			count += timePoint.getType();
+            max = Math.max(max, count);
+        }
 		return max;
 	}
 
@@ -210,7 +165,7 @@ public class Utils {
 		}
 		
 		System.out.println("Total Cost: " + totalCost);
-		
+
 		return totalCost;
 	}
 	
@@ -239,30 +194,23 @@ public class Utils {
 	public static int getAverageCT(ArrayList<UserRequest> requestList) 
 	{
 		ArrayList<TimePoint> pointList = new ArrayList<>(requestList.size() * 2);
-		for(int i = 0; i < requestList.size(); i++) {
-			try {
-				pointList.add(new TimePoint(requestList.get(i).getStartTime(), 0));
-				pointList.add(new TimePoint(requestList.get(i).getEndTime(), 1));
-			}catch(Exception e) {
-				System.out.println(e.getMessage());
-			}
-			
-		}
+        for (UserRequest userRequest : requestList) {
+            try {
+                pointList.add(new TimePoint(userRequest.getStartTime(), 1));
+                pointList.add(new TimePoint(userRequest.getEndTime(), -1));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
 		
 		int total = 0;
 		int count = 0;
-		for(int i = 0; i < pointList.size(); i++) {
-			if(pointList.get(i).getType() == 0) 
-			{
-				count++;
-			}else {
-				count--;
-			}
-			
-			total += count;
-			
-		}
+        for (TimePoint timePoint : pointList) {
+			count += timePoint.getType();
+            total += count;
+        }
 		return (int)Math.ceil((float)total/(float)pointList.size());
 	}
+
 
 }

@@ -3,13 +3,14 @@ package objs;
 import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.function.IntFunction;
 
 /*
  * type:
  * 0 - start time
  * 1 - end time 
  * */
-public class TimePoint implements Comparable{
+public class TimePoint implements Comparable<TimePoint>{
 	private Date time;
 	private int type;
 	
@@ -36,20 +37,17 @@ public class TimePoint implements Comparable{
 	}
 
 	@Override
-	public int compareTo(Object o) {
-		
-		long comparageTime = ((TimePoint) o).getTime().getTime();
-		int comparageType = ((TimePoint) o).getType();
+	public int compareTo(TimePoint o) {
+
+		long comparageTime = o.getTime().getTime();
+		int comparageType = o.getType();
 		if(this.time.getTime() == comparageTime) {
 			//end before start
-			return comparageType - this.type; 
+			return comparageType - this.type;
 		}else {
 			// Asc order
 			return Long.compare(this.time.getTime(), comparageTime); // (int) (this.time.getTime() - comparageTime);
 		}
-		
-	}
-	
-	
 
+	}
 }

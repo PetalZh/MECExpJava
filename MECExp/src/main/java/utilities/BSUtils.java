@@ -3,7 +3,6 @@ package utilities;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import objs.BSDistancePair;
 import objs.BaseStation;
 import objs.UserRequest;
 
@@ -32,7 +31,7 @@ public class BSUtils {
 		
 		System.out.println("BS #"+ ": " + bsList.size());
 		Constants.CTMAX = max_ct_max;
-		//System.out.println("CT max: " + max_ct_max); 
+		System.out.println("CT max: " + max_ct_max);
 		
 		
 		return bsList;

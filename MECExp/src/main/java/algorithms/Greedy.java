@@ -34,12 +34,12 @@ public class Greedy {
 		List<BaseStation> result = new LinkedList<>();
 		//test_print_list(bsList); 
 		
-		while(bsList.size() != 0) {
+		while(!bsList.isEmpty()) {
 //			System.out.println("**********************");
 //			test_print_list(result);
 			
 			//Collections.sort(bsList, BaseStation.getCapacityComparator());
-			Collections.sort(bsList, BaseStation.getConnectionComparator());
+			bsList.sort(BaseStation.getConnectionComparator());
 			BaseStation candidate = bsList.get(0);
 			result.add(candidate);
 			
