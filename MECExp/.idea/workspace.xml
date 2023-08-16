@@ -5,11 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4dabd3ce-c136-4ce8-a484-921b4c0aa9f3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lpex1.lp" beforeDir="false" afterPath="$PROJECT_DIR$/lpex1.lp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/result.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output/result.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/optimizers/DynamicGreedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/optimizers/DynamicGreedy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utilities/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utilities/FileIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/FileIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/cost.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/cost.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/costMIP.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/costMIP.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/cost_avg.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/cost_avg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/en.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/en.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_cost.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_cost.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en_bar.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en_bar.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_time.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_time.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/time_line.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/time_line.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/plot.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/plot.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/result.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/result.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +62,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/output/#4" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -58,7 +72,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="MECExp" />
-      <option name="PROGRAM_PARAMETERS" value="ClusterAndMIP 0.4 3042 1" />
+      <option name="PROGRAM_PARAMETERS" value="MIP 0.4 3042 0" />
       <option name="VM_PARAMETERS" value="-Djava.library.path=&quot;/Applications/CPLEX_Studio2211/cplex/bin/arm64_osx&quot;" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -100,6 +114,10 @@
       <workItem from="1691629763271" duration="14737000" />
       <workItem from="1691718221179" duration="839000" />
       <workItem from="1691720632827" duration="11861000" />
+      <workItem from="1691990951011" duration="3208000" />
+      <workItem from="1692073055361" duration="921000" />
+      <workItem from="1692079569420" duration="10088000" />
+      <workItem from="1692156329665" duration="12945000" />
     </task>
     <servers />
   </component>
@@ -124,21 +142,6 @@
           <url>jar:///Applications/CPLEX_Studio2211/cplex/lib/cplex.jar!/ilog/cplex/IloCplex.class</url>
           <line>50</line>
           <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/algorithms/Greedy.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/utilities/Utils.java</url>
-          <line>106</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/utilities/BSUtils.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

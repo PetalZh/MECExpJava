@@ -86,59 +86,59 @@ public class FileIO {
 			 e.printStackTrace();
 		 }
 	}
-	
-	
+
 	public static void output(List<BaseStation> result, int input_size, String time, String method_name)
 	{
 		OutputStream fileOutputStream = null;
 		PrintWriter out = null;
-		
-		try{
-		  File file =new File("output/result.txt");
-		
-		  //if file doesnt exists, then create it
-		  if(!file.exists()){
-		   file.createNewFile();
-		  }
-		  
-		  fileOutputStream = new FileOutputStream(file, true);
-		  out = new PrintWriter(fileOutputStream);
-		  
-		  int totalCost = 0; 
-		  for(BaseStation bs : result) 
-		  {
-			totalCost += Constants.COST_EN;
-			int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
-			
-			totalCost += serverNum * Constants.COST_SERVER;
-		  }
-		  
-		  if(!Constants.isPeak) 
-		  {
-			  method_name = method_name + "_avg";
-		  }
-		  
-		  out.println(method_name  + "," + Constants.DELAY_THRESH + "," 
-				  + input_size + "," + result.size() + "," + totalCost + "," + time);
-		  
-//		  System.out.println(method_name  + "," + Constants.DELAY_THRESH + "," 
-//				  + input_size + "," + result.size() + "," + totalCost + "," + time);
-		 }catch(IOException e){
-			 e.printStackTrace();
-		 }finally 
-		{
-			 try {
-					fileOutputStream.flush();
-					out.flush();
-					fileOutputStream.close();
-					out.close();
 
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		try{
+			File file =new File("output/result.txt");
+
+			//if file doesnt exists, then create it
+			if(!file.exists()){
+				file.createNewFile();
+			}
+
+			fileOutputStream = new FileOutputStream(file, true);
+			out = new PrintWriter(fileOutputStream);
+
+			int totalCost = 0;
+			for(BaseStation bs : result)
+			{
+				totalCost += Constants.COST_EN;
+				int serverNum = (int)Math.ceil((bs.getWorkload()) / Constants.SINGLE_SERVER_CAPACITY);
+
+				totalCost += serverNum * Constants.COST_SERVER;
+			}
+
+			if(!Constants.isPeak)
+			{
+				method_name = method_name + "_avg";
+			}
+
+			out.println(method_name  + "," + Constants.DELAY_THRESH + ","
+					+ input_size + "," + result.size() + "," + totalCost + "," + time);
+
+//		  System.out.println(method_name  + "," + Constants.DELAY_THRESH + ","
+//				  + input_size + "," + result.size() + "," + totalCost + "," + time);
+		}catch(IOException e){
+			e.printStackTrace();
+		}finally
+		{
+			try {
+				fileOutputStream.flush();
+				out.flush();
+				fileOutputStream.close();
+				out.close();
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
+
 	
 	public static void outputTau(ArrayList<BaseStation> result, int tau) 
 	{

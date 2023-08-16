@@ -58,7 +58,7 @@ public class DynamicGreedy {
 //		
 //	}
 	
-	public ArrayList<BaseStation> dynamicAssign(ArrayList<BaseStation> bsList, ArrayList<BaseStation> enList, ArrayList<UserRequest> userRequests, boolean withCandidate) 
+	public List<BaseStation> dynamicAssign(List<BaseStation> bsList, List<BaseStation> enList, ArrayList<UserRequest> userRequests, boolean withCandidate)
 	{
 		assignURByBS(enList, bsList);
 		
