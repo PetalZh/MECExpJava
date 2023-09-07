@@ -25,7 +25,7 @@ public class HieraCluster2{
 	public ArrayList<ArrayList<BaseStation>> getResult(ArrayList<BaseStation> bsList) 
 	{
 		
-		while(bsList.size() > cluster_size) 
+		while(bsList.size() > cluster_size)
 		{
 			getClusters(bsList);
 		}
@@ -44,8 +44,8 @@ public class HieraCluster2{
 	private void getClusters(ArrayList<BaseStation> bsList) 
 	{	
 	    DistanceImplement distance = new DistanceImplement();
-	    
-	    Linkage linkage = UPGMALinkage.of(bsList.toArray(), distance);
+
+		Linkage linkage = UPGMALinkage.of(bsList.toArray(new BaseStation[0]), distance);
 	    
 	    HierarchicalClustering hc = HierarchicalClustering.fit(linkage);
 	    
@@ -123,13 +123,13 @@ public class HieraCluster2{
 	    }
 	}
 
-	
+
 //    KMeans km = KMeans.fit(data, 6);
 //    partitions = km.y;
-    
+
 //    DBSCAN db = DBSCAN.fit(bsList.toArray(), distance, 10, 900);
 //    partitions = db.y;
-	
-	
+
+
 
 }

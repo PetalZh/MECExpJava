@@ -101,7 +101,7 @@ public class Main {
 	
 	private static void startExp(ArrayList<BaseStation> bsList, String method)
 	{
-		int[] range_input = {100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1500, 2000, 2500, 3100};
+		int[] range_input = {3100};
 		for(int r : range_input)
 		{
 			int range = r - 1;
@@ -173,7 +173,7 @@ public class Main {
 		String time = String.valueOf((double)(end.getTime() - start.getTime())/(double)1000);
 		
 		FileIO.output(result, input_size, time,  "greedy");
-//		FileIO.outputDistribution(result, input_size, "greedy");
+		FileIO.outputDistribution(result, input_size, "greedy");
 		
 		//FileIO.outputResult(result, time,  "Greedy" + Constants.DELAY_THRESH);
 		
@@ -213,7 +213,7 @@ public class Main {
 		FileIO.output(result, input_size, time,  "greedy_new");
 
 		//FileIO.outputTau(result, threshold);
-		//FileIO.outputDistribution(result, input_size, "greedy_new");
+		FileIO.outputDistribution(result, input_size, "greedy_new");
 		
 		FileIO.outputResult(result, time,  "GreedyNew" + Constants.DELAY_THRESH);
 		

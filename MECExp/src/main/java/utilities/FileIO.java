@@ -250,7 +250,7 @@ public class FileIO {
 		}
 	}
 	
-	public static void outputDistribution(ArrayList<BaseStation> result, int input_size,String method_name) 
+	public static void outputDistribution(List<BaseStation> result, int input_size,String method_name)
 	{
 		//FileWriter fileWritter = null;
 		BufferedWriter bufferWritter = null;

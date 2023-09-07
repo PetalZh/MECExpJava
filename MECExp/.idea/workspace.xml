@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="4dabd3ce-c136-4ce8-a484-921b4c0aa9f3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lpex1.lp" beforeDir="false" afterPath="$PROJECT_DIR$/lpex1.lp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/optimizers/DynamicGreedy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/optimizers/DynamicGreedy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/HieraCluster2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithms/HieraCluster2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/MIPAlgo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithms/MIPAlgo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utilities/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utilities/DistanceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/DistanceImplement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utilities/FileIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/FileIO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/cost.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/cost.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/costMIP.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/costMIP.png" afterDir="false" />
@@ -21,6 +23,7 @@
       <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/time_line.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/time_line.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/plot.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/plot.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/result.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/result.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/result.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,10 +54,10 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -63,6 +66,10 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/output/#8" />
+      <recent name="$PROJECT_DIR$/output/backup" />
+      <recent name="$PROJECT_DIR$/output" />
+      <recent name="$PROJECT_DIR$/output/#7-distribution/CFS" />
       <recent name="$PROJECT_DIR$/output/#4" />
     </key>
   </component>
@@ -72,7 +79,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="MECExp" />
-      <option name="PROGRAM_PARAMETERS" value="MIP 0.4 3042 0" />
+      <option name="PROGRAM_PARAMETERS" value="ClusterAndMIP 0.1 3042 0" />
       <option name="VM_PARAMETERS" value="-Djava.library.path=&quot;/Applications/CPLEX_Studio2211/cplex/bin/arm64_osx&quot;" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -118,6 +125,17 @@
       <workItem from="1692073055361" duration="921000" />
       <workItem from="1692079569420" duration="10088000" />
       <workItem from="1692156329665" duration="12945000" />
+      <workItem from="1692171259663" duration="1209000" />
+      <workItem from="1692235035242" duration="12510000" />
+      <workItem from="1692252110506" duration="1318000" />
+      <workItem from="1692315903866" duration="4434000" />
+      <workItem from="1692326093990" duration="11084000" />
+      <workItem from="1692834656580" duration="5297000" />
+      <workItem from="1693097306137" duration="890000" />
+      <workItem from="1693458648644" duration="16862000" />
+      <workItem from="1693581856764" duration="1781000" />
+      <workItem from="1693671413788" duration="718000" />
+      <workItem from="1693973565112" duration="11043000" />
     </task>
     <servers />
   </component>
@@ -142,6 +160,11 @@
           <url>jar:///Applications/CPLEX_Studio2211/cplex/lib/cplex.jar!/ilog/cplex/IloCplex.class</url>
           <line>50</line>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
+          <line>247</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

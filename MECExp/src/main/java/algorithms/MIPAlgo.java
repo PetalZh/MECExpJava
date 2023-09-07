@@ -221,10 +221,6 @@ public class MIPAlgo {
 		int task_size = bs.getCTMax() * Constants.SINGLE_TASK_SIZE;
 		double distance = Utils.getDistance(en.getLocation(), bs.getLocation());
 		double capacity_req = Utils.getCapacityRequired(distance, task_size);
-//		if(capacity_req < 0) 
-//		{
-//			capacity_req = 0;
-//		}
 		return capacity_req;
 	}
 	
