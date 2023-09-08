@@ -6,24 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4dabd3ce-c136-4ce8-a484-921b4c0aa9f3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lpex1.lp" beforeDir="false" afterPath="$PROJECT_DIR$/lpex1.lp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/HieraCluster2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithms/HieraCluster2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/MIPAlgo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithms/MIPAlgo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utilities/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utilities/DistanceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/DistanceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utilities/FileIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilities/FileIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/cost.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/cost.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/costMIP.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/costMIP.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/cost_avg.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/cost_avg.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/en.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/en.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_cost.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_cost.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en_bar.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en_bar.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_time.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_time.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/time_line.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/time_line.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/plot.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/plot.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/result.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/result.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Plot/result.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +16,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/algorithms/MIPAlgo.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
@@ -54,7 +41,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
@@ -79,7 +66,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="MECExp" />
-      <option name="PROGRAM_PARAMETERS" value="ClusterAndMIP 0.1 3042 0" />
+      <option name="PROGRAM_PARAMETERS" value="CFS 0.1 3042 0" />
       <option name="VM_PARAMETERS" value="-Djava.library.path=&quot;/Applications/CPLEX_Studio2211/cplex/bin/arm64_osx&quot;" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -136,6 +123,13 @@
       <workItem from="1693581856764" duration="1781000" />
       <workItem from="1693671413788" duration="718000" />
       <workItem from="1693973565112" duration="11043000" />
+      <workItem from="1694059273678" duration="917000" />
+      <workItem from="1694060390438" duration="4147000" />
+      <workItem from="1694064608353" duration="1492000" />
+      <workItem from="1694069523149" duration="681000" />
+      <workItem from="1694135083141" duration="1200000" />
+      <workItem from="1694136307862" duration="4000" />
+      <workItem from="1694136684604" duration="1421000" />
     </task>
     <servers />
   </component>
@@ -160,11 +154,6 @@
           <url>jar:///Applications/CPLEX_Studio2211/cplex/lib/cplex.jar!/ilog/cplex/IloCplex.class</url>
           <line>50</line>
           <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
-          <line>247</line>
-          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

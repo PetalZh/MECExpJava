@@ -102,6 +102,7 @@ public class Main {
 	private static void startExp(ArrayList<BaseStation> bsList, String method)
 	{
 		int[] range_input = {3100};
+//		int[] range_input = {100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 800, 1000, 1500, 2000, 2500, 3100};
 		for(int r : range_input)
 		{
 			int range = r - 1;

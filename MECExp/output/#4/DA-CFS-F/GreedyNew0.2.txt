@@ -1,0 +1,64 @@
+-----------------------------
+GreedyNew0.2: 48 items
+Total Cost: 22920
+Running time: 0.038 s
+-----------------------------
+GreedyNew0.2: 67 items
+Total Cost: 43780
+Running time: 0.027 s
+-----------------------------
+GreedyNew0.2: 86 items
+Total Cost: 64940
+Running time: 0.028 s
+-----------------------------
+GreedyNew0.2: 102 items
+Total Cost: 85180
+Running time: 0.041 s
+-----------------------------
+GreedyNew0.2: 113 items
+Total Cost: 175120
+Running time: 0.053 s
+-----------------------------
+GreedyNew0.2: 128 items
+Total Cost: 178820
+Running time: 0.097 s
+-----------------------------
+GreedyNew0.2: 142 items
+Total Cost: 247480
+Running time: 0.144 s
+-----------------------------
+GreedyNew0.2: 150 items
+Total Cost: 316800
+Running time: 0.119 s
+-----------------------------
+GreedyNew0.2: 167 items
+Total Cost: 247980
+Running time: 0.213 s
+-----------------------------
+GreedyNew0.2: 178 items
+Total Cost: 368020
+Running time: 0.242 s
+-----------------------------
+GreedyNew0.2: 199 items
+Total Cost: 484260
+Running time: 0.458 s
+-----------------------------
+GreedyNew0.2: 236 items
+Total Cost: 422440
+Running time: 0.765 s
+-----------------------------
+GreedyNew0.2: 285 items
+Total Cost: 796900
+Running time: 1.812 s
+-----------------------------
+GreedyNew0.2: 329 items
+Total Cost: 1151160
+Running time: 3.532 s
+-----------------------------
+GreedyNew0.2: 365 items
+Total Cost: 1332000
+Running time: 5.329 s
+-----------------------------
+GreedyNew0.2: 392 items
+Total Cost: 1650480
+Running time: 8.12 s

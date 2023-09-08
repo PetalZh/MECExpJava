@@ -1,0 +1,64 @@
+-----------------------------
+GreedyNew0.3_avg: 39 items
+Total Cost: 5460
+Running time: 0.097 s
+-----------------------------
+GreedyNew0.3_avg: 56 items
+Total Cost: 7840
+Running time: 0.077 s
+-----------------------------
+GreedyNew0.3_avg: 64 items
+Total Cost: 8960
+Running time: 0.08 s
+-----------------------------
+GreedyNew0.3_avg: 70 items
+Total Cost: 9800
+Running time: 0.137 s
+-----------------------------
+GreedyNew0.3_avg: 76 items
+Total Cost: 10640
+Running time: 0.209 s
+-----------------------------
+GreedyNew0.3_avg: 88 items
+Total Cost: 12320
+Running time: 0.304 s
+-----------------------------
+GreedyNew0.3_avg: 98 items
+Total Cost: 13720
+Running time: 0.375 s
+-----------------------------
+GreedyNew0.3_avg: 103 items
+Total Cost: 14420
+Running time: 0.432 s
+-----------------------------
+GreedyNew0.3_avg: 109 items
+Total Cost: 15360
+Running time: 0.558 s
+-----------------------------
+GreedyNew0.3_avg: 113 items
+Total Cost: 15920
+Running time: 0.905 s
+-----------------------------
+GreedyNew0.3_avg: 131 items
+Total Cost: 18440
+Running time: 1.732 s
+-----------------------------
+GreedyNew0.3_avg: 150 items
+Total Cost: 21100
+Running time: 2.848 s
+-----------------------------
+GreedyNew0.3_avg: 184 items
+Total Cost: 25960
+Running time: 6.518 s
+-----------------------------
+GreedyNew0.3_avg: 209 items
+Total Cost: 29560
+Running time: 11.68 s
+-----------------------------
+GreedyNew0.3_avg: 221 items
+Total Cost: 31340
+Running time: 18.965 s
+-----------------------------
+GreedyNew0.3_avg: 232 items
+Total Cost: 32980
+Running time: 29.574 s
