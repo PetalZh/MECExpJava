@@ -218,7 +218,7 @@ public class MIPAlgo {
 	
 	private double getCapacityReq(BaseStation en, BaseStation bs) 
 	{
-		int task_size = bs.getCTMax() * Constants.SINGLE_TASK_SIZE;
+		int task_size = (int)Math.round(bs.getCTMax() * Constants.SINGLE_TASK_SIZE);
 		double distance = Utils.getDistance(en.getLocation(), bs.getLocation());
 		double capacity_req = Utils.getCapacityRequired(distance, task_size);
 //		if(capacity_req < 0) 

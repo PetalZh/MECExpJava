@@ -9,7 +9,7 @@ public class Constants {
 	  public static final double ALPHA = 0.003; // noise-distance coefficient 0.3
 	  public static final int BANDWIDTH = 5; // bandwidth 200
 	  public static final int CANNEL_SIGNAL_POWER = 35; // channel signal power 35
-	  public static final int SINGLE_TASK_SIZE = 15; //
+	  public static final double SINGLE_TASK_SIZE = 7; //
 	  
 	  public static int DISTANCE_THRESH = 2000;
 	  public static int CTMAX = 0;

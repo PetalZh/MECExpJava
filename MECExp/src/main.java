@@ -60,10 +60,10 @@ public class main {
 			Constants.isPeak = false;
 		}
 
-		for(int i = 1; i <= 1; i++) 
-		{
-			startExp(bsList, bs_range, false);
-		}
+//		for(int i = 1; i <= 1; i++)
+//		{
+//			startExp(bsList, bs_range, false);
+//		}
 
 
 //		for(double d : delay_thresh) 
@@ -79,7 +79,8 @@ public class main {
 //		}
 
 		Constants.DISTANCE_THRESH = Utils.getDistanceThreshold(Constants.CTMAX * Constants.SINGLE_TASK_SIZE);
-		
+
+		System.out.println("CTMAX: " + Constants.CTMAX);
 		System.out.println("Distance threshold: " + Constants.DISTANCE_THRESH);
 //		int range = 3000;
 //		if(range >= bsList.size()) 
@@ -349,7 +350,7 @@ public class main {
 		FileInputStream inputStream = null;
 		Hashtable<String, ArrayList<UserRequest>> BSTable = new Hashtable<>();
 		try {
-			inputStream = new FileInputStream("shanghai15.csv");
+			inputStream = new FileInputStream("shanghai_full.csv");
 			reader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
 			String line = null;
 			reader.readLine();//skip title line
@@ -376,11 +377,11 @@ public class main {
 			    }
 			    
 //			     item loaded
-			    count ++;
-			    if(count == 100000)
-			    {
-			    	break;
-			    }
+//			    count ++;
+//			    if(count == 100000)
+//			    {
+//			    	break;
+//			    }
 			  }
 			
 		} catch (UnsupportedEncodingException e) {

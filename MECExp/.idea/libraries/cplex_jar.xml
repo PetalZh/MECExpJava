@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="cplex.jar">
+    <CLASSES>
+      <root url="jar:///Applications/CPLEX_Studio221/cplex/lib/cplex.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file:///Applications/CPLEX_Studio221/cplex/bin/x86-64_osx" />
+    </NATIVE>
+    <SOURCES />
+  </library>
+</component>

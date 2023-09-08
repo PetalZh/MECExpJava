@@ -188,7 +188,7 @@ public class Utils {
 		return totalCost;
 	}
 	
-	public static int getDistanceThreshold(int workload) 
+	public static int getDistanceThreshold(double workload)
 	{
 		double exp_pow = workload / (Constants.DELAY_THRESH * Constants.BANDWIDTH);
 		double exp_bottom = Constants.ALPHA * (Math.pow(2, exp_pow) - 1);
