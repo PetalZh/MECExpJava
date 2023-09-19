@@ -5,7 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4dabd3ce-c136-4ce8-a484-921b4c0aa9f3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Plot/MECPlot/cluster.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Plot/MECPlot/main.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Plot/MECPlot/map_with_clusters.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/cluster.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output/cluster.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/distribution.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output/distribution.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/result.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output/result.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/cost.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/cost.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/cost_avg.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/cost_avg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/en.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/en.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_cost.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_cost.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en_bar.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_en_bar.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_time.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/theta_time.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/img/time_line.png" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/img/time_line.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Plot/MECPlot/plot.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../Plot/MECPlot/plot.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +79,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="MECExp" />
-      <option name="PROGRAM_PARAMETERS" value="CFS 0.1 3042 0" />
+      <option name="PROGRAM_PARAMETERS" value="ClusterAndMIP 0.1 3042 0" />
       <option name="VM_PARAMETERS" value="-Djava.library.path=&quot;/Applications/CPLEX_Studio2211/cplex/bin/arm64_osx&quot;" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -129,6 +144,11 @@
       <workItem from="1694136307862" duration="4000" />
       <workItem from="1694136684604" duration="1421000" />
       <workItem from="1694138274661" duration="3000000" />
+      <workItem from="1694586269252" duration="3540000" />
+      <workItem from="1694660085070" duration="4992000" />
+      <workItem from="1695103200899" duration="456000" />
+      <workItem from="1695103683184" duration="41000" />
+      <workItem from="1695106084249" duration="2000" />
     </task>
     <servers />
   </component>
